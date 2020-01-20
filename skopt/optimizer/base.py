@@ -25,7 +25,8 @@ def base_minimize(func, dimensions, base_estimator,
                   acq_func="EI", acq_optimizer="lbfgs",
                   x0=None, y0=None, random_state=None, verbose=False,
                   callback=None, n_points=10000, n_restarts_optimizer=5,
-                  xi=0.01, kappa=1.96, n_jobs=1, model_queue_size=None):
+                  xi=0.01, kappa=1.96, n_jobs=1, model_queue_size=None,
+                  noisyEI_N_variants=10):
     """
     Parameters
     ----------
@@ -80,6 +81,7 @@ def base_minimize(func, dimensions, base_estimator,
         - `"PIps"` for negated probability of improvement per second. The
           return type of the objective function is assumed to be similar to
           that of `"EIps
+        - `"noisyEI"` for the noisy expected improvement.
 
     * `acq_optimizer` [string, `"sampling"` or `"lbfgs"`, default=`"lbfgs"`]:
         Method to minimize the acquistion function. The fit model
@@ -133,12 +135,15 @@ def base_minimize(func, dimensions, base_estimator,
         If callable then `callback(res)` is called after each call to `func`.
         If list of callables, then each callable in the list is called.
 
+    * `noisyEI_N_variants` [int, default=5]:
+        Number of GPs to fit when using noisyEI.
+
     * `n_points` [int, default=10000]:
         If `acq_optimizer` is set to `"sampling"`, then `acq_func` is
         optimized by computing `acq_func` at `n_points` randomly sampled
         points.
 
-    * `n_restarts_optimizer` [int, default=5]:
+    * `n_restarts_optimizer` [int, default=10]:
         The number of restarts of the optimizer when `acq_optimizer`
         is `"lbfgs"`.
 
@@ -189,7 +194,8 @@ def base_minimize(func, dimensions, base_estimator,
     acq_optimizer_kwargs = {
         "n_points": n_points, "n_restarts_optimizer": n_restarts_optimizer,
         "n_jobs": n_jobs}
-    acq_func_kwargs = {"xi": xi, "kappa": kappa}
+    acq_func_kwargs = {"xi": xi, "kappa": kappa,
+                       "noisyEI_N_variants": noisyEI_N_variants}
 
     # Initialize optimization
     # Suppose there are points provided (x0 and y0), record them

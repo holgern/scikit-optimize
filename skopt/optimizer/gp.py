@@ -14,7 +14,8 @@ def gp_minimize(func, dimensions, base_estimator=None,
                 acq_func="gp_hedge", acq_optimizer="auto", x0=None, y0=None,
                 random_state=None, verbose=False, callback=None,
                 n_points=10000, n_restarts_optimizer=5, xi=0.01, kappa=1.96,
-                noise="gaussian", n_jobs=1, model_queue_size=None):
+                noise="gaussian", n_jobs=1, model_queue_size=None,
+                noisyEI_N_variants=10):
     """Bayesian optimization using Gaussian Processes.
 
     If every function evaluation is expensive, for instance
@@ -105,6 +106,7 @@ def gp_minimize(func, dimensions, base_estimator=None,
         - `"PIps"` for negated probability of improvement per second. The
           return type of the objective function is assumed to be similar to
           that of `"EIps
+        - `"noisyEI"` for the noisy expected improvement.
 
     * `acq_optimizer` [string, `"sampling"` or `"lbfgs"`, default=`"lbfgs"`]:
         Method to minimize the acquistion function. The fit model
@@ -154,6 +156,9 @@ def gp_minimize(func, dimensions, base_estimator=None,
     * `callback` [callable, list of callables, optional]
         If callable then `callback(res)` is called after each call to `func`.
         If list of callables, then each callable in the list is called.
+
+    * `noisyEI_N_variants` [int, default=10]
+        Number of GPs to fit when using noisy EI.
 
     * `n_points` [int, default=10000]:
         Number of points to sample to determine the next "best" point.
@@ -229,4 +234,5 @@ def gp_minimize(func, dimensions, base_estimator=None,
         n_points=n_points, n_random_starts=n_random_starts,
         n_restarts_optimizer=n_restarts_optimizer,
         x0=x0, y0=y0, random_state=rng, verbose=verbose,
-        callback=callback, n_jobs=n_jobs, model_queue_size=model_queue_size)
+        callback=callback, n_jobs=n_jobs, model_queue_size=model_queue_size,
+        noisyEI_N_variants=noisyEI_N_variants)

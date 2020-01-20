@@ -91,6 +91,7 @@ class Optimizer(object):
         - `"PIps"` for negated probability of improvement per second. The
           return type of the objective function is assumed to be similar to
           that of `"EIps
+        - `"noisyEI"` for the noisy expected improvement.
 
     * `acq_optimizer` [string, `"sampling"` or `"lbfgs"`, default=`"auto"`]:
         Method to minimize the acquistion function. The fit model
@@ -154,7 +155,8 @@ class Optimizer(object):
         self.acq_func = acq_func
         self.acq_func_kwargs = acq_func_kwargs
 
-        allowed_acq_funcs = ["gp_hedge", "EI", "LCB", "PI", "EIps", "PIps"]
+        allowed_acq_funcs = ["gp_hedge", "EI", "LCB", "PI", "EIps", "PIps",
+                             "noisyEI"]
         if self.acq_func not in allowed_acq_funcs:
             raise ValueError("expected acq_func to be in %s, got %s" %
                              (",".join(allowed_acq_funcs), self.acq_func))
@@ -169,6 +171,7 @@ class Optimizer(object):
         if acq_func_kwargs is None:
             acq_func_kwargs = dict()
         self.eta = acq_func_kwargs.get("eta", 1.0)
+        self.noisyEI_N_variants = acq_func_kwargs.get("noisyEI_N_variants", 10)
 
         # Configure counters of points
 
@@ -493,6 +496,35 @@ class Optimizer(object):
                 warnings.simplefilter("ignore")
                 est.fit(self.space.transform(self.Xi), self.yi)
 
+            # if we are using noisy expected improvement generate N variants
+            # of the observed data and compute a GP for each variant.
+            # The variable names reflect the notation used in the original
+            # paper (Algorithm 1)
+            if self.acq_func == "noisyEI":
+                # In the paper they use Sobol sampling, however we still need
+                # to decide which library to use (see issue #433)
+                #from scipy.stats import norm
+                #from SALib.sample.sobol_sequence import sample as sobol_sample
+                #mu, sigma = est.predict(self.space.transform(self.Xi), return_cov=True)
+                #A = np.linalg.cholesky(sigma + np.eye(len(self.Xi)) * 1e-10)
+                # skip the first sobol (all zeros) or we obtain inf and nans
+                #t = sobol_sample(self.noisyEI_N_variants+1, len(self.Xi))[1:]
+                #yis = norm.ppf(t).dot(A.T) + mu
+
+                # for now skip the sobol sampling
+                mu, sigma = est.predict(self.space.transform(self.Xi), return_cov=True)
+                yis = np.random.multivariate_normal(mu, sigma, self.noisyEI_N_variants)
+
+                noisy_estimators = list()
+                for variant in range(self.noisyEI_N_variants):
+                    # fit a new estimator
+                    noisy_est = clone(self.base_estimator_)
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")
+                        noisy_est.fit(self.space.transform(self.Xi),
+                                      yis[variant])
+                    noisy_estimators.append(noisy_est)
+
             if hasattr(self, "next_xs_") and self.acq_func == "gp_hedge":
                 self.gains_ -= est.predict(np.vstack(self.next_xs_))
 
@@ -504,7 +536,9 @@ class Optimizer(object):
                 # Maximum list size obtained, remove oldest model.
                 self.models.pop(0)
                 self.models.append(est)
-
+            if self.acq_func == "noisyEI":
+                # And use the noisy ones instead. They will be handled by the AF.
+                est = noisy_estimators
             # even with BFGS as optimizer we want to sample a large number
             # of points and then pick the best ones as starting points
             X = self.space.transform(self.space.rvs(

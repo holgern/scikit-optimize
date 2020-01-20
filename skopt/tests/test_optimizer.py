@@ -20,7 +20,7 @@ TREE_REGRESSORS = (ExtraTreesRegressor(random_state=2),
                    RandomForestRegressor(random_state=2),
                    GradientBoostingQuantileRegressor(random_state=2))
 ACQ_FUNCS_PS = ["EIps", "PIps"]
-ACQ_FUNCS_MIXED = ["EI", "EIps"]
+ACQ_FUNCS_MIXED = ["EI", "EIps", "noisyEI"]
 ESTIMATOR_STRINGS = ["GP", "RF", "ET", "GBRT", "DUMMY",
                      "gp", "rf", "et", "gbrt", "dummy"]
 

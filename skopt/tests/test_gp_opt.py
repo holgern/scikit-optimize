@@ -20,7 +20,7 @@ def check_minimize(func, y_opt, bounds, acq_optimizer, acq_func,
 
 
 SEARCH = ["sampling", "lbfgs"]
-ACQUISITION = ["LCB", "EI"]
+ACQUISITION = ["LCB", "EI", "noisyEI"]
 
 
 @pytest.mark.slow_test
