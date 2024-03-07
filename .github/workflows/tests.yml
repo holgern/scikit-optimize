@@ -8,6 +8,11 @@ jobs:
         os: [ubuntu-latest, windows-2019, windows-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         scikit-learn-version: ["1.4.1.post1", "1.3.2", "1.2.2", "1.1.3", "1.0.2"]
+        exclude:
+          - python-version: "3.8"
+            scikit-learn-version: "1.4.1.post1"
+          - python-version: "3.11"
+            scikit-learn-version: "1.0.2"
     steps:
     - uses: actions/checkout@master
     - name: Setup Python
@@ -20,6 +25,7 @@ jobs:
         pip install -e .
         pip install -r requirements.txt
         pip install scikit-learn==${{ matrix.scikit-learn-version }}
-        pytest -m 'fast_test'
-        pytest -m 'slow_test'
-      if: (matrix.python-version != '3.8' || matrix.scikit-learn-version != '1.4.1.post1') && (matrix.python-version != '3.11' && matrix.scikit-learn-version != '1.0.2')
+    - name: Run fast tests
+      run: pytest -m 'fast_test'
+    - name: Run slow tests
+      run: pytest -m 'slow_test'
