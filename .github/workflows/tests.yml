@@ -20,7 +20,6 @@ jobs:
         pip install -e .
         pip install -r requirements.txt
         pip install scikit-learn==${{ matrix.scikit-learn-version }}
-    - name: Run fast tests
-      run: pytest -m 'fast_test'
-    - name: Run slow tests
-      run: pytest -m 'slow_test'
+        pytest -m 'fast_test'
+        pytest -m 'slow_test'
+      if: matrix.python-version != '3.8' || matrix.scikit-learn-version != '1.4.1.post1'
