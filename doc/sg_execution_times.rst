@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:05.804** total execution time for 17 files **from all galleries**:
+**00:05.346** total execution time for 17 files **from all galleries**:
 
 .. container::
 
@@ -33,7 +33,7 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``..\examples\optimizer-with-different-base-estimator.py``)
-     - 00:05.804
+     - 00:05.346
      - 0.0
    * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``..\examples\ask-and-tell.py``)
      - 00:00.000
