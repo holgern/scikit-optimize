@@ -46,7 +46,7 @@ Install
 scikit-optimize requires
 
 * Python >= 3.8
-* NumPy (>= 1.13.3)
+* NumPy (>= 1.20.3)
 * SciPy (>= 0.19.1)
 * joblib (>= 0.11)
 * scikit-learn >= 1.0.0
