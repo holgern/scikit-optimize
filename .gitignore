@@ -1,5 +1,6 @@
 *.py[co]
 *~
+*.pyc.*
 .ipynb_checkpoints/
 # created by installing scikit-learn from git
 src/*
@@ -11,6 +12,7 @@ dist/
 .pytest_cache/
 doc/_build
 doc/modules/generated/
+.vscode/
 *.pkl
 *.gz
 doc/auto_examples

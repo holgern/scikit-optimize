@@ -2,18 +2,18 @@
 Development
 ===========
 
-The library is still experimental and under heavy development. Checkout
+The library is still experimental and under development. Checkout
 the `next
-milestone <https://github.com/scikit-optimize/scikit-optimize/milestones>`__
+milestone <https://github.com/holgern/scikit-optimize/milestones>`__
 for the plans for the next release or look at some `easy
-issues <https://github.com/scikit-optimize/scikit-optimize/issues?q=is%3Aissue+is%3Aopen+label%3AEasy>`__
+issues <https://github.com/holgern/scikit-optimize/issues?q=is%3Aissue+is%3Aopen+label%3AEasy>`__
 to get started contributing.
 
 The development version can be installed through:
 
 .. code-block:: bash
 
-    git clone https://github.com/scikit-optimize/scikit-optimize.git
+    git clone https://github.com/holgern/scikit-optimize.git
     cd scikit-optimize
     pip install -e.
 
@@ -38,7 +38,7 @@ create a new issue and work through the following checklist:
 * check if the dependencies in ``setup.py`` are valid or need unpinning
 * check that the ``CHANGELOG.md`` is up to date
 * did the last build of master succeed?
-* create a `new release <https://github.com/scikit-optimize/scikit-optimize/releases>`__
+* create a `new release <https://github.com/holgern/scikit-optimize/releases>`__
 * ping `conda-forge <https://github.com/conda-forge/scikit-optimize-feedstock>`__
 
 Before making a release we usually create a release candidate. If the next

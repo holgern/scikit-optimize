@@ -1,15 +1,17 @@
-# -*- encoding: UTF-8 -*-
 """Plotting functions."""
+
 import sys
-import numpy as np
-from itertools import count
+from collections import Counter
 from functools import partial
+from itertools import count
+
+import numpy as np
 from scipy.optimize import OptimizeResult
 
-from .acquisition import _gaussian_acquisition
 from skopt import expected_minimum, expected_minimum_random_sampling
+
+from .acquisition import _gaussian_acquisition
 from .space import Categorical
-from collections import Counter
 
 # For plot tests, matplotlib must be set to headless mode early
 if 'pytest' in sys.modules:
@@ -19,8 +21,7 @@ if 'pytest' in sys.modules:
 
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import cm
-from matplotlib.ticker import LogLocator
-from matplotlib.ticker import MaxNLocator, FuncFormatter  # noqa: E402
+from matplotlib.ticker import FuncFormatter, LogLocator, MaxNLocator  # noqa: E402
 
 
 def plot_convergence(*args, **kwargs):
@@ -78,27 +79,37 @@ def plot_convergence(*args, **kwargs):
 
         if isinstance(results, OptimizeResult):
             n_calls = len(results.x_iters)
-            mins = [np.min(results.func_vals[:i])
-                    for i in range(1, n_calls + 1)]
-            ax.plot(range(1, n_calls + 1), mins, c=color,
-                    marker=".", markersize=12, lw=2, label=name)
+            mins = [np.min(results.func_vals[:i]) for i in range(1, n_calls + 1)]
+            ax.plot(
+                range(1, n_calls + 1),
+                mins,
+                c=color,
+                marker=".",
+                markersize=12,
+                lw=2,
+                label=name,
+            )
 
         elif isinstance(results, list):
             n_calls = len(results[0].x_iters)
             iterations = range(1, n_calls + 1)
-            mins = [[np.min(r.func_vals[:i]) for i in iterations]
-                    for r in results]
+            mins = [[np.min(r.func_vals[:i]) for i in iterations] for r in results]
 
             for m in mins:
                 ax.plot(iterations, m, c=color, alpha=0.2)
 
-            ax.plot(iterations, np.mean(mins, axis=0), c=color,
-                    marker=".", markersize=12, lw=2, label=name)
+            ax.plot(
+                iterations,
+                np.mean(mins, axis=0),
+                c=color,
+                marker=".",
+                markersize=12,
+                lw=2,
+                label=name,
+            )
 
     if true_minimum:
-        ax.axhline(true_minimum, linestyle="--",
-                   color="r", lw=1,
-                   label="True minimum")
+        ax.axhline(true_minimum, linestyle="--", color="r", lw=1, label="True minimum")
 
     if true_minimum or name:
         ax.legend(loc="best")
@@ -107,8 +118,8 @@ def plot_convergence(*args, **kwargs):
 
 
 def plot_gaussian_process(res, **kwargs):
-    """Plots the optimization results and the gaussian process
-    for 1-D objective functions.
+    """Plots the optimization results and the gaussian process for 1-D objective
+    functions.
 
     Parameters
     ----------
@@ -196,35 +207,41 @@ def plot_gaussian_process(res, **kwargs):
     else:
         model = res.models[n_calls]
 
-        curr_x_iters = res.x_iters[:n_random + n_calls]
-        curr_func_vals = res.func_vals[:n_random + n_calls]
+        curr_x_iters = res.x_iters[: n_random + n_calls]
+        curr_func_vals = res.func_vals[: n_random + n_calls]
 
     # Plot true function.
     if objective is not None:
         ax.plot(x, fx, "r--", label="True (unknown)")
-        ax.fill(np.concatenate(
-            [x, x[::-1]]),
-            np.concatenate(([fx_i - 1.9600 * noise_level
-                             for fx_i in fx],
-                            [fx_i + 1.9600 * noise_level
-                             for fx_i in fx[::-1]])),
-            alpha=.2, fc="r", ec="None")
+        ax.fill(
+            np.concatenate([x, x[::-1]]),
+            np.concatenate(
+                (
+                    [fx_i - 1.9600 * noise_level for fx_i in fx],
+                    [fx_i + 1.9600 * noise_level for fx_i in fx[::-1]],
+                )
+            ),
+            alpha=0.2,
+            fc="r",
+            ec="None",
+        )
 
     # Plot GP(x) + contours
     if show_mu:
         y_pred, sigma = model.predict(x_model, return_std=True)
         ax.plot(x, y_pred, "g--", label=r"$\mu_{GP}(x)$")
-        ax.fill(np.concatenate([x, x[::-1]]),
-                np.concatenate([y_pred - 1.9600 * sigma,
-                                (y_pred + 1.9600 * sigma)[::-1]]),
-                alpha=.2, fc="g", ec="None")
+        ax.fill(
+            np.concatenate([x, x[::-1]]),
+            np.concatenate([y_pred - 1.9600 * sigma, (y_pred + 1.9600 * sigma)[::-1]]),
+            alpha=0.2,
+            fc="g",
+            ec="None",
+        )
 
     # Plot sampled points
     if show_observations:
-        ax.plot(curr_x_iters, curr_func_vals,
-                "r.", markersize=8, label="Observations")
-    if (show_mu or show_observations or objective is not None)\
-            and show_acq_func:
+        ax.plot(curr_x_iters, curr_func_vals, "r.", markersize=8, label="Observations")
+    if (show_mu or show_observations or objective is not None) and show_acq_func:
         ax_ei = ax.twinx()
         ax_ei.set_ylabel(str(acq_func) + "(x)")
         plot_both = True
@@ -232,25 +249,26 @@ def plot_gaussian_process(res, **kwargs):
         ax_ei = ax
         plot_both = False
     if show_acq_func:
-        acq = _gaussian_acquisition(x_model, model,
-                                    y_opt=np.min(curr_func_vals),
-                                    acq_func=acq_func,
-                                    acq_func_kwargs=acq_func_kwargs)
+        acq = _gaussian_acquisition(
+            x_model,
+            model,
+            y_opt=np.min(curr_func_vals),
+            acq_func=acq_func,
+            acq_func_kwargs=acq_func_kwargs,
+        )
         next_x = x[np.argmin(acq)]
         next_acq = acq[np.argmin(acq)]
-        acq = - acq
+        acq = -acq
         next_acq = -next_acq
         ax_ei.plot(x, acq, "b", label=str(acq_func) + "(x)")
         if not plot_both:
-            ax_ei.fill_between(x.ravel(), 0, acq.ravel(),
-                               alpha=0.3, color='blue')
+            ax_ei.fill_between(x.ravel(), 0, acq.ravel(), alpha=0.3, color='blue')
 
         if show_next_point and next_x is not None:
-            ax_ei.plot(next_x, next_acq, "bo", markersize=6,
-                       label="Next query point")
+            ax_ei.plot(next_x, next_acq, "bo", markersize=6, label="Next query point")
 
     if show_title:
-        ax.set_title(r"x* = %.4f, f(x*) = %.4f" % (res.x[0], res.fun))
+        ax.set_title(fr"x* = {res.x[0]:.4f}, f(x*) = {res.fun:.4f}")
     # Adjust plot layout
     ax.grid()
     ax.set_xlabel("x")
@@ -259,8 +277,13 @@ def plot_gaussian_process(res, **kwargs):
         if plot_both:
             lines, labels = ax.get_legend_handles_labels()
             lines2, labels2 = ax_ei.get_legend_handles_labels()
-            ax_ei.legend(lines + lines2, labels + labels2, loc="best",
-                         prop={'size': 6}, numpoints=1)
+            ax_ei.legend(
+                lines + lines2,
+                labels + labels2,
+                loc="best",
+                prop={'size': 6},
+                numpoints=1,
+            )
         else:
             ax.legend(loc="best", prop={'size': 6}, numpoints=1)
 
@@ -335,22 +358,40 @@ def plot_regret(*args, **kwargs):
 
         if isinstance(results, OptimizeResult):
             n_calls = len(results.x_iters)
-            regrets = [np.sum(results.func_vals[:i] - true_minimum)
-                       for i in range(1, n_calls + 1)]
-            ax.plot(range(1, n_calls + 1), regrets, c=color,
-                    marker=".", markersize=12, lw=2, label=name)
+            regrets = [
+                np.sum(results.func_vals[:i] - true_minimum)
+                for i in range(1, n_calls + 1)
+            ]
+            ax.plot(
+                range(1, n_calls + 1),
+                regrets,
+                c=color,
+                marker=".",
+                markersize=12,
+                lw=2,
+                label=name,
+            )
 
         elif isinstance(results, list):
             n_calls = len(results[0].x_iters)
             iterations = range(1, n_calls + 1)
-            regrets = [[np.sum(r.func_vals[:i] - true_minimum) for i in
-                        iterations] for r in results]
+            regrets = [
+                [np.sum(r.func_vals[:i] - true_minimum) for i in iterations]
+                for r in results
+            ]
 
             for cr in regrets:
                 ax.plot(iterations, cr, c=color, alpha=0.2)
 
-            ax.plot(iterations, np.mean(regrets, axis=0), c=color,
-                    marker=".", markersize=12, lw=2, label=name)
+            ax.plot(
+                iterations,
+                np.mean(regrets, axis=0),
+                c=color,
+                marker=".",
+                markersize=12,
+                lw=2,
+                label=name,
+            )
 
     if name:
         ax.legend(loc="best")
@@ -358,8 +399,7 @@ def plot_regret(*args, **kwargs):
     return ax
 
 
-def _format_scatter_plot_axes(ax, space, ylabel, plot_dims,
-                              dim_labels=None):
+def _format_scatter_plot_axes(ax, space, ylabel, plot_dims, dim_labels=None):
     # Work out min, max of y axis for the diagonal so we can adjust
     # them all to the same value
     diagonal_ylim = _get_ylim_diagonal(ax)
@@ -371,8 +411,9 @@ def _format_scatter_plot_axes(ax, space, ylabel, plot_dims,
         n_dims = 1
 
     if dim_labels is None:
-        dim_labels = ["$X_{%i}$" % i if d.name is None else d.name
-                      for i, d in plot_dims]
+        dim_labels = [
+            "$X_{%i}$" % i if d.name is None else d.name for i, d in plot_dims
+        ]
     # Axes for categorical dimensions are really integers; we have to
     # label them with the category names
     iscat = [isinstance(dim[1], Categorical) for dim in plot_dims]
@@ -395,15 +436,17 @@ def _format_scatter_plot_axes(ax, space, ylabel, plot_dims,
                     ax_.set_ylim(*dim_i.bounds)
                 if iscat[j]:
                     # partial() avoids creating closures in a loop
-                    ax_.xaxis.set_major_formatter(FuncFormatter(
-                        partial(_cat_format, dim_j)))
+                    ax_.xaxis.set_major_formatter(
+                        FuncFormatter(partial(_cat_format, dim_j))
+                    )
                 else:
                     ax_.set_xlim(*dim_j.bounds)
                 if j == 0:  # only leftmost column (0) gets y labels
                     ax_.set_ylabel(dim_labels[i])
                     if iscat[i]:  # Set category labels for left column
-                        ax_.yaxis.set_major_formatter(FuncFormatter(
-                            partial(_cat_format, dim_i)))
+                        ax_.yaxis.set_major_formatter(
+                            FuncFormatter(partial(_cat_format, dim_i))
+                        )
                 else:
                     ax_.set_yticklabels([])
 
@@ -412,21 +455,23 @@ def _format_scatter_plot_axes(ax, space, ylabel, plot_dims,
                     ax_.set_xticklabels([])
                 # ... the bottom row
                 else:
-                    [l.set_rotation(45) for l in ax_.get_xticklabels()]
+                    [label.set_rotation(45) for label in ax_.get_xticklabels()]
                     ax_.set_xlabel(dim_labels[j])
 
                 # configure plot for linear vs log-scale
                 if dim_j.prior == 'log-uniform':
                     ax_.set_xscale('log')
                 else:
-                    ax_.xaxis.set_major_locator(MaxNLocator(6, prune='both',
-                                                            integer=iscat[j]))
+                    ax_.xaxis.set_major_locator(
+                        MaxNLocator(6, prune='both', integer=iscat[j])
+                    )
 
                 if dim_i.prior == 'log-uniform':
                     ax_.set_yscale('log')
                 else:
-                    ax_.yaxis.set_major_locator(MaxNLocator(6, prune='both',
-                                                            integer=iscat[i]))
+                    ax_.yaxis.set_major_locator(
+                        MaxNLocator(6, prune='both', integer=iscat[i])
+                    )
 
             else:  # diagonal plots
                 ax_.set_ylim(*diagonal_ylim)
@@ -445,19 +490,22 @@ def _format_scatter_plot_axes(ax, space, ylabel, plot_dims,
                 if dim_i.prior == 'log-uniform':
                     ax_.set_xscale('log')
                 else:
-                    ax_.xaxis.set_major_locator(MaxNLocator(6, prune='both',
-                                                            integer=iscat[i]))
+                    ax_.xaxis.set_major_locator(
+                        MaxNLocator(6, prune='both', integer=iscat[i])
+                    )
                     if iscat[i]:
-                        ax_.xaxis.set_major_formatter(FuncFormatter(
-                            partial(_cat_format, dim_i)))
+                        ax_.xaxis.set_major_formatter(
+                            FuncFormatter(partial(_cat_format, dim_i))
+                        )
 
     return ax
 
 
-def partial_dependence(space, model, i, j=None, sample_points=None,
-                       n_samples=250, n_points=40, x_eval=None):
-    """Calculate the partial dependence for dimensions `i` and `j` with
-    respect to the objective value, as approximated by `model`.
+def partial_dependence(
+    space, model, i, j=None, sample_points=None, n_samples=250, n_points=40, x_eval=None
+):
+    """Calculate the partial dependence for dimensions `i` and `j` with respect to the
+    objective value, as approximated by `model`.
 
     The partial dependence plot shows how the value of the dimensions
     `i` and `j` influence the `model` predictions after "averaging out"
@@ -532,20 +580,29 @@ def partial_dependence(space, model, i, j=None, sample_points=None,
         sample_points = space.transform([x_eval])
 
     if j is None:
-        return partial_dependence_1D(space, model, i,
-                                     sample_points, n_points)
+        return partial_dependence_1D(space, model, i, sample_points, n_points)
     else:
-        return partial_dependence_2D(space, model, i, j,
-                                     sample_points, n_points)
+        return partial_dependence_2D(space, model, i, j, sample_points, n_points)
 
 
-def plot_objective(result, levels=10, n_points=40, n_samples=250, size=2,
-                   zscale='linear', dimensions=None, sample_source='random',
-                   minimum='result', n_minimum_search=None, plot_dims=None,
-                   show_points=True, cmap='viridis_r'):
-    """Plot a 2-d matrix with so-called Partial Dependence plots
-    of the objective function. This shows the influence of each
-    search-space dimension on the objective function.
+def plot_objective(
+    result,
+    levels=10,
+    n_points=40,
+    n_samples=250,
+    size=2,
+    zscale='linear',
+    dimensions=None,
+    sample_source='random',
+    minimum='result',
+    n_minimum_search=None,
+    plot_dims=None,
+    show_points=True,
+    cmap='viridis_r',
+):
+    """Plot a 2-d matrix with so-called Partial Dependence plots of the objective
+    function. This shows the influence of each search-space dimension on the objective
+    function.
 
     This uses the last fitted model for estimating the objective function.
 
@@ -671,7 +728,6 @@ def plot_objective(result, levels=10, n_points=40, n_samples=250, size=2,
     -------
     ax : `Matplotlib.Axes`
         A 2-d matrix of Axes-objects with the sub-plots.
-
     """
     # Here we define the values for which to plot the red dot (2d plot) and
     # the red dotted line (1d plot).
@@ -698,8 +754,7 @@ def plot_objective(result, levels=10, n_points=40, n_samples=250, size=2,
         x_eval = None
         samples = space.transform(space.rvs(n_samples=n_samples))
     else:
-        x_eval = _evaluate_min_params(result, sample_source,
-                                      n_minimum_search)
+        x_eval = _evaluate_min_params(result, sample_source, n_minimum_search)
         samples = space.transform([x_eval])
     x_samples, minimum, _ = _map_categories(space, result.x_iters, x_vals)
 
@@ -708,23 +763,23 @@ def plot_objective(result, levels=10, n_points=40, n_samples=250, size=2,
     elif zscale == 'linear':
         locator = None
     else:
-        raise ValueError("Valid values for zscale are 'linear' and 'log',"
-                         " not '%s'." % zscale)
+        raise ValueError(
+            "Valid values for zscale are 'linear' and 'log'," " not '%s'." % zscale
+        )
 
-    fig, ax = plt.subplots(n_dims, n_dims,
-                           figsize=(size * n_dims, size * n_dims))
+    fig, ax = plt.subplots(n_dims, n_dims, figsize=(size * n_dims, size * n_dims))
 
-    fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                        hspace=0.1, wspace=0.1)
+    fig.subplots_adjust(
+        left=0.05, right=0.95, bottom=0.05, top=0.95, hspace=0.1, wspace=0.1
+    )
 
     for i in range(n_dims):
         for j in range(n_dims):
             if i == j:
                 index, dim = plot_dims[i]
-                xi, yi = partial_dependence_1D(space, result.models[-1],
-                                               index,
-                                               samples=samples,
-                                               n_points=n_points)
+                xi, yi = partial_dependence_1D(
+                    space, result.models[-1], index, samples=samples, n_points=n_points
+                )
                 if n_dims > 1:
                     ax_ = ax[i, i]
                 else:
@@ -737,26 +792,26 @@ def plot_objective(result, levels=10, n_points=40, n_samples=250, size=2,
                 index1, dim1 = plot_dims[i]
                 index2, dim2 = plot_dims[j]
                 ax_ = ax[i, j]
-                xi, yi, zi = partial_dependence_2D(space, result.models[-1],
-                                                   index1, index2,
-                                                   samples, n_points)
-                ax_.contourf(xi, yi, zi, levels,
-                             locator=locator, cmap=cmap)
+                xi, yi, zi = partial_dependence_2D(
+                    space, result.models[-1], index1, index2, samples, n_points
+                )
+                ax_.contourf(xi, yi, zi, levels, locator=locator, cmap=cmap)
                 if show_points:
-                    ax_.scatter(x_samples[:, index2], x_samples[:, index1],
-                                c='k', s=10, lw=0.)
-                ax_.scatter(minimum[index2], minimum[index1],
-                            c=['r'], s=100, lw=0., marker='*')
+                    ax_.scatter(
+                        x_samples[:, index2], x_samples[:, index1], c='k', s=10, lw=0.0
+                    )
+                ax_.scatter(
+                    minimum[index2], minimum[index1], c=['r'], s=100, lw=0.0, marker='*'
+                )
     ylabel = "Partial dependence"
 
     # Make various adjustments to the plots.
-    return _format_scatter_plot_axes(ax, space, ylabel=ylabel,
-                                     plot_dims=plot_dims,
-                                     dim_labels=dimensions)
+    return _format_scatter_plot_axes(
+        ax, space, ylabel=ylabel, plot_dims=plot_dims, dim_labels=dimensions
+    )
 
 
-def plot_evaluations(result, bins=20, dimensions=None,
-                     plot_dims=None):
+def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None):
     """Visualize the order in which points were sampled during optimization.
 
     This creates a 2-d matrix plot where the diagonal plots are histograms
@@ -793,7 +848,6 @@ def plot_evaluations(result, bins=20, dimensions=None,
     -------
     ax : `Matplotlib.Axes`
         A 2-d matrix of Axes-objects with the sub-plots.
-
     """
     space = result.space
     # Convert categoricals to integers, so we can ensure consistent ordering.
@@ -817,11 +871,11 @@ def plot_evaluations(result, bins=20, dimensions=None,
     if dimensions is not None:
         assert len(dimensions) == n_dims
 
-    fig, ax = plt.subplots(n_dims, n_dims,
-                           figsize=(2 * n_dims, 2 * n_dims))
+    fig, ax = plt.subplots(n_dims, n_dims, figsize=(2 * n_dims, 2 * n_dims))
 
-    fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                        hspace=0.1, wspace=0.1)
+    fig.subplots_adjust(
+        left=0.05, right=0.95, bottom=0.05, top=0.95, hspace=0.1, wspace=0.1
+    )
 
     for i in range(n_dims):
         for j in range(n_dims):
@@ -838,29 +892,47 @@ def plot_evaluations(result, bins=20, dimensions=None,
                     ax_ = ax
                 else:
                     ax_ = ax[i, i]
-                ax_.hist(samples[:, index], bins=bins_,
-                         range=None if iscat[j] else dim.bounds)
+                ax_.hist(
+                    samples[:, index],
+                    bins=bins_,
+                    range=None if iscat[j] else dim.bounds,
+                )
 
             # lower triangle
             elif i > j:
                 index_i, dim_i = plot_dims[i]
                 index_j, dim_j = plot_dims[j]
                 ax_ = ax[i, j]
-                ax_.scatter(samples[:, index_j], samples[:, index_i],
-                            c=order, s=40, lw=0., cmap='viridis')
-                ax_.scatter(minimum[index_j], minimum[index_i],
-                            c=['r'], s=100, lw=0., marker='*')
+                ax_.scatter(
+                    samples[:, index_j],
+                    samples[:, index_i],
+                    c=order,
+                    s=40,
+                    lw=0.0,
+                    cmap='viridis',
+                )
+                ax_.scatter(
+                    minimum[index_j],
+                    minimum[index_i],
+                    c=['r'],
+                    s=100,
+                    lw=0.0,
+                    marker='*',
+                )
 
     # Make various adjustments to the plots.
-    return _format_scatter_plot_axes(ax, space, ylabel="Number of samples",
-                                     plot_dims=plot_dims,
-                                     dim_labels=dimensions)
+    return _format_scatter_plot_axes(
+        ax,
+        space,
+        ylabel="Number of samples",
+        plot_dims=plot_dims,
+        dim_labels=dimensions,
+    )
 
 
 def _get_ylim_diagonal(ax):
-    """Get the min / max of the ylim for all diagonal plots.
-    This is used in _adjust_fig() so the ylim is the same
-    for all diagonal plots.
+    """Get the min / max of the ylim for all diagonal plots. This is used in
+    _adjust_fig() so the ylim is the same for all diagonal plots.
 
     Parameters
     ----------
@@ -871,7 +943,6 @@ def _get_ylim_diagonal(ax):
     -------
     ylim_diagonal : tuple(int)
         The common min and max ylim for the diagonal plots.
-
     """
 
     # Number of search-space dimensions used in this plot.
@@ -880,7 +951,6 @@ def _get_ylim_diagonal(ax):
         # Get ylim for all diagonal plots.
         ylim = [ax[row, row].get_ylim() for row in range(n_dims)]
     else:
-        n_dim = 1
         ylim = [ax.get_ylim()]
 
     # Separate into two lists with low and high ylim.
@@ -893,10 +963,8 @@ def _get_ylim_diagonal(ax):
     return ylim_min, ylim_max
 
 
-def partial_dependence_1D(space, model, i, samples,
-                          n_points=40):
-    """
-    Calculate the partial dependence for a single dimension.
+def partial_dependence_1D(space, model, i, samples, n_points=40):
+    """Calculate the partial dependence for a single dimension.
 
     This uses the given model to calculate the average objective value
     for all the samples, where the given dimension is fixed at
@@ -933,7 +1001,6 @@ def partial_dependence_1D(space, model, i, samples,
     yi : np.array
         The average value of the modelled objective function at
         each point `xi`.
-
     """
     # The idea is to step through one dimension, evaluating the model with
     # that dimension fixed and averaging either over random values or over
@@ -950,20 +1017,18 @@ def partial_dependence_1D(space, model, i, samples,
     dim_locs = np.cumsum([0] + [d.transformed_size for d in space.dimensions])
 
     def _calc(x):
-        """
-        Helper-function to calculate the average predicted
-        objective value for the given model, when setting
-        the index'th dimension of the search-space to the value x,
-        and then averaging over all samples.
-        """
+        """Helper-function to calculate the average predicted objective value for the
+        given model, when setting the index'th dimension of the search-space to the
+        value x, and then averaging over all samples."""
         rvs_ = np.array(samples)  # copy
         # We replace the values in the dimension that we want to keep
         # fixed
-        rvs_[:, dim_locs[i]:dim_locs[i + 1]] = x
+        rvs_[:, dim_locs[i] : dim_locs[i + 1]] = x
         # In case of `x_eval=None` rvs conists of random samples.
         # Calculating the mean of these samples is how partial dependence
         # is implemented.
         return np.mean(model.predict(rvs_))
+
     xi, xi_transformed = _evenly_sample(space.dimensions[i], n_points)
     # Calculate the partial dependence for all the points.
     yi = [_calc(x) for x in xi_transformed]
@@ -971,10 +1036,8 @@ def partial_dependence_1D(space, model, i, samples,
     return xi, yi
 
 
-def partial_dependence_2D(space, model, i, j, samples,
-                          n_points=40):
-    """
-    Calculate the partial dependence for two dimensions in the search-space.
+def partial_dependence_2D(space, model, i, j, samples, n_points=40):
+    """Calculate the partial dependence for two dimensions in the search-space.
 
     This uses the given model to calculate the average objective value
     for all the samples, where the given dimensions are fixed at
@@ -1032,16 +1095,13 @@ def partial_dependence_2D(space, model, i, j, samples,
     dim_locs = np.cumsum([0] + [d.transformed_size for d in space.dimensions])
 
     def _calc(x, y):
-        """
-        Helper-function to calculate the average predicted
-        objective value for the given model, when setting
-        the index1'th dimension of the search-space to the value x
-        and setting the index2'th dimension to the value y,
-        and then averaging over all samples.
-        """
+        """Helper-function to calculate the average predicted objective value for the
+        given model, when setting the index1'th dimension of the search-space to the
+        value x and setting the index2'th dimension to the value y, and then averaging
+        over all samples."""
         rvs_ = np.array(samples)  # copy
-        rvs_[:, dim_locs[j]:dim_locs[j + 1]] = x
-        rvs_[:, dim_locs[i]:dim_locs[i + 1]] = y
+        rvs_[:, dim_locs[j] : dim_locs[j + 1]] = x
+        rvs_[:, dim_locs[i] : dim_locs[i + 1]] = y
         return np.mean(model.predict(rvs_))
 
     xi, xi_transformed = _evenly_sample(space.dimensions[j], n_points)
@@ -1055,15 +1115,22 @@ def partial_dependence_2D(space, model, i, j, samples,
     return xi, yi, zi
 
 
-def plot_objective_2D(result, dimension_identifier1, dimension_identifier2,
-                      n_points=40, n_samples=250, levels=10, zscale='linear',
-                      sample_source='random',
-                      minimum='result', n_minimum_search=None, ax=None):
-    """
-    Create and return a Matplotlib figure and axes with a landscape
-    contour-plot of the last fitted model of the search-space,
-    overlaid with all the samples from the optimization results,
-    for the two given dimensions of the search-space.
+def plot_objective_2D(
+    result,
+    dimension_identifier1,
+    dimension_identifier2,
+    n_points=40,
+    n_samples=250,
+    levels=10,
+    zscale='linear',
+    sample_source='random',
+    minimum='result',
+    n_minimum_search=None,
+    ax=None,
+):
+    """Create and return a Matplotlib figure and axes with a landscape contour-plot of
+    the last fitted model of the search-space, overlaid with all the samples from the
+    optimization results, for the two given dimensions of the search-space.
 
     This is similar to `plot_objective()` but only for 2 dimensions
     whose doc-string also has a more extensive explanation.
@@ -1112,8 +1179,7 @@ def plot_objective_2D(result, dimension_identifier1, dimension_identifier2,
         x_eval = None
         samples = space.transform(space.rvs(n_samples=n_samples))
     else:
-        x_eval = _evaluate_min_params(result, sample_source,
-                                      n_minimum_search)
+        x_eval = _evaluate_min_params(result, sample_source, n_minimum_search)
         samples = space.transform([x_eval])
     x_samples, x_minimum, _ = _map_categories(space, result.x_iters, x_vals)
     # Get the dimension-object, its index in the search-space, and its name.
@@ -1135,8 +1201,9 @@ def plot_objective_2D(result, dimension_identifier1, dimension_identifier2,
 
     # Estimate the objective function for these sampled points
     # using the last fitted model for the search-space.
-    xi, yi, zi = partial_dependence_2D(space, last_model, index2, index1,
-                                       samples, n_points=n_points)
+    xi, yi, zi = partial_dependence_2D(
+        space, last_model, index2, index1, samples, n_points=n_points
+    )
 
     if ax is None:
         ax = plt.gca()
@@ -1153,8 +1220,7 @@ def plot_objective_2D(result, dimension_identifier1, dimension_identifier2,
 
     # Plot the best parameters that were sampled during optimization.
     # These are plotted as a big red star.
-    ax.scatter(best_sample1, best_sample2,
-               c='red', s=50, linewidths=1, marker='*')
+    ax.scatter(best_sample1, best_sample2, c='red', s=50, linewidths=1, marker='*')
 
     # Use the dimension-names as the labels for the plot-axes.
     ax.set_xlabel(dimension1.name)
@@ -1171,12 +1237,9 @@ def plot_objective_2D(result, dimension_identifier1, dimension_identifier2,
     return ax
 
 
-def plot_histogram(result, dimension_identifier, bins=20, rotate_labels=0,
-                   ax=None):
-    """
-    Create and return a Matplotlib figure with a histogram
-    of the samples from the optimization results,
-    for a given dimension of the search-space.
+def plot_histogram(result, dimension_identifier, bins=20, rotate_labels=0, ax=None):
+    """Create and return a Matplotlib figure with a histogram of the samples from the
+    optimization results, for a given dimension of the search-space.
 
     Parameters
     ----------
@@ -1262,8 +1325,7 @@ def plot_histogram(result, dimension_identifier, bins=20, rotate_labels=0,
 
 
 def _map_categories(space, points, minimum):
-    """
-    Map categorical values to integers in a set of points.
+    """Map categorical values to integers in a set of points.
 
     Returns
     -------
@@ -1320,8 +1382,7 @@ def _evenly_sample(dim, n_points):
     """
     cats = np.array(getattr(dim, 'categories', []), dtype=object)
     if len(cats):  # Sample categoricals while maintaining order
-        xi = np.linspace(0, len(cats) - 1, min(len(cats), n_points),
-                         dtype=int)
+        xi = np.linspace(0, len(cats) - 1, min(len(cats), n_points), dtype=int)
         xi_transformed = dim.transform(cats[xi])
     else:
         bounds = dim.bounds
@@ -1332,17 +1393,19 @@ def _evenly_sample(dim, n_points):
 
 
 def _cat_format(dimension, x, _):
-    """Categorical axis tick formatter function.  Returns the name of category
-    `x` in `dimension`.  Used with `matplotlib.ticker.FuncFormatter`."""
+    """Categorical axis tick formatter function.
+
+    Returns the name of category
+    `x` in `dimension`.  Used with `matplotlib.ticker.FuncFormatter`.
+    """
     return str(dimension.categories[int(x)])
 
 
-def _evaluate_min_params(result, params='result',
-                         n_minimum_search=None,
-                         random_state=None):
+def _evaluate_min_params(
+    result, params='result', n_minimum_search=None, random_state=None
+):
     """Returns the minimum based on `params`"""
     x_vals = None
-    space = result.space
     if isinstance(params, str):
         if params == 'result':
             # Using the best observed result
@@ -1350,20 +1413,20 @@ def _evaluate_min_params(result, params='result',
         elif params == 'expected_minimum':
             if result.space.is_partly_categorical:
                 # space is also categorical
-                raise ValueError('expected_minimum does not support any'
-                                 'categorical values')
+                raise ValueError(
+                    'expected_minimum does not support any' 'categorical values'
+                )
             # Do a gradient based minimum search using scipys own minimizer
             if n_minimum_search:
                 # If a value for
                 # expected_minimum_samples has been parsed
                 x_vals, _ = expected_minimum(
-                    result,
-                    n_random_starts=n_minimum_search,
-                    random_state=random_state)
+                    result, n_random_starts=n_minimum_search, random_state=random_state
+                )
             else:  # Use standard of 20 random starting points
-                x_vals, _ = expected_minimum(result,
-                                             n_random_starts=20,
-                                             random_state=random_state)
+                x_vals, _ = expected_minimum(
+                    result, n_random_starts=20, random_state=random_state
+                )
         elif params == 'expected_minimum_random':
             # Do a minimum search by evaluating the function with
             # n_samples sample values
@@ -1371,27 +1434,27 @@ def _evaluate_min_params(result, params='result',
                 # If a value for
                 # n_minimum_samples has been parsed
                 x_vals, _ = expected_minimum_random_sampling(
-                    result,
-                    n_random_starts=n_minimum_search,
-                    random_state=random_state)
+                    result, n_random_starts=n_minimum_search, random_state=random_state
+                )
             else:
                 # Use standard of 10^n_parameters. Note this
                 # becomes very slow for many parameters
                 n_minimum_search = 10 ** len(result.x)
                 x_vals, _ = expected_minimum_random_sampling(
-                    result,
-                    n_random_starts=n_minimum_search,
-                    random_state=random_state)
+                    result, n_random_starts=n_minimum_search, random_state=random_state
+                )
         else:
-            raise ValueError('Argument ´eval_min_params´ must be a valid'
-                             'string (´result´)')
+            raise ValueError(
+                'Argument ´eval_min_params´ must be a valid' 'string (´result´)'
+            )
     elif isinstance(params, list):
-        assert len(params) == len(result.x), 'Argument' \
-            '´eval_min_params´ of type list must have same length as' \
+        assert len(params) == len(result.x), (
+            'Argument'
+            '´eval_min_params´ of type list must have same length as'
             'number of features'
+        )
         # Using defined x_values
         x_vals = params
     else:
-        raise ValueError('Argument ´eval_min_params´ must'
-                         'be a string or a list')
+        raise ValueError('Argument ´eval_min_params´ must' 'be a string or a list')
     return x_vals

@@ -1,0 +1,13 @@
+.. include:: _contributors.rst
+
+.. currentmodule:: skopt
+
+.. _changes_1_0:
+
+Version 1.0.0
+=============
+**March 2024**
+
+- Fix numpy.int issue
+- Minor documentation improvements.
+- Various small bugs and fixes.

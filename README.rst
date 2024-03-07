@@ -1,7 +1,7 @@
 
 |Logo|
 
-|pypi| |conda| |Travis Status| |CircleCI Status| |binder| |gitter| |Zenodo DOI|
+|pypi| |conda| |binder| |Zenodo DOI|
 
 Scikit-Optimize
 ===============
@@ -18,11 +18,17 @@ optimization algorithms look at
 ``scipy.optimize``
 `here <http://docs.scipy.org/doc/scipy/reference/optimize.html>`_.
 
-.. figure:: https://github.com/scikit-optimize/scikit-optimize/blob/master/media/bo-objective.png
+.. figure:: https://github.com/holgern/scikit-optimize/blob/master/media/bo-objective.png
    :alt: Approximated objective
 
 Approximated objective function after 50 iterations of ``gp_minimize``.
 Plot made using ``skopt.plots.plot_objective``.
+
+Maintaining the codebase
+------------------------
+This repo is a copy of the original repositoy at https://github.com/scikit-optimize/scikit-optimize/.
+As I was removed as maintainter, i do not have access to the github itself. As the original repo is now in read-only mode,
+i decided to continue on my own. I still have credentials for pypi, so I will publish new releases at https://pypi.org/project/scikit-optimize/.
 
 Important links
 ---------------
@@ -31,7 +37,7 @@ Important links
    documentation <https://scikit-optimize.github.io/>`__
 -  Example notebooks - can be found in examples_.
 -  Issue tracker -
-   https://github.com/scikit-optimize/scikit-optimize/issues
+   https://github.com/holgern/scikit-optimize/issues
 -  Releases - https://pypi.python.org/pypi/scikit-optimize
 
 Install
@@ -39,11 +45,11 @@ Install
 
 scikit-optimize requires
 
-* Python >= 3.6
+* Python >= 3.7
 * NumPy (>= 1.13.3)
 * SciPy (>= 0.19.1)
 * joblib (>= 0.11)
-* scikit-learn >= 0.20
+* scikit-learn >= 1.0.0
 * matplotlib >= 2.0.0
 
 You can install the latest release with:
@@ -111,20 +117,20 @@ and the other examples_.
 Development
 -----------
 
-The library is still experimental and under heavy development. Checkout
+The library is still experimental and under development. Checkout
 the `next
-milestone <https://github.com/scikit-optimize/scikit-optimize/milestones>`__
+milestone <https://github.com/holgern/scikit-optimize/milestones>`__
 for the plans for the next release or look at some `easy
-issues <https://github.com/scikit-optimize/scikit-optimize/issues?q=is%3Aissue+is%3Aopen+label%3AEasy>`__
+issues <https://github.com/holgern/scikit-optimize/issues?q=is%3Aissue+is%3Aopen+label%3AEasy>`__
 to get started contributing.
 
 The development version can be installed through:
 
 ::
 
-    git clone https://github.com/scikit-optimize/scikit-optimize.git
+    git clone https://github.com/holgern/scikit-optimize.git
     cd scikit-optimize
-    pip install -e.
+    pip install -e .
 
 Run all tests by executing ``pytest`` in the top level directory.
 
@@ -134,6 +140,49 @@ This is implemented using pytest `attributes <https://docs.pytest.org/en/latest/
 
 All contributors are welcome!
 
+
+
+Pre-commit-config
+-----------------
+
+Installation
+~~~~~~~~~~~~
+
+```
+$ pip install pre-commit
+```
+
+Using homebrew
+~~~~~~~~~~~~~~
+```
+$ brew install pre-commit
+```
+
+```
+$ pre-commit --version
+pre-commit 2.10.0
+```
+
+Install the git hook scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+```
+$ pre-commit install
+```
+
+Run against all the files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+pre-commit run --all-files
+pre-commit run --show-diff-on-failure --color=always --all-files
+```
+
+Update package rev in pre-commit yaml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```bash
+pre-commit autoupdate
+pre-commit run --show-diff-on-failure --color=always --all-files
+```
 
 Making a Release
 ~~~~~~~~~~~~~~~~
@@ -147,21 +196,13 @@ create a new issue and work through the following checklist:
 * check if the dependencies in ``setup.py`` are valid or need unpinning
 * check that the ``doc/whats_new/v0.X.rst`` is up to date
 * did the last build of master succeed?
-* create a `new release <https://github.com/scikit-optimize/scikit-optimize/releases>`__
+* create a `new release <https://github.com/holgern/scikit-optimize/releases>`__
 * ping `conda-forge <https://github.com/conda-forge/scikit-optimize-feedstock>`__
 
 Before making a release we usually create a release candidate. If the next
 release is v0.X then the release candidate should be tagged v0.Xrc1 in
 ``__init__.py``. Mark a release candidate as a "pre-release"
 on GitHub when you tag it.
-
-
-Commercial support
-------------------
-
-Feel free to `get in touch <mailto:tim@wildtreetech.com>`_ if you need commercial
-support or would like to sponsor development. Resources go towards paying
-for additional work by seasoned engineers and researchers.
 
 
 Made possible by
@@ -193,15 +234,9 @@ recognition, feel free to add them to the "Made possible by" list.
    :target: https://pypi.python.org/pypi/scikit-optimize
 .. |conda| image:: https://anaconda.org/conda-forge/scikit-optimize/badges/version.svg
    :target: https://anaconda.org/conda-forge/scikit-optimize
-.. |Travis Status| image:: https://travis-ci.org/scikit-optimize/scikit-optimize.svg?branch=master
-   :target: https://travis-ci.org/scikit-optimize/scikit-optimize
-.. |CircleCI Status| image:: https://circleci.com/gh/scikit-optimize/scikit-optimize/tree/master.svg?style=shield&circle-token=:circle-token
-   :target: https://circleci.com/gh/scikit-optimize/scikit-optimize
 .. |Logo| image:: https://avatars2.githubusercontent.com/u/18578550?v=4&s=80
 .. |binder| image:: https://mybinder.org/badge.svg
-   :target: https://mybinder.org/v2/gh/scikit-optimize/scikit-optimize/master?filepath=examples
-.. |gitter| image:: https://badges.gitter.im/scikit-optimize/scikit-optimize.svg
-   :target: https://gitter.im/scikit-optimize/Lobby
+   :target: https://mybinder.org/v2/gh/holgern/scikit-optimize/master?filepath=examples
 .. |Zenodo DOI| image:: https://zenodo.org/badge/54340642.svg
    :target: https://zenodo.org/badge/latestdoi/54340642
 .. _examples: https://scikit-optimize.github.io/stable/auto_examples/index.html

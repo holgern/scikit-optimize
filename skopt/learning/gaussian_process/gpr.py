@@ -1,25 +1,19 @@
-import numpy as np
 import warnings
 
-from scipy.linalg import cho_solve
-from scipy.linalg import solve_triangular
-
+import numpy as np
 import sklearn
-from sklearn.gaussian_process import GaussianProcessRegressor as sk_GaussianProcessRegressor
+from scipy.linalg import cho_solve, solve_triangular
+from sklearn.gaussian_process import (
+    GaussianProcessRegressor as sk_GaussianProcessRegressor,
+)
 from sklearn.utils import check_array
 
-from .kernels import ConstantKernel
-from .kernels import Sum
-from .kernels import RBF
-from .kernels import WhiteKernel
+from .kernels import RBF, ConstantKernel, Sum, WhiteKernel
 
 
 def _param_for_white_kernel_in_Sum(kernel, kernel_str=""):
-    """
-    Check if a WhiteKernel exists in a Sum Kernel
-    and if it does return the corresponding key in
-    `kernel.get_params()`
-    """
+    """Check if a WhiteKernel exists in a Sum Kernel and if it does return the
+    corresponding key in `kernel.get_params()`"""
     if kernel_str != "":
         kernel_str = kernel_str + "__"
 
@@ -29,7 +23,8 @@ def _param_for_white_kernel_in_Sum(kernel, kernel_str=""):
                 return True, kernel_str + param
             else:
                 present, child_str = _param_for_white_kernel_in_Sum(
-                    child, kernel_str + param)
+                    child, kernel_str + param
+                )
                 if present:
                     return True, child_str
 
@@ -37,8 +32,7 @@ def _param_for_white_kernel_in_Sum(kernel, kernel_str=""):
 
 
 class GaussianProcessRegressor(sk_GaussianProcessRegressor):
-    """
-    GaussianProcessRegressor that allows noise tunability.
+    """GaussianProcessRegressor that allows noise tunability.
 
     The implementation is based on Algorithm 2.1 of Gaussian Processes
     for Machine Learning (GPML) by Rasmussen and Williams.
@@ -152,16 +146,28 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
         Estimate of the gaussian noise. Useful only when noise is set to
         "gaussian".
     """
-    def __init__(self, kernel=None, alpha=1e-10,
-                 optimizer="fmin_l_bfgs_b", n_restarts_optimizer=0,
-                 normalize_y=False, copy_X_train=True, random_state=None,
-                 noise=None):
+
+    def __init__(
+        self,
+        kernel=None,
+        alpha=1e-10,
+        optimizer="fmin_l_bfgs_b",
+        n_restarts_optimizer=0,
+        normalize_y=False,
+        copy_X_train=True,
+        random_state=None,
+        noise=None,
+    ):
         self.noise = noise
-        super(GaussianProcessRegressor, self).__init__(
-            kernel=kernel, alpha=alpha, optimizer=optimizer,
+        super().__init__(
+            kernel=kernel,
+            alpha=alpha,
+            optimizer=optimizer,
             n_restarts_optimizer=n_restarts_optimizer,
-            normalize_y=normalize_y, copy_X_train=copy_X_train,
-            random_state=random_state)
+            normalize_y=normalize_y,
+            copy_X_train=copy_X_train,
+            random_state=random_state,
+        )
 
     def fit(self, X, y):
         """Fit Gaussian process regression model.
@@ -180,19 +186,19 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
             Returns an instance of self.
         """
         if isinstance(self.noise, str) and self.noise != "gaussian":
-            raise ValueError("expected noise to be 'gaussian', got %s"
-                             % self.noise)
+            raise ValueError("expected noise to be 'gaussian', got %s" % self.noise)
 
         if self.kernel is None:
-            self.kernel = ConstantKernel(1.0, constant_value_bounds="fixed") \
-                          * RBF(1.0, length_scale_bounds="fixed")
+            self.kernel = ConstantKernel(1.0, constant_value_bounds="fixed") * RBF(
+                1.0, length_scale_bounds="fixed"
+            )
         if self.noise == "gaussian":
             self.kernel = self.kernel + WhiteKernel()
         elif self.noise:
             self.kernel = self.kernel + WhiteKernel(
                 noise_level=self.noise, noise_level_bounds="fixed"
             )
-        super(GaussianProcessRegressor, self).fit(X, y)
+        super().fit(X, y)
 
         self.noise_ = None
 
@@ -210,14 +216,16 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
 
             else:
                 white_present, white_param = _param_for_white_kernel_in_Sum(
-                    self.kernel_)
+                    self.kernel_
+                )
 
                 # This should always be true. Just in case.
                 if white_present:
                     noise_kernel = self.kernel_.get_params()[white_param]
                     self.noise_ = noise_kernel.noise_level
                     self.kernel_.set_params(
-                        **{white_param: WhiteKernel(noise_level=0.0)})
+                        **{white_param: WhiteKernel(noise_level=0.0)}
+                    )
 
         # Precompute arrays needed at prediction
         L_inv = solve_triangular(self.L_.T, np.eye(self.L_.shape[0]))
@@ -236,10 +244,15 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
 
         return self
 
-    def predict(self, X, return_std=False, return_cov=False,
-                return_mean_grad=False, return_std_grad=False):
-        """
-        Predict output for X.
+    def predict(
+        self,
+        X,
+        return_std=False,
+        return_cov=False,
+        return_mean_grad=False,
+        return_std_grad=False,
+    ):
+        """Predict output for X.
 
         In addition to the mean of the predictive distribution, also its
         standard deviation (return_std=True) or covariance (return_cov=True),
@@ -289,12 +302,11 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
         if return_std and return_cov:
             raise RuntimeError(
                 "Not returning standard deviation of predictions when "
-                "returning full covariance.")
+                "returning full covariance."
+            )
 
         if return_std_grad and not return_std:
-            raise ValueError(
-                "Not returning std_gradient without returning "
-                "the std.")
+            raise ValueError("Not returning std_gradient without returning " "the std.")
 
         X = check_array(X)
         if X.shape[0] != 1 and (return_mean_grad or return_std_grad):
@@ -313,13 +325,13 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
 
         else:  # Predict based on GP posterior
             K_trans = self.kernel_(X, self.X_train_)
-            y_mean = K_trans.dot(self.alpha_)    # Line 4 (y_mean = f_star)
+            y_mean = K_trans.dot(self.alpha_)  # Line 4 (y_mean = f_star)
             # undo normalisation
             y_mean = self.y_train_std_ * y_mean + self.y_train_mean_
 
             if return_cov:
                 v = cho_solve((self.L_, True), K_trans.T)  # Line 5
-                y_cov = self.kernel_(X) - K_trans.dot(v)   # Line 6
+                y_cov = self.kernel_(X) - K_trans.dot(v)  # Line 6
                 # undo normalisation
                 y_cov = y_cov * self.y_train_std_**2
                 return y_mean, y_cov
@@ -335,8 +347,10 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
                 # numerical issues. If yes: set the variance to 0.
                 y_var_negative = y_var < 0
                 if np.any(y_var_negative):
-                    warnings.warn("Predicted variances smaller than 0. "
-                                  "Setting those variances to 0.")
+                    warnings.warn(
+                        "Predicted variances smaller than 0. "
+                        "Setting those variances to 0."
+                    )
                     y_var[y_var_negative] = 0.0
                 # undo normalisation
                 y_var = y_var * self.y_train_std_**2
@@ -350,8 +364,7 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
                 if return_std_grad:
                     grad_std = np.zeros(X.shape[1])
                     if not np.allclose(y_std, grad_std):
-                        grad_std = -np.dot(K_trans,
-                                           np.dot(K_inv, grad))[0] / y_std
+                        grad_std = -np.dot(K_trans, np.dot(K_inv, grad))[0] / y_std
                         # undo normalisation
                         grad_std = grad_std * self.y_train_std_**2
                     return y_mean, y_std, grad_mean, grad_std

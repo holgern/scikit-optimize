@@ -25,17 +25,16 @@ See also the example on an integer space
 
 print(__doc__)
 import numpy as np
+
 np.random.seed(123)
 import matplotlib.pyplot as plt
-from skopt.space import Space
-from skopt.sampler import Sobol
-from skopt.sampler import Lhs
-from skopt.sampler import Halton
-from skopt.sampler import Hammersly
-from skopt.sampler import Grid
 from scipy.spatial.distance import pdist
 
+from skopt.sampler import Grid, Halton, Hammersly, Lhs, Sobol
+from skopt.space import Space
+
 #############################################################################
+
 
 def plot_searchspace(x, title):
     fig, ax = plt.subplots()
@@ -48,9 +47,10 @@ def plot_searchspace(x, title):
     ax.set_ylim([0, 15])
     plt.title(title)
 
+
 n_samples = 10
 
-space = Space([(-5., 10.), (0., 15.)])
+space = Space([(-5.0, 10.0), (0.0, 15.0)])
 # space.set_transformer("normalize")
 
 #############################################################################

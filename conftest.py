@@ -8,40 +8,40 @@
 import platform
 import sys
 from distutils.version import LooseVersion
-import os
 
 import pytest
 from _pytest.doctest import DoctestItem
-from skopt import _IS_32BIT
 
+from skopt import _IS_32BIT
 
 PYTEST_MIN_VERSION = '3.3.0'
 
 if LooseVersion(pytest.__version__) < PYTEST_MIN_VERSION:
-    raise ImportError('Your version of pytest is too old, you should have '
-                      'at least pytest >= {} installed.'
-                      .format(PYTEST_MIN_VERSION))
+    raise ImportError(
+        'Your version of pytest is too old, you should have '
+        'at least pytest >= {} installed.'.format(PYTEST_MIN_VERSION)
+    )
 
 
 def pytest_addoption(parser):
-    parser.addoption("--skip-network", action="store_true", default=False,
-                     help="skip network tests")
+    parser.addoption(
+        "--skip-network", action="store_true", default=False, help="skip network tests"
+    )
 
 
 def pytest_collection_modifyitems(config, items):
     # FeatureHasher is not compatible with PyPy
     if platform.python_implementation() == 'PyPy':
         skip_marker = pytest.mark.skip(
-            reason='FeatureHasher is not compatible with PyPy')
+            reason='FeatureHasher is not compatible with PyPy'
+        )
         for item in items:
-            if item.name.endswith(('_hash.FeatureHasher',
-                                   'text.HashingVectorizer')):
+            if item.name.endswith(('_hash.FeatureHasher', 'text.HashingVectorizer')):
                 item.add_marker(skip_marker)
 
     # Skip tests which require internet if the flag is provided
     if config.getoption("--skip-network"):
-        skip_network = pytest.mark.skip(
-            reason="test requires internet connectivity")
+        skip_network = pytest.mark.skip(reason="test requires internet connectivity")
         for item in items:
             if "network" in item.keywords:
                 item.add_marker(skip_network)
@@ -51,16 +51,18 @@ def pytest_collection_modifyitems(config, items):
     skip_doctests = False
     try:
         import numpy as np
+
         if LooseVersion(np.__version__) < LooseVersion('1.14'):
             reason = 'doctests are only run for numpy >= 1.14'
             skip_doctests = True
         elif _IS_32BIT:
-            reason = ('doctest are only run when the default numpy int is '
-                      '64 bits.')
+            reason = 'doctest are only run when the default numpy int is ' '64 bits.'
             skip_doctests = True
         elif sys.platform.startswith("win32"):
-            reason = ("doctests are not run for Windows because numpy arrays "
-                      "repr is inconsistent across platforms.")
+            reason = (
+                "doctests are not run for Windows because numpy arrays "
+                "repr is inconsistent across platforms."
+            )
             skip_doctests = True
     except ImportError:
         pass
@@ -75,9 +77,11 @@ def pytest_collection_modifyitems(config, items):
 
 def pytest_configure(config):
     import sys
+
     sys._is_pytest_session = True
 
 
 def pytest_unconfigure(config):
     import sys
+
     del sys._is_pytest_session

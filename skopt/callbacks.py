@@ -3,12 +3,12 @@
 Callbacks are callables which are invoked after each iteration of the optimizer
 and are passed the results "so far". Callbacks can monitor progress, or stop
 the optimization early by returning `True`.
-
 """
+
 try:
     from collections.abc import Callable
 except ImportError:
-    from collections import Callable
+    from collections.abc import Callable
 
 from time import time
 
@@ -16,28 +16,28 @@ import numpy as np
 
 from skopt.utils import dump
 
+
 def check_callback(callback):
-    """
-    Check if callback is a callable or a list of callables.
-    """
+    """Check if callback is a callable or a list of callables."""
     if callback is not None:
         if isinstance(callback, Callable):
             return [callback]
 
-        elif (isinstance(callback, list) and
-              all([isinstance(c, Callable) for c in callback])):
+        elif isinstance(callback, list) and all(
+            [isinstance(c, Callable) for c in callback]
+        ):
             return callback
 
         else:
-            raise ValueError("callback should be either a callable or "
-                             "a list of callables.")
+            raise ValueError(
+                "callback should be either a callable or " "a list of callables."
+            )
     else:
         return []
 
 
-class VerboseCallback(object):
-    """
-    Callback to control the verbosity.
+class VerboseCallback:
+    """Callback to control the verbosity.
 
     Parameters
     ----------
@@ -79,16 +79,19 @@ class VerboseCallback(object):
             search_status = "Search finished for the next optimal point."
 
         if iter_no <= self.n_init:
-            print("Iteration No: %d %s. %s at provided point."
-                  % (iter_no, status, eval_status))
+            print(
+                "Iteration No: %d %s. %s at provided point."
+                % (iter_no, status, eval_status)
+            )
 
         elif self.n_init < iter_no <= (self.n_random + self.n_init):
-            print("Iteration No: %d %s. %s at random point."
-                  % (iter_no, status, eval_status))
+            print(
+                "Iteration No: %d %s. %s at random point."
+                % (iter_no, status, eval_status)
+            )
 
         else:
-            print("Iteration No: %d %s. %s"
-                  % (iter_no, status, search_status))
+            print("Iteration No: %d %s. %s" % (iter_no, status, search_status))
 
     def __call__(self, res):
         """
@@ -113,9 +116,8 @@ class VerboseCallback(object):
             self._start_time = time()
 
 
-class TimerCallback(object):
-    """
-    Log the elapsed time between each iteration of the minimization loop.
+class TimerCallback:
+    """Log the elapsed time between each iteration of the minimization loop.
 
     The time for each iteration is stored in the `iter_time` attribute which
     you can inspect after the minimization has completed.
@@ -125,6 +127,7 @@ class TimerCallback(object):
     iter_time : list, shape (n_iter,)
         `iter_time[i-1]` gives the time taken to complete iteration `i`
     """
+
     def __init__(self):
         self._time = time()
         self.iter_time = []
@@ -141,11 +144,13 @@ class TimerCallback(object):
         self._time = time()
 
 
-class EarlyStopper(object):
+class EarlyStopper:
     """Decide to continue or not given the results so far.
 
-    The optimization procedure will be stopped if the callback returns True.
+    The optimization procedure will be stopped if the callback returns
+    True.
     """
+
     def __call__(self, result):
         """
         Parameters
@@ -172,8 +177,10 @@ class EarlyStopper(object):
             Return True/False if the criterion can make a decision or `None` if
             there is not enough data yet to make a decision.
         """
-        raise NotImplementedError("The _criterion method should be implemented"
-                                  " by subclasses of EarlyStopper.")
+        raise NotImplementedError(
+            "The _criterion method should be implemented"
+            " by subclasses of EarlyStopper."
+        )
 
 
 class DeltaXStopper(EarlyStopper):
@@ -182,14 +189,17 @@ class DeltaXStopper(EarlyStopper):
     If the last two positions at which the objective has been evaluated
     are less than `delta` apart stop the optimization procedure.
     """
+
     def __init__(self, delta):
         super(EarlyStopper, self).__init__()
         self.delta = delta
 
     def _criterion(self, result):
         if len(result.x_iters) >= 2:
-            return result.space.distance(result.x_iters[-2],
-                                         result.x_iters[-1]) < self.delta
+            return (
+                result.space.distance(result.x_iters[-2], result.x_iters[-1])
+                < self.delta
+            )
 
         else:
             return None
@@ -201,6 +211,7 @@ class DeltaYStopper(EarlyStopper):
     Stop the optimizer if the absolute difference between the `n_best`
     objective values is less than `delta`.
     """
+
     def __init__(self, delta, n_best=5):
         super(EarlyStopper, self).__init__()
         self.delta = delta
@@ -220,12 +231,10 @@ class DeltaYStopper(EarlyStopper):
 
 
 class HollowIterationsStopper(EarlyStopper):
-    """
-    Stop if the improvement over the last n iterations is below a threshold.
-    """
+    """Stop if the improvement over the last n iterations is below a threshold."""
 
     def __init__(self, n_iterations, threshold=0):
-        super(HollowIterationsStopper, self).__init__()
+        super().__init__()
         self.n_iterations = n_iterations
         self.threshold = abs(threshold)
 
@@ -239,8 +248,7 @@ class HollowIterationsStopper(EarlyStopper):
 
 
 class DeadlineStopper(EarlyStopper):
-    """
-    Stop the optimization before running out of a fixed budget of time.
+    """Stop the optimization before running out of a fixed budget of time.
 
     Attributes
     ----------
@@ -253,8 +261,9 @@ class DeadlineStopper(EarlyStopper):
         fixed budget of time (seconds) that the optimization must
         finish within.
     """
+
     def __init__(self, total_time):
-        super(DeadlineStopper, self).__init__()
+        super().__init__()
         self._time = time()
         self.iter_time = []
         self.total_time = total_time
@@ -271,11 +280,40 @@ class DeadlineStopper(EarlyStopper):
             return None
 
 
+class StdStopper(EarlyStopper):
+    """Stop the optimization when the standard deviation of the Gaussian process is
+    lower than the threshold.
+
+    Paper: automatic-termination-for-hyperparameter-optimization
+    """
+
+    def __init__(self, threshold: float, log_interval=10) -> None:
+        super(EarlyStopper, self).__init__()
+        self.threshold = threshold
+        self.log_interval = log_interval
+
+    def _criterion(self, result) -> bool:
+        y_train_std_ = []
+        for model in result.models:
+            y_train_std_.append(model.y_train_std_)
+        if len(y_train_std_) == 0:
+            return False
+        if len(y_train_std_) % self.log_interval == 0:
+            print(
+                "num_models:",
+                len(y_train_std_),
+                "min_std:",
+                min(y_train_std_),
+                "max_std:",
+                max(y_train_std_),
+            )
+        return min(y_train_std_) <= self.threshold
+
+
 class ThresholdStopper(EarlyStopper):
-    """
-    Stop the optimization when the objective value is lower
-    than the given threshold.
-    """
+    """Stop the optimization when the objective value is lower than the given
+    threshold."""
+
     def __init__(self, threshold: float) -> None:
         super(EarlyStopper, self).__init__()
         self.threshold = threshold
@@ -284,10 +322,8 @@ class ThresholdStopper(EarlyStopper):
         return np.any([val <= self.threshold for val in result.func_vals])
 
 
-class CheckpointSaver(object):
-    """
-    Save current state after each iteration with :class:`skopt.dump`.
-
+class CheckpointSaver:
+    """Save current state after each iteration with :class:`skopt.dump`.
 
     Examples
     --------
@@ -305,6 +341,7 @@ class CheckpointSaver(object):
     dump_options : string
         options to pass on to `skopt.dump`, like `compress=9`
     """
+
     def __init__(self, checkpoint_path, **dump_options):
         self.checkpoint_path = checkpoint_path
         self.dump_options = dump_options

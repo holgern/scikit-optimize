@@ -1,18 +1,14 @@
-"""This script contains set of functions that test parallel optimization with
-skopt, where constant liar parallelization strategy is used.
-"""
+"""This script contains set of functions that test parallel optimization with skopt,
+where constant liar parallelization strategy is used."""
 
+import pytest
+from numpy.testing import assert_equal, assert_raises
+from scipy.spatial.distance import pdist
 
-from numpy.testing import assert_equal
-from numpy.testing import assert_raises
-
-from skopt.space import Real
+import skopt.learning as sol
 from skopt import Optimizer
 from skopt.benchmarks import branin
-import skopt.learning as sol
-
-from scipy.spatial.distance import pdist
-import pytest
+from skopt.space import Real
 
 # list of all strategies for parallelization
 supported_strategies = ["cl_min", "cl_mean", "cl_max"]
@@ -22,7 +18,8 @@ supported_acq_functions = ["EI", "EIps"]
 
 # Extract available surrogates, so that new ones are used automatically
 available_surrogates = [
-    getattr(sol, name) for name in sol.__all__
+    getattr(sol, name)
+    for name in sol.__all__
     if "GradientBoostingQuantileRegressor" not in name
 ]  # excluding the GradientBoostingQuantileRegressor, will open issue later
 
@@ -35,9 +32,8 @@ n_points = 4  # number of points to evaluate at a single step
 @pytest.mark.parametrize("surrogate", available_surrogates)
 @pytest.mark.parametrize("acq_func", supported_acq_functions)
 def test_constant_liar_runs(strategy, surrogate, acq_func):
-    """
-    Tests whether the optimizer runs properly during the random
-    initialization phase and beyond
+    """Tests whether the optimizer runs properly during the random initialization phase
+    and beyond.
 
     Parameters
     ----------
@@ -52,7 +48,7 @@ def test_constant_liar_runs(strategy, surrogate, acq_func):
         dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)],
         acq_func=acq_func,
         acq_optimizer='sampling',
-        random_state=0
+        random_state=0,
     )
 
     # test arguments check
@@ -60,7 +56,7 @@ def test_constant_liar_runs(strategy, surrogate, acq_func):
     assert_raises(ValueError, optimizer.ask, {"n_points": "0"})
     assert_raises(ValueError, optimizer.ask, {"n_points": 0})
 
-    for i in range(n_steps):
+    for _ in range(n_steps):
         x = optimizer.ask(n_points=n_points, strategy=strategy)
         # check if actually n_points was generated
         assert_equal(len(x), n_points)
@@ -74,9 +70,8 @@ def test_constant_liar_runs(strategy, surrogate, acq_func):
 @pytest.mark.parametrize("strategy", supported_strategies)
 @pytest.mark.parametrize("surrogate", available_surrogates)
 def test_all_points_different(strategy, surrogate):
-    """
-    Tests whether the parallel optimizer always generates
-    different points to evaluate.
+    """Tests whether the parallel optimizer always generates different points to
+    evaluate.
 
     Parameters
     ----------
@@ -90,11 +85,11 @@ def test_all_points_different(strategy, surrogate):
         base_estimator=surrogate(),
         dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)],
         acq_optimizer='sampling',
-        random_state=1
+        random_state=1,
     )
 
     tolerance = 1e-3  # distance above which points are assumed same
-    for i in range(n_steps):
+    for _ in range(n_steps):
         x = optimizer.ask(n_points, strategy)
         optimizer.tell(x, [branin(v) for v in x])
         distances = pdist(x)
@@ -104,9 +99,8 @@ def test_all_points_different(strategy, surrogate):
 @pytest.mark.parametrize("strategy", supported_strategies)
 @pytest.mark.parametrize("surrogate", available_surrogates)
 def test_same_set_of_points_ask(strategy, surrogate):
-    """
-    For n_points not None, tests whether two consecutive calls to ask
-    return the same sets of points.
+    """For n_points not None, tests whether two consecutive calls to ask return the same
+    sets of points.
 
     Parameters
     ----------
@@ -121,10 +115,10 @@ def test_same_set_of_points_ask(strategy, surrogate):
         base_estimator=surrogate(),
         dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)],
         acq_optimizer='sampling',
-        random_state=2
+        random_state=2,
     )
 
-    for i in range(n_steps):
+    for _ in range(n_steps):
         xa = optimizer.ask(n_points, strategy)
         xb = optimizer.ask(n_points, strategy)
         optimizer.tell(xa, [branin(v) for v in xa])
@@ -140,11 +134,11 @@ def test_reproducible_runs(strategy, surrogate):
         base_estimator=surrogate(random_state=1),
         dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)],
         acq_optimizer='sampling',
-        random_state=1
+        random_state=1,
     )
 
     points = []
-    for i in range(n_steps):
+    for _ in range(n_steps):
         x = optimizer.ask(n_points, strategy)
         points.append(x)
         optimizer.tell(x, [branin(v) for v in x])
@@ -154,7 +148,7 @@ def test_reproducible_runs(strategy, surrogate):
         base_estimator=surrogate(random_state=1),
         dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)],
         acq_optimizer='sampling',
-        random_state=1
+        random_state=1,
     )
     for i in range(n_steps):
         x = optimizer.ask(n_points, strategy)

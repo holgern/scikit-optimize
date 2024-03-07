@@ -1,24 +1,24 @@
-# -*- coding: utf-8 -*-
 """A Sphinx extension for linking to your project's issue tracker.
 
 Copyright 2014 Steven Loria
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions: The above copyright notice and this permission
+notice shall be included in all copies or substantial portions of the
+Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+
 import re
 
 from docutils import nodes, utils
@@ -30,7 +30,9 @@ __license__ = "MIT"
 
 
 def user_role(name, rawtext, text, lineno, inliner, options=None, content=None):
-    """Sphinx role for linking to a user profile. Defaults to linking to
+    """Sphinx role for linking to a user profile.
+
+    Defaults to linking to
     Github profiles, but the profile URIS can be configured via the
     ``issues_user_uri`` config value.
     Examples: ::
@@ -48,11 +50,11 @@ def user_role(name, rawtext, text, lineno, inliner, options=None, content=None):
     if config.issues_user_uri:
         ref = config.issues_user_uri.format(user=target)
     else:
-        ref = "https://github.com/{0}".format(target)
+        ref = f"https://github.com/{target}"
     if has_explicit_title:
         text = title
     else:
-        text = "@{0}".format(target)
+        text = f"@{target}"
 
     link = nodes.reference(text=text, refuri=ref, **options)
     return [link], []
@@ -69,13 +71,13 @@ def cve_role(name, rawtext, text, lineno, inliner, options=None, content=None):
 
     target = utils.unescape(target).strip()
     title = utils.unescape(title).strip()
-    ref = "https://cve.mitre.org/cgi-bin/cvename.cgi?name={0}".format(target)
+    ref = f"https://cve.mitre.org/cgi-bin/cvename.cgi?name={target}"
     text = title if has_explicit_title else target
     link = nodes.reference(text=text, refuri=ref, **options)
     return [link], []
 
 
-class IssueRole(object):
+class IssueRole:
 
     EXTERNAL_REPO_REGEX = re.compile(r"^(\w+)/(.+)([#@])([\w]+)$")
 
@@ -89,7 +91,7 @@ class IssueRole(object):
 
     @staticmethod
     def default_format_text(issue_no):
-        return "#{0}".format(issue_no)
+        return f"#{issue_no}"
 
     def make_node(self, name, issue_no, config, options=None):
         name_map = {"pr": "pull", "issue": "issues", "commit": "commit"}
@@ -98,15 +100,13 @@ class IssueRole(object):
         if repo_match:  # External repo
             username, repo, symbol, issue = repo_match.groups()
             if name not in name_map:
-                raise ValueError(
-                    "External repo linking not supported for :{}:".format(name)
-                )
+                raise ValueError(f"External repo linking not supported for :{name}:")
             path = name_map.get(name)
             ref = "https://github.com/{issues_github_path}/{path}/{n}".format(
-                issues_github_path="{}/{}".format(username, repo), path=path, n=issue
+                issues_github_path=f"{username}/{repo}", path=path, n=issue
             )
             formatted_issue = self.format_text(issue).lstrip("#")
-            text = "{username}/{repo}{symbol}{formatted_issue}".format(**locals())
+            text = f"{username}/{repo}{symbol}{formatted_issue}"
             link = nodes.reference(text=text, refuri=ref, **options)
             return link
 

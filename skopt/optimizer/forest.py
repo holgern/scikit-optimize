@@ -1,18 +1,28 @@
 """Forest based minimization algorithms."""
 
-from sklearn.utils import check_random_state
-
 from .base import base_minimize
-from ..utils import cook_estimator
 
 
-
-def forest_minimize(func, dimensions, base_estimator="ET", n_calls=100,
-                    n_random_starts=None, n_initial_points=10, acq_func="EI",
-                    initial_point_generator="random",
-                    x0=None, y0=None, random_state=None, verbose=False,
-                    callback=None, n_points=10000, xi=0.01, kappa=1.96,
-                    n_jobs=1, model_queue_size=None):
+def forest_minimize(
+    func,
+    dimensions,
+    base_estimator="ET",
+    n_calls=100,
+    n_random_starts=None,
+    n_initial_points=10,
+    acq_func="EI",
+    initial_point_generator="random",
+    x0=None,
+    y0=None,
+    random_state=None,
+    verbose=False,
+    callback=None,
+    n_points=10000,
+    xi=0.01,
+    kappa=1.96,
+    n_jobs=1,
+    model_queue_size=None,
+):
     """Sequential optimisation using decision trees.
 
     A tree based regression model is used to model the expensive to evaluate
@@ -37,7 +47,7 @@ def forest_minimize(func, dimensions, base_estimator="ET", n_calls=100,
     func : callable
         Function to minimize. Should take a single list of parameters
         and return the objective value.
-    
+
         If you have a search-space where all dimensions have names,
         then you can use :func:`skopt.utils.use_named_args` as a decorator
         on your objective function, in order to call it directly
@@ -183,14 +193,24 @@ def forest_minimize(func, dimensions, base_estimator="ET", n_calls=100,
     .. seealso:: functions :class:`skopt.gp_minimize`,
         :class:`skopt.dummy_minimize`, :class:`skopt.gbrt_minimize`
     """
-    return base_minimize(func, dimensions, base_estimator,
-                         n_calls=n_calls, n_points=n_points,
-                         n_random_starts=n_random_starts,
-                         n_initial_points=n_initial_points,
-                         initial_point_generator=initial_point_generator,
-                         x0=x0, y0=y0, random_state=random_state,
-                         n_jobs=n_jobs,
-                         acq_func=acq_func,
-                         xi=xi, kappa=kappa, verbose=verbose,
-                         callback=callback, acq_optimizer="sampling",
-                         model_queue_size=model_queue_size)
+    return base_minimize(
+        func,
+        dimensions,
+        base_estimator,
+        n_calls=n_calls,
+        n_points=n_points,
+        n_random_starts=n_random_starts,
+        n_initial_points=n_initial_points,
+        initial_point_generator=initial_point_generator,
+        x0=x0,
+        y0=y0,
+        random_state=random_state,
+        n_jobs=n_jobs,
+        acq_func=acq_func,
+        xi=xi,
+        kappa=kappa,
+        verbose=verbose,
+        callback=callback,
+        acq_optimizer="sampling",
+        model_queue_size=model_queue_size,
+    )

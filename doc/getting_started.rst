@@ -17,7 +17,7 @@ optimization algorithms look at
 ``scipy.optimize``
 `here <http://docs.scipy.org/doc/scipy/reference/optimize.html>`_.
 
-.. figure:: https://rawgit.com/scikit-optimize/scikit-optimize/master/media/bo-objective.png
+.. figure:: https://rawgit.com/holgern/scikit-optimize/main/media/bo-objective.png
    :alt: Approximated objective
 
 Approximated objective function after 50 iterations of :class:`gp_minimize`.
@@ -55,4 +55,3 @@ class::
 
 For more read our :ref:`sphx_glr_auto_examples_bayesian-optimization.py` and the other
 `examples <auto_examples/index.html>`_.
-

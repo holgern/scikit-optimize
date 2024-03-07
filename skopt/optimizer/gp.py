@@ -1,22 +1,35 @@
 """Gaussian process-based minimization algorithms."""
 
 import numpy as np
-
 from sklearn.utils import check_random_state
 
+from ..utils import cook_estimator, normalize_dimensions
 from .base import base_minimize
-from ..utils import cook_estimator
-from ..utils import normalize_dimensions
 
 
-def gp_minimize(func, dimensions, base_estimator=None,
-                n_calls=100, n_random_starts=None,
-                n_initial_points=10,
-                initial_point_generator="random",
-                acq_func="gp_hedge", acq_optimizer="auto", x0=None, y0=None,
-                random_state=None, verbose=False, callback=None,
-                n_points=10000, n_restarts_optimizer=5, xi=0.01, kappa=1.96,
-                noise="gaussian", n_jobs=1, model_queue_size=None):
+def gp_minimize(
+    func,
+    dimensions,
+    base_estimator=None,
+    n_calls=100,
+    n_random_starts=None,
+    n_initial_points=10,
+    initial_point_generator="random",
+    acq_func="gp_hedge",
+    acq_optimizer="auto",
+    x0=None,
+    y0=None,
+    random_state=None,
+    verbose=False,
+    callback=None,
+    n_points=10000,
+    n_restarts_optimizer=5,
+    xi=0.01,
+    kappa=1.96,
+    noise="gaussian",
+    n_jobs=1,
+    model_queue_size=None,
+):
     """Bayesian optimization using Gaussian Processes.
 
     If every function evaluation is expensive, for instance
@@ -49,7 +62,7 @@ def gp_minimize(func, dimensions, base_estimator=None,
     func : callable
         Function to minimize. Should take a single list of parameters
         and return the objective value.
-    
+
         If you have a search-space where all dimensions have names,
         then you can use :func:`skopt.utils.use_named_args` as a decorator
         on your objective function, in order to call it directly
@@ -245,7 +258,6 @@ def gp_minimize(func, dimensions, base_estimator=None,
 
     .. seealso:: functions :class:`skopt.forest_minimize`,
         :class:`skopt.dummy_minimize`, :class:`skopt.gbrt_minimize`
-
     """
     # Check params
     rng = check_random_state(random_state)
@@ -253,16 +265,31 @@ def gp_minimize(func, dimensions, base_estimator=None,
 
     if base_estimator is None:
         base_estimator = cook_estimator(
-            "GP", space=space, random_state=rng.randint(0, np.iinfo(np.int32).max),
-            noise=noise)
+            "GP",
+            space=space,
+            random_state=rng.randint(0, np.iinfo(np.int32).max),
+            noise=noise,
+        )
 
     return base_minimize(
-        func, space, base_estimator=base_estimator,
+        func,
+        space,
+        base_estimator=base_estimator,
         acq_func=acq_func,
-        xi=xi, kappa=kappa, acq_optimizer=acq_optimizer, n_calls=n_calls,
-        n_points=n_points, n_random_starts=n_random_starts,
+        xi=xi,
+        kappa=kappa,
+        acq_optimizer=acq_optimizer,
+        n_calls=n_calls,
+        n_points=n_points,
+        n_random_starts=n_random_starts,
         n_initial_points=n_initial_points,
         initial_point_generator=initial_point_generator,
         n_restarts_optimizer=n_restarts_optimizer,
-        x0=x0, y0=y0, random_state=rng, verbose=verbose,
-        callback=callback, n_jobs=n_jobs, model_queue_size=model_queue_size)
+        x0=x0,
+        y0=y0,
+        random_state=rng,
+        verbose=verbose,
+        callback=callback,
+        n_jobs=n_jobs,
+        model_queue_size=model_queue_size,
+    )

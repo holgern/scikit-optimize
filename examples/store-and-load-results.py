@@ -26,11 +26,11 @@ Conversely, _deserialization_ means loading an object from a byte stream.
 code. Never load serialized data from untrusted or unauthenticated sources!
 
 """
+
 print(__doc__)
 import numpy as np
-import os
-import sys
 
+from skopt import gp_minimize
 
 #############################################################################
 # Simple example
@@ -39,21 +39,23 @@ import sys
 # We will use the same optimization problem as in the
 # :ref:`sphx_glr_auto_examples_bayesian-optimization.py` notebook:
 
-from skopt import gp_minimize
+
 noise_level = 0.1
 
 
 def obj_fun(x, noise_level=noise_level):
-    return np.sin(5 * x[0]) * (1 - np.tanh(x[0] ** 2)) + np.random.randn() \
-        * noise_level
+    return np.sin(5 * x[0]) * (1 - np.tanh(x[0] ** 2)) + np.random.randn() * noise_level
 
-res = gp_minimize(obj_fun,            # the function to minimize
-                  [(-2.0, 2.0)],      # the bounds on each dimension of x
-                  x0=[0.],            # the starting point
-                  acq_func="LCB",     # the acquisition function (optional)
-                  n_calls=15,         # the number of evaluations of f including at x0
-                  n_random_starts=3,  # the number of random initial points
-                  random_state=777)
+
+res = gp_minimize(
+    obj_fun,  # the function to minimize
+    [(-2.0, 2.0)],  # the bounds on each dimension of x
+    x0=[0.0],  # the starting point
+    acq_func="LCB",  # the acquisition function (optional)
+    n_calls=15,  # the number of evaluations of f including at x0
+    n_random_starts=3,  # the number of random initial points
+    random_state=777,
+)
 
 #############################################################################
 # As long as your Python session is active, you can access all the
@@ -97,6 +99,7 @@ res_loaded.fun
 dump(res, 'result.gz', compress=9)
 
 from os.path import getsize
+
 print('Without compression: {} bytes'.format(getsize('result.pkl')))
 print('Compressed with gz:  {} bytes'.format(getsize('result.gz')))
 

@@ -8,6 +8,7 @@ Release notes for all scikit-optimize releases are linked in this this page.
 .. toctree::
     :maxdepth: 1
 
+    Version 1.0 <whats_new/v1.0.rst>
     Version 0.9 <whats_new/v0.9.rst>
     Version 0.8 <whats_new/v0.8.rst>
     Version 0.7 <whats_new/v0.7.rst>

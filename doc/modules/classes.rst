@@ -304,5 +304,3 @@ details.
     space.transformers.Transformer
     space.transformers.LabelEncoder
     space.transformers.StringEncoder
-
-

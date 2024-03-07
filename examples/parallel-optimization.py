@@ -37,7 +37,6 @@ interface is as follows:
 """
 
 print(__doc__)
-import numpy as np
 
 #############################################################################
 # Example
@@ -46,16 +45,16 @@ import numpy as np
 # A minimalistic example that uses joblib to parallelize evaluation of the
 # objective function is given below.
 
-from skopt import Optimizer
-from skopt.space import Real
 from joblib import Parallel, delayed
+
+from skopt import Optimizer
+
 # example objective taken from skopt
 from skopt.benchmarks import branin
+from skopt.space import Real
 
 optimizer = Optimizer(
-    dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)],
-    random_state=1,
-    base_estimator='gp'
+    dimensions=[Real(-5.0, 10.0), Real(0.0, 15.0)], random_state=1, base_estimator='gp'
 )
 
 for i in range(10):

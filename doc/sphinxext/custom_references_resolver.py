@@ -1,5 +1,4 @@
-"""Adapted from
-sphinx.transforms.post_transforms.ReferencesResolver.resolve_anyref
+"""Adapted from sphinx.transforms.post_transforms.ReferencesResolver.resolve_anyref.
 
 If 'py' is one of the domains and `py:class` is defined,
 the Python domain will be processed before the 'std' domain.
@@ -33,6 +32,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
+
 from contextlib import suppress
 
 from docutils import nodes
@@ -50,18 +50,21 @@ class CustomReferencesResolver(ReferencesResolver):
             with suppress(KeyError):
                 py_domain = self.env.domains['py']
                 py_ref = py_domain.resolve_any_xref(
-                    self.env, refdoc, self.app.builder, target, node, contnode)
+                    self.env, refdoc, self.app.builder, target, node, contnode
+                )
                 if py_ref:
                     return self.create_node(py_ref[0])
 
         # resolve :term:
-        term_ref = stddomain.resolve_xref(self.env, refdoc, self.app.builder,
-                                          'term', target, node, contnode)
+        term_ref = stddomain.resolve_xref(
+            self.env, refdoc, self.app.builder, 'term', target, node, contnode
+        )
         if term_ref:
             # replace literal nodes with inline nodes
             if not isinstance(term_ref[0], nodes.inline):
-                inline_node = nodes.inline(rawsource=term_ref[0].rawsource,
-                                           classes=term_ref[0].get('classes'))
+                inline_node = nodes.inline(
+                    rawsource=term_ref[0].rawsource, classes=term_ref[0].get('classes')
+                )
                 if term_ref[0]:
                     inline_node.append(term_ref[0][0])
                 term_ref[0] = inline_node
@@ -69,25 +72,27 @@ class CustomReferencesResolver(ReferencesResolver):
 
         # next, do the standard domain
         std_ref = stddomain.resolve_any_xref(
-            self.env, refdoc, self.app.builder, target, node, contnode)
+            self.env, refdoc, self.app.builder, target, node, contnode
+        )
         if std_ref:
             return self.create_node(std_ref[0])
 
         for domain in self.env.domains.values():
             try:
                 ref = domain.resolve_any_xref(
-                    self.env, refdoc, self.app.builder, target, node, contnode)
+                    self.env, refdoc, self.app.builder, target, node, contnode
+                )
                 if ref:
                     return self.create_node(ref[0])
             except NotImplementedError:
                 # the domain doesn't yet support the new interface
                 # we have to manually collect possible references (SLOW)
                 for role in domain.roles:
-                    res = domain.resolve_xref(self.env, refdoc,
-                                              self.app.builder, role, target,
-                                              node, contnode)
+                    res = domain.resolve_xref(
+                        self.env, refdoc, self.app.builder, role, target, node, contnode
+                    )
                     if res and isinstance(res[0], nodes.Element):
-                        result = ('%s:%s' % (domain.name, role), res)
+                        result = (f'{domain.name}:{role}', res)
                         return self.create_node(result)
 
         # no results considered to be <code>
@@ -99,16 +104,20 @@ class CustomReferencesResolver(ReferencesResolver):
         # Override "any" class with the actual role type to get the styling
         # approximately correct.
         res_domain = res_role.split(':')[0]
-        if (len(newnode) > 0 and isinstance(newnode[0], nodes.Element)
-                and newnode[0].get('classes')):
+        if (
+            len(newnode) > 0
+            and isinstance(newnode[0], nodes.Element)
+            and newnode[0].get('classes')
+        ):
             newnode[0]['classes'].append(res_domain)
             newnode[0]['classes'].append(res_role.replace(':', '-'))
         return newnode
 
 
 def setup(app):
-    if (hasattr(app.registry, "get_post_transforms")
-            and callable(app.registry.get_post_transforms)):
+    if hasattr(app.registry, "get_post_transforms") and callable(
+        app.registry.get_post_transforms
+    ):
         post_transforms = app.registry.get_post_transforms()
     else:
         # Support sphinx 1.6.*

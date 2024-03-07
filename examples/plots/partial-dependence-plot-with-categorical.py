@@ -11,31 +11,34 @@ Holger Nahrstaedt 2020
 Plot objective now supports optional use of partial dependence as well as
 different methods of defining parameter values for dependency plots.
 """
+
 print(__doc__)
-import sys
-from skopt.plots import plot_objective
-from skopt import forest_minimize
 import numpy as np
+
+from skopt.plots import plot_objective
+
 np.random.seed(123)
-import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import load_breast_cancer
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import cross_val_score
-from skopt.space import Integer, Categorical
-from skopt import plots, gp_minimize
+from sklearn.tree import DecisionTreeClassifier
+
+from skopt import gp_minimize
 from skopt.plots import plot_objective
+from skopt.space import Categorical, Integer
 
 #############################################################################
 # objective function
 # ==================
 # Here we define a function that we evaluate.
 
+
 def objective(params):
     clf = DecisionTreeClassifier(
-        **{dim.name: val for dim, val in
-           zip(SPACE, params) if dim.name != 'dummy'})
+        **{dim.name: val for dim, val in zip(SPACE, params) if dim.name != 'dummy'}
+    )
     return -np.mean(cross_val_score(clf, *load_breast_cancer(return_X_y=True)))
+
 
 #############################################################################
 # Bayesian optimization
@@ -72,7 +75,7 @@ _ = plot_objective(result, n_points=10)
 # which is the parameter set of the best observed value so far. In the case
 # of funny_func this is close to 0 for all parameters.
 
-_ = plot_objective(result,  sample_source='result', n_points=10)
+_ = plot_objective(result, sample_source='result', n_points=10)
 
 #############################################################################
 # Modify the shown minimum
@@ -84,8 +87,13 @@ _ = plot_objective(result,  sample_source='result', n_points=10)
 # using random sampling. `n_minimum_search` sets the number of random samples,
 # which is used to find the minimum
 
-_ = plot_objective(result, n_points=10, sample_source='expected_minimum_random',
-                   minimum='expected_minimum_random', n_minimum_search=10000)
+_ = plot_objective(
+    result,
+    n_points=10,
+    sample_source='expected_minimum_random',
+    minimum='expected_minimum_random',
+    n_minimum_search=10000,
+)
 
 #############################################################################
 # Set a minimum location
@@ -93,5 +101,9 @@ _ = plot_objective(result, n_points=10, sample_source='expected_minimum_random',
 # Lastly we can also define these parameters ourselfs by
 # parsing a list as the pars argument:
 
-_ = plot_objective(result, n_points=10, sample_source=[15, 4, 7, 15, 'b', 'entropy', 'e'],
-                   minimum=[15, 4, 7, 15, 'b', 'entropy', 'e'])
+_ = plot_objective(
+    result,
+    n_points=10,
+    sample_source=[15, 4, 7, 15, 'b', 'entropy', 'e'],
+    minimum=[15, 4, 7, 15, 'b', 'entropy', 'e'],
+)

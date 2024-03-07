@@ -10,7 +10,7 @@ scikit-optimize requires:
 * NumPy (>= 1.13.3)
 * SciPy (>= 0.19.1)
 * joblib (>= 0.11)
-* scikit-learn >= 0.20
+* scikit-learn >= 1.0.0
 * matplotlib >= 2.0.0
 
 The newest release can be installed via pip:
@@ -29,7 +29,7 @@ The newest development version of scikit-optimize can be installed by:
 
 .. code-block:: bash
 
-    $ pip install git+https://github.com/scikit-optimize/scikit-optimize.git
+    $ pip install git+https://github.com/holgern/scikit-optimize.git
 
 Development version
 ~~~~~~~~~~~~~~~~~~~
@@ -39,7 +39,7 @@ The development version can be installed through:
 
 .. code-block:: bash
 
-    git clone https://github.com/scikit-optimize/scikit-optimize.git
+    git clone https://github.com/holgern/scikit-optimize.git
     cd scikit-optimize
     pip install -r requirements.txt
     python setup.py develop

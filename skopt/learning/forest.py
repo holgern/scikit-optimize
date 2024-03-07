@@ -1,11 +1,10 @@
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor as _sk_RandomForestRegressor
 from sklearn.ensemble import ExtraTreesRegressor as _sk_ExtraTreesRegressor
+from sklearn.ensemble import RandomForestRegressor as _sk_RandomForestRegressor
 
 
 def _return_std(X, trees, predictions, min_variance):
-    """
-    Returns `std(Y | X)`.
+    """Returns `std(Y | X)`.
 
     Can be calculated by E[Var(Y | Tree)] + Var(E[Y | Tree]) where
     P(Tree) is `1 / len(trees)`.
@@ -27,8 +26,7 @@ def _return_std(X, trees, predictions, min_variance):
     -------
     std : array-like, shape=(n_samples,)
         Standard deviation of `y` at `X`. If criterion
-        is set to "mse", then `std[i] ~= std(y | X[i])`.
-
+        is set to "squared_error", then `std[i] ~= std(y | X[i])`.
     """
     # This derives std(y | x) as described in 4.3.2 of arXiv:1211.0906
     std = np.zeros(len(X))
@@ -43,27 +41,26 @@ def _return_std(X, trees, predictions, min_variance):
         # is zero variance.
         var_tree[var_tree < min_variance] = min_variance
         mean_tree = tree.predict(X)
-        std += var_tree + mean_tree ** 2
+        std += var_tree + mean_tree**2
 
     std /= len(trees)
-    std -= predictions ** 2.0
+    std -= predictions**2.0
     std[std < 0.0] = 0.0
-    std = std ** 0.5
+    std = std**0.5
     return std
 
 
 class RandomForestRegressor(_sk_RandomForestRegressor):
-    """
-    RandomForestRegressor that supports conditional std computation.
+    """RandomForestRegressor that supports conditional std computation.
 
     Parameters
     ----------
     n_estimators : integer, optional (default=10)
         The number of trees in the forest.
 
-    criterion : string, optional (default="mse")
+    criterion : string, optional (default="squared_error")
         The function to measure the quality of a split. Supported criteria
-        are "mse" for the mean squared error, which is equal to variance
+        are "squared_error" for the mean squared error, which is equal to variance
         reduction as feature selection criterion, and "mae" for the mean
         absolute error.
 
@@ -192,27 +189,45 @@ class RandomForestRegressor(_sk_RandomForestRegressor):
     References
     ----------
     .. [1] L. Breiman, "Random Forests", Machine Learning, 45(1), 5-32, 2001.
-
     """
-    def __init__(self, n_estimators=10, criterion='mse', max_depth=None,
-                 min_samples_split=2, min_samples_leaf=1,
-                 min_weight_fraction_leaf=0.0, max_features='auto',
-                 max_leaf_nodes=None, min_impurity_decrease=0.,
-                 bootstrap=True, oob_score=False,
-                 n_jobs=1, random_state=None, verbose=0, warm_start=False,
-                 min_variance=0.0):
+
+    def __init__(
+        self,
+        n_estimators=10,
+        criterion='squared_error',
+        max_depth=None,
+        min_samples_split=2,
+        min_samples_leaf=1,
+        min_weight_fraction_leaf=0.0,
+        max_features='sqrt',
+        max_leaf_nodes=None,
+        min_impurity_decrease=0.0,
+        bootstrap=True,
+        oob_score=False,
+        n_jobs=1,
+        random_state=None,
+        verbose=0,
+        warm_start=False,
+        min_variance=0.0,
+    ):
         self.min_variance = min_variance
-        super(RandomForestRegressor, self).__init__(
-            n_estimators=n_estimators, criterion=criterion,
+        super().__init__(
+            n_estimators=n_estimators,
+            criterion=criterion,
             max_depth=max_depth,
             min_samples_split=min_samples_split,
             min_samples_leaf=min_samples_leaf,
             min_weight_fraction_leaf=min_weight_fraction_leaf,
-            max_features=max_features, max_leaf_nodes=max_leaf_nodes,
+            max_features=max_features,
+            max_leaf_nodes=max_leaf_nodes,
             min_impurity_decrease=min_impurity_decrease,
-            bootstrap=bootstrap, oob_score=oob_score,
-            n_jobs=n_jobs, random_state=random_state,
-            verbose=verbose, warm_start=warm_start)
+            bootstrap=bootstrap,
+            oob_score=oob_score,
+            n_jobs=n_jobs,
+            random_state=random_state,
+            verbose=verbose,
+            warm_start=warm_start,
+        )
 
     def predict(self, X, return_std=False):
         """Predict continuous output for X.
@@ -228,38 +243,37 @@ class RandomForestRegressor(_sk_RandomForestRegressor):
         Returns
         -------
         predictions : array-like of shape = (n_samples,)
-            Predicted values for X. If criterion is set to "mse",
+            Predicted values for X. If criterion is set to "squared_error",
             then `predictions[i] ~= mean(y | X[i])`.
 
         std : array-like of shape=(n_samples,)
             Standard deviation of `y` at `X`. If criterion
-            is set to "mse", then `std[i] ~= std(y | X[i])`.
-
+            is set to "squared_error", then `std[i] ~= std(y | X[i])`.
         """
-        mean = super(RandomForestRegressor, self).predict(X)
+        mean = super().predict(X)
 
         if return_std:
-            if self.criterion != "mse":
+            if self.criterion != "squared_error":
                 raise ValueError(
-                    "Expected impurity to be 'mse', got %s instead"
-                    % self.criterion)
+                    "Expected impurity to be 'squared_error', got %s instead"
+                    % self.criterion
+                )
             std = _return_std(X, self.estimators_, mean, self.min_variance)
             return mean, std
         return mean
 
 
 class ExtraTreesRegressor(_sk_ExtraTreesRegressor):
-    """
-    ExtraTreesRegressor that supports conditional standard deviation.
+    """ExtraTreesRegressor that supports conditional standard deviation.
 
     Parameters
     ----------
     n_estimators : integer, optional (default=10)
         The number of trees in the forest.
 
-    criterion : string, optional (default="mse")
+    criterion : string, optional (default="squared_error")
         The function to measure the quality of a split. Supported criteria
-        are "mse" for the mean squared error, which is equal to variance
+        are "squared_error" for the mean squared error, which is equal to variance
         reduction as feature selection criterion, and "mae" for the mean
         absolute error.
 
@@ -270,7 +284,6 @@ class ExtraTreesRegressor(_sk_ExtraTreesRegressor):
         - If float, then `max_features` is a percentage and
           `int(max_features * n_features)` features are considered at each
           split.
-        - If "auto", then `max_features=n_features`.
         - If "sqrt", then `max_features=sqrt(n_features)`.
         - If "log2", then `max_features=log2(n_features)`.
         - If None, then `max_features=n_features`.
@@ -388,31 +401,48 @@ class ExtraTreesRegressor(_sk_ExtraTreesRegressor):
     References
     ----------
     .. [1] L. Breiman, "Random Forests", Machine Learning, 45(1), 5-32, 2001.
-
     """
-    def __init__(self, n_estimators=10, criterion='mse', max_depth=None,
-                 min_samples_split=2, min_samples_leaf=1,
-                 min_weight_fraction_leaf=0.0, max_features='auto',
-                 max_leaf_nodes=None, min_impurity_decrease=0.,
-                 bootstrap=False, oob_score=False,
-                 n_jobs=1, random_state=None, verbose=0, warm_start=False,
-                 min_variance=0.0):
+
+    def __init__(
+        self,
+        n_estimators=10,
+        criterion='squared_error',
+        max_depth=None,
+        min_samples_split=2,
+        min_samples_leaf=1,
+        min_weight_fraction_leaf=0.0,
+        max_features='sqrt',
+        max_leaf_nodes=None,
+        min_impurity_decrease=0.0,
+        bootstrap=False,
+        oob_score=False,
+        n_jobs=1,
+        random_state=None,
+        verbose=0,
+        warm_start=False,
+        min_variance=0.0,
+    ):
         self.min_variance = min_variance
-        super(ExtraTreesRegressor, self).__init__(
-            n_estimators=n_estimators, criterion=criterion,
+        super().__init__(
+            n_estimators=n_estimators,
+            criterion=criterion,
             max_depth=max_depth,
             min_samples_split=min_samples_split,
             min_samples_leaf=min_samples_leaf,
             min_weight_fraction_leaf=min_weight_fraction_leaf,
-            max_features=max_features, max_leaf_nodes=max_leaf_nodes,
+            max_features=max_features,
+            max_leaf_nodes=max_leaf_nodes,
             min_impurity_decrease=min_impurity_decrease,
-            bootstrap=bootstrap, oob_score=oob_score,
-            n_jobs=n_jobs, random_state=random_state,
-            verbose=verbose, warm_start=warm_start)
+            bootstrap=bootstrap,
+            oob_score=oob_score,
+            n_jobs=n_jobs,
+            random_state=random_state,
+            verbose=verbose,
+            warm_start=warm_start,
+        )
 
     def predict(self, X, return_std=False):
-        """
-        Predict continuous output for X.
+        """Predict continuous output for X.
 
         Parameters
         ----------
@@ -425,20 +455,21 @@ class ExtraTreesRegressor(_sk_ExtraTreesRegressor):
         Returns
         -------
         predictions : array-like of shape=(n_samples,)
-            Predicted values for X. If criterion is set to "mse",
+            Predicted values for X. If criterion is set to "squared_error",
             then `predictions[i] ~= mean(y | X[i])`.
 
         std : array-like of shape=(n_samples,)
             Standard deviation of `y` at `X`. If criterion
-            is set to "mse", then `std[i] ~= std(y | X[i])`.
+            is set to "squared_error", then `std[i] ~= std(y | X[i])`.
         """
-        mean = super(ExtraTreesRegressor, self).predict(X)
+        mean = super().predict(X)
 
         if return_std:
-            if self.criterion != "mse":
+            if self.criterion != "squared_error":
                 raise ValueError(
-                    "Expected impurity to be 'mse', got %s instead"
-                    % self.criterion)
+                    "Expected impurity to be 'squared_error', got %s instead"
+                    % self.criterion
+                )
             std = _return_std(X, self.estimators_, mean, self.min_variance)
             return mean, std
 

@@ -3,10 +3,12 @@ Lhs functions are inspired by
 https://github.com/clicumu/pyDOE2/blob/
 master/pyDOE2/doe_lhs.py
 """
+
 import numpy as np
-from sklearn.utils import check_random_state
 from scipy import spatial
-from ..space import Space, Categorical
+from sklearn.utils import check_random_state
+
+from ..space import Space
 from .base import InitialPointGenerator
 
 
@@ -21,7 +23,7 @@ def _random_permute_matrix(h, random_state=None):
 
 
 class Lhs(InitialPointGenerator):
-    """Latin hypercube sampling
+    """Latin hypercube sampling.
 
     Parameters
     ----------
@@ -40,8 +42,8 @@ class Lhs(InitialPointGenerator):
     iterations : int
         Defines the number of iterations for optimizing LHS
     """
-    def __init__(self, lhs_type="classic", criterion="maximin",
-                 iterations=1000):
+
+    def __init__(self, lhs_type="classic", criterion="maximin", iterations=1000):
         self.lhs_type = lhs_type
         self.criterion = criterion
         self.iterations = iterations
@@ -89,19 +91,21 @@ class Lhs(InitialPointGenerator):
             h_opt = space.inverse_transform(h_opt)
             if self.criterion == "correlation":
                 mincorr = np.inf
-                for i in range(self.iterations):
+                for _ in range(self.iterations):
                     # Generate a random LHS
                     h = self._lhs_normalized(n_dim, n_samples, rng)
                     r = np.corrcoef(np.array(h).T)
-                    if len(np.abs(r[r != 1])) > 0 and \
-                            np.max(np.abs(r[r != 1])) < mincorr:
+                    if (
+                        len(np.abs(r[r != 1])) > 0
+                        and np.max(np.abs(r[r != 1])) < mincorr
+                    ):
                         mincorr = np.max(np.abs(r - np.eye(r.shape[0])))
                         h_opt = h.copy()
                         h_opt = space.inverse_transform(h_opt)
             elif self.criterion == "maximin":
                 maxdist = 0
                 # Maximize the minimum distance between points
-                for i in range(self.iterations):
+                for _ in range(self.iterations):
                     h = self._lhs_normalized(n_dim, n_samples, rng)
                     d = spatial.distance.pdist(np.array(h), 'euclidean')
                     if maxdist < np.min(d):
@@ -112,7 +116,7 @@ class Lhs(InitialPointGenerator):
                 minratio = np.inf
 
                 # Maximize the minimum distance between points
-                for i in range(self.iterations):
+                for _ in range(self.iterations):
                     h = self._lhs_normalized(n_dim, n_samples, rng)
                     p = spatial.distance.pdist(np.array(h), 'euclidean')
                     if np.min(p) == 0:
@@ -124,8 +128,7 @@ class Lhs(InitialPointGenerator):
                         h_opt = h.copy()
                         h_opt = space.inverse_transform(h_opt)
             else:
-                raise ValueError("Wrong criterion."
-                                 "Got {}".format(self.criterion))
+                raise ValueError("Wrong criterion." "Got {}".format(self.criterion))
             space.set_transformer(transformer)
             return h_opt
 
@@ -141,5 +144,5 @@ class Lhs(InitialPointGenerator):
             for j in range(n_dim):
                 h[:, j] = u[:, j] * np.diff(x) + x[:n_samples]
         else:
-            raise ValueError("Wrong lhs_type. Got ".format(self.lhs_type))
+            raise ValueError(f"Wrong lhs_type. Got {self.lhs_type}")
         return _random_permute_matrix(h, random_state=rng)

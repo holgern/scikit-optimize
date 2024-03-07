@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -8,6 +7,12 @@
 
 # -- Path setup --------------------------------------------------------------
 
+import os
+import re
+
+# import pkg_resources
+import sys
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -16,17 +21,14 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 import warnings
-import os
-import re
+
 from packaging.version import parse
-# import pkg_resources
-import sys
+
 import skopt
 
 sys.path.insert(0, os.path.abspath('sphinxext'))
-from github_link import make_linkcode_resolve
 import sphinx_gallery
-
+from github_link import make_linkcode_resolve
 
 #  __version__ = pkg_resources.get_distribution('skopt').version
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -34,7 +36,7 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 # -- Project information -----------------------------------------------------
 
 project = 'scikit-optimize'
-copyright = '2017 - 2020, scikit-optimize contributors (BSD License)'
+copyright = '2017 - 2024, scikit-optimize contributors (BSD License)'
 author = 'The scikit-optimize contributors'
 
 # The short X.Y version
@@ -53,8 +55,10 @@ release = skopt.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 'sphinx.ext.autosummary',
-    'numpydoc', 'sphinx.ext.linkcode',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'numpydoc',
+    'sphinx.ext.linkcode',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.imgconverter',
@@ -76,13 +80,9 @@ if os.environ.get('NO_MATHJAX'):
     mathjax_path = ''
 else:
     extensions.append('sphinx.ext.mathjax')
-    mathjax_path = ('https://cdn.jsdelivr.net/npm/mathjax@3/es5/'
-                    'tex-chtml.js')
+    mathjax_path = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/' 'tex-chtml.js'
 
-autodoc_default_options = {
-    'members': True,
-    'inherited-members': True
-}
+autodoc_default_options = {'members': True, 'inherited-members': True}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['templates']
@@ -120,11 +120,11 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 
-html_theme = 'scikit-learn-modern'
+html_theme = 'sphinx_book_theme'
 
 
-html_theme_options = {'google_analytics': False,
-                      'mathjax_path': mathjax_path}
+# html_theme_options = {'google_analytics': False,
+#                      'mathjax_path': mathjax_path}
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ['themes']
@@ -146,7 +146,8 @@ html_favicon = 'image/favicon.ico'
 # template names.
 html_additional_pages = {
     'index': 'index.html',
-    'documentation': 'documentation.html'}  # redirects to index
+    'documentation': 'documentation.html',
+}  # redirects to index
 
 # If false, no module index is generated.
 html_domain_indices = False
@@ -185,15 +186,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -207,8 +205,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'scikit-optimize.tex', 'scikit-optimize Documentation',
-     'The scikit-optimize Contributors.', 'manual'),
+    (
+        master_doc,
+        'scikit-optimize.tex',
+        'scikit-optimize Documentation',
+        'The scikit-optimize Contributors.',
+        'manual',
+    ),
 ]
 
 
@@ -221,8 +224,9 @@ trim_doctests_flags = True
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, 'scikit-optimize', 'scikit-optimize Documentation',
-              [author], 1)]
+man_pages = [
+    (master_doc, 'scikit-optimize', 'scikit-optimize Documentation', [author], 1)
+]
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -230,15 +234,20 @@ man_pages = [(master_doc, 'scikit-optimize', 'scikit-optimize Documentation',
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'scikit-optimize', 'scikit-optimize Documentation', author,
-     'scikit-optimize',
-     'One line description of project.', 'Miscellaneous'),
+    (
+        master_doc,
+        'scikit-optimize',
+        'scikit-optimize Documentation',
+        author,
+        'scikit-optimize',
+        'One line description of project.',
+        'Miscellaneous',
+    ),
 ]
 
 # intersphinx configuration
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/{.major}'.format(
-        sys.version_info), None),
+    'python': (f'https://docs.python.org/{sys.version_info.major}', None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
     'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
     'matplotlib': ('https://matplotlib.org/', None),
@@ -253,22 +262,24 @@ binder_branch = 'master'
 
 class SubSectionTitleOrder:
     """Sort example gallery by title of subsection.
-    Assumes README.txt exists for all subsections and uses the subsection with
-    dashes, '---', as the adornment.
+
+    Assumes README.txt exists for all subsections and uses the
+    subsection with dashes, '---', as the adornment.
     """
+
     def __init__(self, src_dir):
         self.src_dir = src_dir
         self.regex = re.compile(r"^([\w ]+)\n-", re.MULTILINE)
 
     def __repr__(self):
-        return '<%s>' % (self.__class__.__name__,)
+        return f'<{self.__class__.__name__}>'
 
     def __call__(self, directory):
         src_path = os.path.normpath(os.path.join(self.src_dir, directory))
         readme = os.path.join(src_path, "README.txt")
 
         try:
-            with open(readme, 'r') as f:
+            with open(readme) as f:
                 content = f.read()
         except FileNotFoundError:
             return directory
@@ -283,8 +294,7 @@ sphinx_gallery_conf = {
     'doc_module': 'skopt',
     'backreferences_dir': os.path.join('modules', 'generated'),
     'show_memory': True,
-    'reference_url': {
-        'skopt': None},
+    'reference_url': {'skopt': None},
     'examples_dirs': ['../examples'],
     'gallery_dirs': ['auto_examples'],
     'default_thumb_file': 'image/logo.png',
@@ -292,12 +302,12 @@ sphinx_gallery_conf = {
     'filename_pattern': '',
     'ignore_pattern': 'utils.py',
     'binder': {
-        'org': 'scikit-optimize',
+        'org': 'holgern',
         'repo': 'scikit-optimize',
         'binderhub_url': 'https://mybinder.org',
         'branch': binder_branch,
         'dependencies': './binder/requirements.txt',
-        'use_jupyter_lab': True
+        'use_jupyter_lab': True,
     },
     # avoid generating too many cross links
     'inspect_global_variables': False,
@@ -308,11 +318,13 @@ sphinx_gallery_conf = {
 # thumbnails for the front page of the scikit-learn home page.
 # key: first image in set
 # values: (number of plot in set, height of thumbnail)
-carousel_thumbs = {'sphx_glr_sklearn-gridsearchcv-replacement_001.png': 600,
-                   'sphx_glr_plot_ask-and-tell_002.png': 600,
-                   'sphx_glr_bayesian-optimization_004.png': 600,
-                   'sphx_glr_strategy-comparison_002.png': 600,
-                   'sphx_glr_visualizing-results_008.png': 600}
+carousel_thumbs = {
+    'sphx_glr_sklearn-gridsearchcv-replacement_001.png': 600,
+    'sphx_glr_plot_ask-and-tell_002.png': 600,
+    'sphx_glr_bayesian-optimization_004.png': 600,
+    'sphx_glr_strategy-comparison_002.png': 600,
+    'sphx_glr_visualizing-results_008.png': 600,
+}
 
 
 # enable experimental module so that experimental estimators can be
@@ -320,7 +332,7 @@ carousel_thumbs = {'sphx_glr_sklearn-gridsearchcv-replacement_001.png': 600,
 
 
 def make_carousel_thumbs(app, exception):
-    """produces the final resized carousel images"""
+    """Produces the final resized carousel images."""
     if exception is not None:
         return
     print('Preparing carousel images')
@@ -344,7 +356,7 @@ def filter_search_index(app, exception):
     print('Removing methods from search index')
 
     searchindex_path = os.path.join(app.builder.outdir, 'searchindex.js')
-    with open(searchindex_path, 'r') as f:
+    with open(searchindex_path) as f:
         searchindex_text = f.read()
 
     searchindex_text = re.sub(r'{__init__.+?}', '{}', searchindex_text)
@@ -357,7 +369,7 @@ def filter_search_index(app, exception):
 # Config for sphinx_issues
 
 # we use the issues path for PRs since the issues URL will forward
-issues_github_path = 'scikit-optimize/scikit-optimize'
+issues_github_path = 'holgern/scikit-optimize'
 
 
 def setup(app):
@@ -367,17 +379,23 @@ def setup(app):
 
 
 # The following is used by sphinx.ext.linkcode to provide links to github
-linkcode_resolve = make_linkcode_resolve('skopt',
-                                         'https://github.com/scikit-optimize/'
-                                         'scikit-optimize/blob/{revision}/'
-                                         '{package}/{path}#L{lineno}')
+linkcode_resolve = make_linkcode_resolve(
+    'skopt',
+    'https://github.com/holgern/'
+    'scikit-optimize/blob/{revision}/'
+    '{package}/{path}#L{lineno}',
+)
 
-warnings.filterwarnings("ignore", category=UserWarning,
-                        message='Matplotlib is currently using agg, which is a'
-                                ' non-GUI backend, so cannot show the figure.')
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    message='Matplotlib is currently using agg, which is a'
+    ' non-GUI backend, so cannot show the figure.',
+)
 
 # Reduces the output of estimators
 # sklearn.set_config(print_changed_only=True)
 
 
 # -- Extension configuration -------------------------------------------------
+link_github = True

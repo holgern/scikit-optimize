@@ -1,17 +1,15 @@
 import numpy as np
 import pytest
-
+from numpy.testing import (
+    assert_almost_equal,
+    assert_array_almost_equal,
+    assert_array_equal,
+)
 from scipy import optimize
 
-from numpy.testing import assert_almost_equal
-from numpy.testing import assert_array_almost_equal
-from numpy.testing import assert_array_equal
-
 from skopt.learning import GaussianProcessRegressor
-from skopt.learning.gaussian_process.kernels import RBF
-from skopt.learning.gaussian_process.kernels import Matern
-from skopt.learning.gaussian_process.kernels import WhiteKernel
 from skopt.learning.gaussian_process.gpr import _param_for_white_kernel_in_Sum
+from skopt.learning.gaussian_process.kernels import RBF, Matern, WhiteKernel
 
 rng = np.random.RandomState(0)
 X = rng.randn(5, 5)
@@ -28,7 +26,7 @@ kernel5 = mat + rbf * wk
 
 
 def predict_wrapper(X, gpr):
-    """Predict that can handle 1-D input"""
+    """Predict that can handle 1-D input."""
     X = np.expand_dims(X, axis=0)
     return gpr.predict(X, return_std=True)
 
@@ -39,8 +37,7 @@ def test_param_for_white_kernel_in_Sum(kernel):
     kernel_with_noise = kernel + wk
     wk_present, wk_param = _param_for_white_kernel_in_Sum(kernel + wk)
     assert wk_present
-    kernel_with_noise.set_params(
-        **{wk_param: WhiteKernel(noise_level=0.0)})
+    kernel_with_noise.set_params(**{wk_param: WhiteKernel(noise_level=0.0)})
     assert_array_equal(kernel_with_noise(X), kernel(X))
 
     assert not _param_for_white_kernel_in_Sum(kernel5)[0]
@@ -73,9 +70,11 @@ def test_mean_gradient():
 
     mean, std, mean_grad = gpr.predict(
         np.expand_dims(X_new, axis=0),
-        return_std=True, return_cov=False, return_mean_grad=True)
-    num_grad = optimize.approx_fprime(
-        X_new, lambda x: predict_wrapper(x, gpr)[0], 1e-4)
+        return_std=True,
+        return_cov=False,
+        return_mean_grad=True,
+    )
+    num_grad = optimize.approx_fprime(X_new, lambda x: predict_wrapper(x, gpr)[0], 1e-4)
     assert_array_almost_equal(mean_grad, num_grad, decimal=3)
 
 
@@ -91,22 +90,20 @@ def test_std_gradient():
 
     _, _, _, std_grad = gpr.predict(
         np.expand_dims(X_new, axis=0),
-        return_std=True, return_cov=False, return_mean_grad=True,
-        return_std_grad=True)
-    num_grad = optimize.approx_fprime(
-        X_new, lambda x: predict_wrapper(x, gpr)[1], 1e-4)
+        return_std=True,
+        return_cov=False,
+        return_mean_grad=True,
+        return_std_grad=True,
+    )
+    num_grad = optimize.approx_fprime(X_new, lambda x: predict_wrapper(x, gpr)[1], 1e-4)
     assert_array_almost_equal(std_grad, num_grad, decimal=3)
 
 
 def test_gpr_handles_similar_points():
-    """
-    This tests whether our implementation of GPR
-    does not crash when the covariance matrix whose
-    inverse is calculated during fitting of the
-    regressor is singular.
-    Singular covariance matrix often indicates
-    that same or very close points are explored
-    during the optimization procedure.
+    """This tests whether our implementation of GPR does not crash when the covariance
+    matrix whose inverse is calculated during fitting of the regressor is singular.
+    Singular covariance matrix often indicates that same or very close points are
+    explored during the optimization procedure.
 
     Essentially checks that the default value of `alpha` is non zero.
     """

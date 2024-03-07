@@ -1,12 +1,10 @@
-from __future__ import division
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
-from sklearn.utils import column_or_1d
 
 
-class Transformer(object):
-    """Base class for all 1-D transformers.
-    """
+class Transformer:
+    """Base class for all 1-D transformers."""
+
     def fit(self, X):
         return self
 
@@ -18,8 +16,7 @@ class Transformer(object):
 
 
 class Identity(Transformer):
-    """Identity transform.
-    """
+    """Identity transform."""
 
     def transform(self, X):
         return X
@@ -30,17 +27,17 @@ class Identity(Transformer):
 
 class StringEncoder(Transformer):
     """StringEncoder transform.
-       The transform will cast everything to a
-       string and the inverse transform will cast to the type defined in dtype.
+
+    The transform will cast everything to a string and the inverse
+    transform will cast to the type defined in dtype.
     """
 
     def __init__(self, dtype=str):
-        super(StringEncoder, self).__init__()
+        super().__init__()
         self.dtype = dtype
 
     def fit(self, X):
-        """Fit a list or array of categories. All elements must be from the
-        same type.
+        """Fit a list or array of categories. All elements must be from the same type.
 
         Parameters
         ----------
@@ -67,7 +64,7 @@ class StringEncoder(Transformer):
 
     def inverse_transform(self, Xt):
         """Inverse transform string encoded categories back to their original
-           representation.
+        representation.
 
         Parameters
         ----------
@@ -134,7 +131,7 @@ class CategoricalEncoder(Transformer):
 
     def inverse_transform(self, Xt):
         """Inverse transform one-hot encoded categories back to their original
-           representation.
+        representation.
 
         Parameters
         ----------
@@ -147,13 +144,12 @@ class CategoricalEncoder(Transformer):
             The original categories.
         """
         Xt = np.asarray(Xt)
-        return [
-            self.inverse_mapping_[i] for i in self._lb.inverse_transform(Xt)
-        ]
+        return [self.inverse_mapping_[i] for i in self._lb.inverse_transform(Xt)]
 
 
 class LabelEncoder(Transformer):
     """LabelEncoder that can handle categorical variables."""
+
     def __init__(self, X=None):
         if X is not None:
             self.fit(X)
@@ -179,8 +175,7 @@ class LabelEncoder(Transformer):
         return self
 
     def transform(self, X):
-        """Transform an array of categories to a one-hot encoded
-        representation.
+        """Transform an array of categories to a one-hot encoded representation.
 
         Parameters
         ----------
@@ -196,8 +191,7 @@ class LabelEncoder(Transformer):
         return [self.mapping_[v] for v in X]
 
     def inverse_transform(self, Xt):
-        """Inverse transform integer categories back to their original
-           representation.
+        """Inverse transform integer categories back to their original representation.
 
         Parameters
         ----------
@@ -213,14 +207,11 @@ class LabelEncoder(Transformer):
             Xt = [Xt]
         else:
             Xt = np.asarray(Xt)
-        return [
-            self.inverse_mapping_[int(np.round(i))] for i in Xt
-        ]
+        return [self.inverse_mapping_[int(np.round(i))] for i in Xt]
 
 
 class Normalize(Transformer):
-    """
-    Scales each dimension into the interval [0, 1].
+    """Scales each dimension into the interval [0, 1].
 
     Parameters
     ----------
@@ -234,6 +225,7 @@ class Normalize(Transformer):
         Round and cast the return value of `inverse_transform` to integer. Set
         to `True` when applying this transform to integers.
     """
+
     def __init__(self, low, high, is_int=False):
         self.low = float(low)
         self.high = float(high)
@@ -244,23 +236,22 @@ class Normalize(Transformer):
         X = np.asarray(X)
         if self.is_int:
             if np.any(np.round(X) > self.high):
-                raise ValueError("All integer values should"
-                                 "be less than %f" % self.high)
+                raise ValueError(
+                    "All integer values should" "be less than %f" % self.high
+                )
             if np.any(np.round(X) < self.low):
-                raise ValueError("All integer values should"
-                                 "be greater than %f" % self.low)
+                raise ValueError(
+                    "All integer values should" "be greater than %f" % self.low
+                )
         else:
             if np.any(X > self.high + self._eps):
-                raise ValueError("All values should"
-                                 "be less than %f" % self.high)
+                raise ValueError("All values should" "be less than %f" % self.high)
             if np.any(X < self.low - self._eps):
-                raise ValueError("All values should"
-                                 "be greater than %f" % self.low)
-        if (self.high - self.low) == 0.:
-            return X * 0.
+                raise ValueError("All values should" "be greater than %f" % self.low)
+        if (self.high - self.low) == 0.0:
+            return X * 0.0
         if self.is_int:
-            return (np.round(X).astype(np.int) - self.low) /\
-                   (self.high - self.low)
+            return (np.round(X).astype(int) - self.low) / (self.high - self.low)
         else:
             return (X - self.low) / (self.high - self.low)
 
@@ -272,19 +263,19 @@ class Normalize(Transformer):
             raise ValueError("All values should be greater than 0.0")
         X_orig = X * (self.high - self.low) + self.low
         if self.is_int:
-            return np.round(X_orig).astype(np.int)
+            return np.round(X_orig).astype(int)
         return X_orig
 
 
 class Pipeline(Transformer):
-    """
-    A lightweight pipeline to chain transformers.
+    """A lightweight pipeline to chain transformers.
 
     Parameters
     ----------
     transformers : list
         A list of Transformer instances.
     """
+
     def __init__(self, transformers):
         self.transformers = list(transformers)
         for transformer in self.transformers:

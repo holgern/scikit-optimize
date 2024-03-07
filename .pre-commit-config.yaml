@@ -1,0 +1,57 @@
+default_language_version:
+  python: python3
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        exclude: ^(doc/|examples/)
+        args: [--skip-string-normalization]
+  - repo: https://github.com/myint/autoflake
+    rev: v2.2.1
+    hooks:
+      - id: autoflake
+        exclude: ^(doc/|examples/)
+        args:
+          - --in-place
+          - --ignore-init-module-imports
+          - --remove-all-unused-imports
+          - --remove-duplicate-keys
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-toml
+      - id: check-yaml
+        exclude: ^(doc/|examples/)
+      - id: end-of-file-fixer
+        exclude: ^(doc/|examples/)
+      - id: trailing-whitespace
+        exclude: ^(doc/|examples/)
+  - repo: https://github.com/PyCQA/flake8
+    rev: "7.0.0"
+    hooks:
+      - id: flake8
+        name: flake8 except __init__.py
+        exclude: (^(doc/|examples/)|/__init__\.py$)
+        additional_dependencies: ["flake8-bugbear==23.1.20"]
+        args: [--config, .flake8]
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+        name: isort except __init__.py
+        exclude: (^(doc/|examples/)|/__init__\.py$)
+  - repo: https://github.com/myint/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+        exclude: ^(doc/|examples/)
+        args: ["--in-place", "--wrap-summaries=88"]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.0
+    hooks:
+      - id: pyupgrade
+        exclude: ^(doc/|examples/)
+        args: ["--py39-plus"]

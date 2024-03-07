@@ -23,8 +23,11 @@ a baseline.
 
 print(__doc__)
 import numpy as np
+
 np.random.seed(123)
 import matplotlib.pyplot as plt
+
+from skopt.benchmarks import branin as _branin
 
 #############################################################################
 # Toy model
@@ -34,10 +37,10 @@ import matplotlib.pyplot as plt
 # In a real world application this function would be unknown and expensive
 # to evaluate.
 
-from skopt.benchmarks import branin as _branin
 
-def branin(x, noise_level=0.):
+def branin(x, noise_level=0.0):
     return _branin(x) + noise_level * np.random.randn()
+
 
 #############################################################################
 
@@ -53,14 +56,12 @@ def plot_branin():
     vals = np.c_[x_ax.ravel(), y_ax.ravel()]
     fx = np.reshape([branin(val) for val in vals], (100, 100))
 
-    cm = ax.pcolormesh(x_ax, y_ax, fx,
-                       norm=LogNorm(vmin=fx.min(),
-                                    vmax=fx.max()),
-                       cmap='viridis_r')
+    cm = ax.pcolormesh(
+        x_ax, y_ax, fx, norm=LogNorm(vmin=fx.min(), vmax=fx.max()), cmap='viridis_r'
+    )
 
     minima = np.array([[-np.pi, 12.275], [+np.pi, 2.275], [9.42478, 2.475]])
-    ax.plot(minima[:, 0], minima[:, 1], "r.", markersize=14,
-            lw=0, label="Minima")
+    ax.plot(minima[:, 0], minima[:, 1], "r.", markersize=14, lw=0, label="Minima")
 
     cb = fig.colorbar(cm)
     cb.set_label("f(x)")
@@ -93,7 +94,8 @@ plot_branin()
 # "lucky".
 
 from functools import partial
-from skopt import gp_minimize, forest_minimize, dummy_minimize
+
+from skopt import dummy_minimize, forest_minimize, gp_minimize
 
 func = partial(branin, noise_level=2.0)
 bounds = [(-5.0, 10.0), (0.0, 15.0)]
@@ -103,8 +105,10 @@ n_calls = 60
 
 
 def run(minimizer, n_iter=5):
-    return [minimizer(func, bounds, n_calls=n_calls, random_state=n)
-            for n in range(n_iter)]
+    return [
+        minimizer(func, bounds, n_calls=n_calls, random_state=n) for n in range(n_iter)
+    ]
+
 
 # Random search
 dummy_res = run(dummy_minimize)
@@ -123,11 +127,14 @@ et_res = run(partial(forest_minimize, base_estimator="ET"))
 
 from skopt.plots import plot_convergence
 
-plot = plot_convergence(("dummy_minimize", dummy_res),
-                        ("gp_minimize", gp_res),
-                        ("forest_minimize('rf')", rf_res),
-                        ("forest_minimize('et)", et_res),
-                        true_minimum=0.397887, yscale="log")
+plot = plot_convergence(
+    ("dummy_minimize", dummy_res),
+    ("gp_minimize", gp_res),
+    ("forest_minimize('rf')", rf_res),
+    ("forest_minimize('et)", et_res),
+    true_minimum=0.397887,
+    yscale="log",
+)
 
 plot.legend(loc="best", prop={'size': 6}, numpoints=1)
 

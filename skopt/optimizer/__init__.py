@@ -7,7 +7,10 @@ from .optimizer import Optimizer
 
 
 __all__ = [
-    "base_minimize", "dummy_minimize",
-    "forest_minimize", "gbrt_minimize", "gp_minimize",
-    "Optimizer"
+    "base_minimize",
+    "dummy_minimize",
+    "forest_minimize",
+    "gbrt_minimize",
+    "gp_minimize",
+    "Optimizer",
 ]

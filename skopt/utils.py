@@ -1,24 +1,24 @@
+from collections import OrderedDict
 from copy import deepcopy
 from functools import wraps
-from sklearn.utils import check_random_state
+
 import numpy as np
+from joblib import dump as dump_
+from joblib import load as load_
 from scipy.optimize import OptimizeResult
 from scipy.optimize import minimize as sp_minimize
 from sklearn.base import is_regressor
 from sklearn.ensemble import GradientBoostingRegressor
-from joblib import dump as dump_
-from joblib import load as load_
-from collections import OrderedDict
-from .learning import ExtraTreesRegressor
-from .learning import GaussianProcessRegressor
-from .learning import GradientBoostingQuantileRegressor
-from .learning import RandomForestRegressor
-from .learning.gaussian_process.kernels import ConstantKernel
-from .learning.gaussian_process.kernels import HammingKernel
-from .learning.gaussian_process.kernels import Matern
-from .sampler import Sobol, Lhs, Hammersly, Halton, Grid
-from .sampler import InitialPointGenerator
-from .space import Space, Categorical, Integer, Real, Dimension
+
+from .learning import (
+    ExtraTreesRegressor,
+    GaussianProcessRegressor,
+    GradientBoostingQuantileRegressor,
+    RandomForestRegressor,
+)
+from .learning.gaussian_process.kernels import ConstantKernel, HammingKernel, Matern
+from .sampler import Grid, Halton, Hammersly, InitialPointGenerator, Lhs, Sobol
+from .space import Dimension, Space
 
 __all__ = (
     "load",
@@ -27,8 +27,7 @@ __all__ = (
 
 
 def create_result(Xi, yi, space=None, rng=None, specs=None, models=None):
-    """
-    Initialize an `OptimizeResult` object.
+    """Initialize an `OptimizeResult` object.
 
     Parameters
     ----------
@@ -103,8 +102,7 @@ def eval_callbacks(callbacks, result):
 
 
 def dump(res, filename, store_objective=True, **kwargs):
-    """
-    Store an skopt optimization result into a file.
+    """Store an skopt optimization result into a file.
 
     Parameters
     ----------
@@ -149,9 +147,7 @@ def dump(res, filename, store_objective=True, **kwargs):
 
 
 def load(filename, **kwargs):
-    """
-    Reconstruct a skopt optimization result from a file
-    persisted with skopt.dump.
+    """Reconstruct a skopt optimization result from a file persisted with skopt.dump.
 
     .. note::
         Notice that the loaded optimization result can be missing
@@ -185,25 +181,26 @@ def is_2Dlistlike(x):
 def check_x_in_space(x, space):
     if is_2Dlistlike(x):
         if not np.all([p in space for p in x]):
-            raise ValueError("Not all points are within the bounds of"
-                             " the space.")
+            raise ValueError("Not all points are within the bounds of" " the space.")
         if any([len(p) != len(space.dimensions) for p in x]):
-            raise ValueError("Not all points have the same dimensions as"
-                             " the space.")
+            raise ValueError("Not all points have the same dimensions as" " the space.")
     elif is_listlike(x):
         if x not in space:
-            raise ValueError("Point (%s) is not within the bounds of"
-                             " the space (%s)."
-                             % (x, space.bounds))
+            raise ValueError(
+                "Point (%s) is not within the bounds of"
+                " the space (%s)." % (x, space.bounds)
+            )
         if len(x) != len(space.dimensions):
-            raise ValueError("Dimensions of point (%s) and space (%s) do not match"
-                             % (x, space.bounds))
+            raise ValueError(
+                "Dimensions of point (%s) and space (%s) do not match"
+                % (x, space.bounds)
+            )
 
 
 def expected_minimum(res, n_random_starts=20, random_state=None):
-    """Compute the minimum over the predictions of the last surrogate model.
-    Uses `expected_minimum_random_sampling` with `n_random_starts` = 100000,
-    when the space contains any categorical values.
+    """Compute the minimum over the predictions of the last surrogate model. Uses
+    `expected_minimum_random_sampling` with `n_random_starts` = 100000, when the space
+    contains any categorical values.
 
     .. note::
         The returned minimum may not necessarily be an accurate
@@ -230,8 +227,9 @@ def expected_minimum(res, n_random_starts=20, random_state=None):
         the surrogate function value at the minimum.
     """
     if res.space.is_partly_categorical:
-        return expected_minimum_random_sampling(res, n_random_starts=100000,
-                                                random_state=random_state)
+        return expected_minimum_random_sampling(
+            res, n_random_starts=100000, random_state=random_state
+        )
 
     def func(x):
         reg = res.models[-1]
@@ -255,11 +253,10 @@ def expected_minimum(res, n_random_starts=20, random_state=None):
     return [v for v in best_x], best_fun
 
 
-def expected_minimum_random_sampling(res, n_random_starts=100000,
-                                     random_state=None):
-    """Minimum search by doing naive random sampling, Returns the parameters
-    that gave the minimum function value. Can be used when the space
-    contains any categorical values.
+def expected_minimum_random_sampling(res, n_random_starts=100000, random_state=None):
+    """Minimum search by doing naive random sampling, Returns the parameters that gave
+    the minimum function value. Can be used when the space contains any categorical
+    values.
 
     .. note::
         The returned minimum may not necessarily be an accurate
@@ -299,8 +296,7 @@ def expected_minimum_random_sampling(res, n_random_starts=100000,
 
 
 def has_gradients(estimator):
-    """
-    Check if an estimator's ``predict`` method provides gradients.
+    """Check if an estimator's ``predict`` method provides gradients.
 
     Parameters
     ----------
@@ -308,8 +304,9 @@ def has_gradients(estimator):
         sklearn BaseEstimator instance.
     """
     tree_estimators = (
-            ExtraTreesRegressor, RandomForestRegressor,
-            GradientBoostingQuantileRegressor
+        ExtraTreesRegressor,
+        RandomForestRegressor,
+        GradientBoostingQuantileRegressor,
     )
 
     # cook_estimator() returns None for "dummy minimize" aka random values only
@@ -322,9 +319,8 @@ def has_gradients(estimator):
     categorical_gp = False
     if hasattr(estimator, "kernel"):
         params = estimator.get_params()
-        categorical_gp = (
-            isinstance(estimator.kernel, HammingKernel) or
-            any([isinstance(params[p], HammingKernel) for p in params])
+        categorical_gp = isinstance(estimator.kernel, HammingKernel) or any(
+            [isinstance(params[p], HammingKernel) for p in params]
         )
 
     return not categorical_gp
@@ -357,9 +353,11 @@ def cook_estimator(base_estimator, space=None, **kwargs):
     if isinstance(base_estimator, str):
         base_estimator = base_estimator.upper()
         if base_estimator not in ["GP", "ET", "RF", "GBRT", "DUMMY"]:
-            raise ValueError("Valid strings for the base_estimator parameter "
-                             " are: 'RF', 'ET', 'GP', 'GBRT' or 'DUMMY' not "
-                             "%s." % base_estimator)
+            raise ValueError(
+                "Valid strings for the base_estimator parameter "
+                " are: 'RF', 'ET', 'GP', 'GBRT' or 'DUMMY' not "
+                "%s." % base_estimator
+            )
     elif not is_regressor(base_estimator):
         raise ValueError("base_estimator has to be a regressor.")
 
@@ -379,18 +377,20 @@ def cook_estimator(base_estimator, space=None, **kwargs):
         else:
             other_kernel = Matern(
                 length_scale=np.ones(n_dims),
-                length_scale_bounds=[(0.01, 100)] * n_dims, nu=2.5)
+                length_scale_bounds=[(0.01, 100)] * n_dims,
+                nu=2.5,
+            )
 
         base_estimator = GaussianProcessRegressor(
             kernel=cov_amplitude * other_kernel,
-            normalize_y=True, noise="gaussian",
-            n_restarts_optimizer=2)
+            normalize_y=True,
+            noise="gaussian",
+            n_restarts_optimizer=2,
+        )
     elif base_estimator == "RF":
-        base_estimator = RandomForestRegressor(n_estimators=100,
-                                               min_samples_leaf=3)
+        base_estimator = RandomForestRegressor(n_estimators=100, min_samples_leaf=3)
     elif base_estimator == "ET":
-        base_estimator = ExtraTreesRegressor(n_estimators=100,
-                                             min_samples_leaf=3)
+        base_estimator = ExtraTreesRegressor(n_estimators=100, min_samples_leaf=3)
     elif base_estimator == "GBRT":
         gbrt = GradientBoostingRegressor(n_estimators=30, loss="quantile")
         base_estimator = GradientBoostingQuantileRegressor(base_estimator=gbrt)
@@ -423,15 +423,18 @@ def cook_initial_point_generator(generator, **kwargs):
         generator = "random"
     elif isinstance(generator, str):
         generator = generator.lower()
-        if generator not in ["sobol", "halton", "hammersly", "lhs", "random",
-                             "grid"]:
-            raise ValueError("Valid strings for the generator parameter "
-                             " are: 'sobol', 'lhs', 'halton', 'hammersly',"
-                             "'random', or 'grid' not "
-                             "%s." % generator)
+        if generator not in ["sobol", "halton", "hammersly", "lhs", "random", "grid"]:
+            raise ValueError(
+                "Valid strings for the generator parameter "
+                " are: 'sobol', 'lhs', 'halton', 'hammersly',"
+                "'random', or 'grid' not "
+                "%s." % generator
+            )
     elif not isinstance(generator, InitialPointGenerator):
-        raise ValueError("generator has to be an InitialPointGenerator."
-                         "Got %s" % (str(type(generator))))
+        raise ValueError(
+            "generator has to be an InitialPointGenerator."
+            "Got %s" % (str(type(generator)))
+        )
 
     if isinstance(generator, str):
         if generator == "sobol":
@@ -451,8 +454,8 @@ def cook_initial_point_generator(generator, **kwargs):
 
 
 def dimensions_aslist(search_space):
-    """Convert a dict representation of a search space into a list of
-    dimensions, ordered by sorted(search_space.keys()).
+    """Convert a dict representation of a search space into a list of dimensions,
+    ordered by sorted(search_space.keys()).
 
     Parameters
     ----------
@@ -478,18 +481,15 @@ def dimensions_aslist(search_space):
     Integer(low=2, high=4, prior='uniform', transform='identity')
     >>> dimensions_aslist(search_space)[2]
     Real(low=-1, high=1, prior='uniform', transform='identity')
-
     """
-    params_space_list = [
-        search_space[k] for k in sorted(search_space.keys())
-    ]
+    params_space_list = [search_space[k] for k in sorted(search_space.keys())]
     return params_space_list
 
 
 def point_asdict(search_space, point_as_list):
-    """Convert the list representation of a point from a search space
-    to the dictionary representation, where keys are dimension names
-    and values are corresponding to the values of dimensions in the list.
+    """Convert the list representation of a point from a search space to the dictionary
+    representation, where keys are dimension names and values are corresponding to the
+    values of dimensions in the list.
 
     .. seealso:: :class:`skopt.utils.point_aslist`
 
@@ -527,9 +527,9 @@ def point_asdict(search_space, point_as_list):
 
 
 def point_aslist(search_space, point_as_dict):
-    """Convert a dictionary representation of a point from a search space to
-    the list representation. The list of values is created from the values of
-    the dictionary, sorted by the names of dimensions used as keys.
+    """Convert a dictionary representation of a point from a search space to the list
+    representation. The list of values is created from the values of the dictionary,
+    sorted by the names of dimensions used as keys.
 
     .. seealso:: :class:`skopt.utils.point_asdict`
 
@@ -560,9 +560,7 @@ def point_aslist(search_space, point_as_dict):
     >>> point_aslist(search_space, point_as_dict)
     [0.66, 3, -0.15]
     """
-    point_as_list = [
-        point_as_dict[k] for k in sorted(search_space.keys())
-    ]
+    point_as_list = [point_as_dict[k] for k in sorted(search_space.keys())]
     return point_as_list
 
 
@@ -597,20 +595,16 @@ def normalize_dimensions(dimensions):
             # Change the transformer to normalize
             # and add it to the new transformed dimensions
             dimension.set_transformer("normalize")
-            transformed_dimensions.append(
-                dimension
-            )
+            transformed_dimensions.append(dimension)
         else:
-            raise RuntimeError("Unknown dimension type "
-                               "(%s)" % type(dimension))
+            raise RuntimeError("Unknown dimension type " "(%s)" % type(dimension))
 
     return Space(transformed_dimensions)
 
 
 def check_list_types(x, types):
-    """
-    Check whether all elements of a list `x` are of the correct type(s)
-    and raise a ValueError if they are not.
+    """Check whether all elements of a list `x` are of the correct type(s) and raise a
+    ValueError if they are not.
 
     Note that `types` can be either a single object-type or a tuple
     of object-types.
@@ -625,7 +619,6 @@ def check_list_types(x, types):
 
     types : object or list(object)
         Either a single object-type or a tuple of object-types.
-
     """
 
     # List of the elements in the list that are incorrectly typed.
@@ -639,15 +632,13 @@ def check_list_types(x, types):
 
 
 def check_dimension_names(dimensions):
-    """
-    Check whether all dimensions have names. Raises `ValueError`,
-    if one or more dimensions are unnamed.
+    """Check whether all dimensions have names. Raises `ValueError`, if one or more
+    dimensions are unnamed.
 
     Parameters
     ----------
     dimensions : list(Dimension)
         List of Dimension-objects.
-
     """
 
     # List of the dimensions that have no names.
@@ -661,9 +652,8 @@ def check_dimension_names(dimensions):
 
 
 def use_named_args(dimensions):
-    """
-    Wrapper / decorator for an objective function that uses named arguments
-    to make it compatible with optimizers that use a single list of parameters.
+    """Wrapper / decorator for an objective function that uses named arguments to make
+    it compatible with optimizers that use a single list of parameters.
 
     Your objective function can be defined as being callable using named
     arguments: `func(foo=123, bar=3.0, baz='hello')` for a search-space
@@ -731,10 +721,8 @@ def use_named_args(dimensions):
     """
 
     def decorator(func):
-        """
-        This uses more advanced Python features to wrap `func` using a
-        function-decorator, which are not explained so well in the
-        official Python documentation.
+        """This uses more advanced Python features to wrap `func` using a function-
+        decorator, which are not explained so well in the official Python documentation.
 
         A good video tutorial explaining how this works is found here:
         https://www.youtube.com/watch?v=KlBPCzcQNU8
@@ -754,10 +742,8 @@ def use_named_args(dimensions):
 
         @wraps(func)
         def wrapper(x):
-            """
-            This is the code that will be executed every time the
-            wrapped / decorated `func` is being called.
-            It takes `x` as a single list of parameters and
+            """This is the code that will be executed every time the wrapped / decorated
+            `func` is being called. It takes `x` as a single list of parameters and
             converts them to named arguments and calls `func` with them.
 
             Parameters
@@ -776,8 +762,10 @@ def use_named_args(dimensions):
             # Ensure the number of dimensions match
             # the number of parameters in the list x.
             if len(x) != len(dimensions):
-                msg = "Mismatch in number of search-space dimensions. " \
-                      "len(dimensions)=={} and len(x)=={}"
+                msg = (
+                    "Mismatch in number of search-space dimensions. "
+                    "len(dimensions)=={} and len(x)=={}"
+                )
                 msg = msg.format(len(dimensions), len(x))
                 raise ValueError(msg)
 

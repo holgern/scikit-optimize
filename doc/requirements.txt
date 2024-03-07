@@ -6,3 +6,4 @@ ipywidgets
 sphinx
 sphinx-gallery>=0.6
 numpydoc
+sphinx-book-theme

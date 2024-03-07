@@ -1,9 +1,11 @@
-"""
-Scikit-Optimize, or `skopt`, is a simple and efficient library to
-minimize (very) expensive and noisy black-box functions. It implements
+"""Scikit-Optimize, or `skopt`, is a simple and efficient library to minimize (very)
+expensive and noisy black-box functions.
+
+It implements
 several methods for sequential model-based optimization. `skopt` is reusable
 in many contexts and accessible.
 """
+
 try:
     # This variable is injected in the __builtins__ by the build
     # process. It is used to enable importing subpackages of sklearn when
@@ -29,10 +31,11 @@ except NameError:
 # Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
 # 'X.Y.dev0' is the canonical version of 'X.Y.dev'
 #
-__version__ = "0.9.0"
+__version__ = "1.0.0"
 
 if __SKOPT_SETUP__:
     import sys
+
     sys.stderr.write('Partial import of skopt during the build process.\n')
     # We are not importing the rest of scikit-optimize during the build
     # process, as it may not be compiled yet
@@ -58,6 +61,7 @@ else:
     from .utils import expected_minimum
     from .utils import expected_minimum_random_sampling
     from .utils import load
+
     __all__ = (
         "acquisition",
         "benchmarks",
@@ -76,7 +80,7 @@ else:
         "load",
         "expected_minimum",
         "BayesSearchCV",
-        "Space"
+        "Space",
     )
     IS_PYPY = platform.python_implementation() == 'PyPy'
     _IS_32BIT = 8 * struct.calcsize("P") == 32

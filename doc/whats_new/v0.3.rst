@@ -21,4 +21,3 @@ Bug fixes
 API Changes
 -----------
 * The default `acq_optimizer` function has changed from `"auto"` to `"lbfgs"` in `gp_minimize`.
-

@@ -11,19 +11,21 @@ Holger Nahrstaedt 2020
 Plot objective now supports optional use of partial dependence as well as
 different methods of defining parameter values for dependency plots.
 """
+
 print(__doc__)
-import sys
-from skopt.plots import plot_objective
-from skopt import forest_minimize
 import numpy as np
+
+from skopt import forest_minimize
+from skopt.plots import plot_objective
+
 np.random.seed(123)
-import matplotlib.pyplot as plt
 
 #############################################################################
 # Objective function
 # ==================
 # Plot objective now supports optional use of partial dependence as well as
 # different methods of defining parameter values for dependency plots
+
 
 # Here we define a function that we evaluate.
 def funny_func(x):
@@ -32,16 +34,19 @@ def funny_func(x):
         s += (x[i] * i) ** 2
     return s
 
+
 #############################################################################
 # Optimisation using decision trees
 # =================================
 # We run forest_minimize on the function
-bounds = [(-1, 1.), ] * 3
+bounds = [
+    (-1, 1.0),
+] * 3
 n_calls = 150
 
-result = forest_minimize(funny_func, bounds, n_calls=n_calls,
-                         base_estimator="ET",
-                         random_state=4)
+result = forest_minimize(
+    funny_func, bounds, n_calls=n_calls, base_estimator="ET", random_state=4
+)
 
 #############################################################################
 # Partial dependence plot
@@ -69,7 +74,7 @@ _ = plot_objective(result, n_points=10, minimum='expected_minimum')
 # which is the parameter set of the best observed value so far. In the case
 # of funny_func this is close to 0 for all parameters.
 
-_ = plot_objective(result,  sample_source='result', n_points=10)
+_ = plot_objective(result, sample_source='result', n_points=10)
 
 #############################################################################
 # Modify the shown minimum
@@ -79,29 +84,43 @@ _ = plot_objective(result,  sample_source='result', n_points=10)
 # parameters that gives the miniumum value of the surrogate function,
 # using scipys minimum search method.
 
-_ = plot_objective(result, n_points=10, sample_source='expected_minimum',
-                   minimum='expected_minimum')
+_ = plot_objective(
+    result, n_points=10, sample_source='expected_minimum', minimum='expected_minimum'
+)
 
 #############################################################################
 # "expected_minimum_random" is a naive way of finding the minimum of the
 # surrogate by only using random sampling:
 
-_ = plot_objective(result, n_points=10, sample_source='expected_minimum_random',
-                   minimum='expected_minimum_random')
+_ = plot_objective(
+    result,
+    n_points=10,
+    sample_source='expected_minimum_random',
+    minimum='expected_minimum_random',
+)
 
 #############################################################################
 # We can also specify how many initial samples are used for the two different
 # "expected_minimum" methods. We set it to a low value in the next examples
 # to showcase how it affects the minimum for the two methods.
 
-_ = plot_objective(result, n_points=10, sample_source='expected_minimum_random',
-                   minimum='expected_minimum_random',
-                   n_minimum_search=10)
+_ = plot_objective(
+    result,
+    n_points=10,
+    sample_source='expected_minimum_random',
+    minimum='expected_minimum_random',
+    n_minimum_search=10,
+)
 
 #############################################################################
 
-_ = plot_objective(result, n_points=10, sample_source="expected_minimum",
-                   minimum='expected_minimum', n_minimum_search=2)
+_ = plot_objective(
+    result,
+    n_points=10,
+    sample_source="expected_minimum",
+    minimum='expected_minimum',
+    n_minimum_search=2,
+)
 
 #############################################################################
 # Set a minimum location
@@ -109,7 +128,6 @@ _ = plot_objective(result, n_points=10, sample_source="expected_minimum",
 # Lastly we can also define these parameters ourself by parsing a list
 # as the minimum argument:
 
-_ = plot_objective(result, n_points=10, sample_source=[1, -0.5, 0.5],
-                   minimum=[1, -0.5, 0.5])
-
-
+_ = plot_objective(
+    result, n_points=10, sample_source=[1, -0.5, 0.5], minimum=[1, -0.5, 0.5]
+)

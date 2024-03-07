@@ -30,4 +30,3 @@ Other callbacks
 ---------------
 
 * :class:`CheckpointSaver`
-

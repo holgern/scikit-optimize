@@ -73,4 +73,3 @@ Miscellaneous
 - Add project toml and adapt minimal numpy, scipy, pyyaml and
   joblib version in setup.py
   :pr:`850` by :user:`Holger Nahrstaedt <holgern>`
-

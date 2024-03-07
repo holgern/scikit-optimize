@@ -1,40 +1,44 @@
-"""Test scikit-optimize based implementation of hyperparameter
-search with interface similar to those of GridSearchCV
-"""
+"""Test scikit-optimize based implementation of hyperparameter search with interface
+similar to those of GridSearchCV."""
 
+import numpy as np
 import pytest
-
+from numpy.testing import assert_array_equal
+from scipy.stats import rankdata
+from sklearn.base import BaseEstimator, clone
 from sklearn.datasets import load_iris, make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC, LinearSVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.base import clone
-from sklearn.base import BaseEstimator
-from scipy.stats import rankdata
-import numpy as np
-from numpy.testing import assert_array_equal
-from skopt.space import Real, Categorical, Integer
+
 from skopt import BayesSearchCV
+from skopt.space import Categorical, Integer, Real
 
 
 def _fit_svc(n_jobs=1, n_points=1, cv=None):
-    """
-    Utility function to fit a larger classification task with SVC
-    """
+    """Utility function to fit a larger classification task with SVC."""
 
-    X, y = make_classification(n_samples=1000, n_features=20, n_redundant=0,
-                               n_informative=18, random_state=1,
-                               n_clusters_per_class=1)
+    X, y = make_classification(
+        n_samples=1000,
+        n_features=20,
+        n_redundant=0,
+        n_informative=18,
+        random_state=1,
+        n_clusters_per_class=1,
+    )
 
     opt = BayesSearchCV(
         SVC(),
         {
-            'C': Real(1e-3, 1e+3, prior='log-uniform'),
-            'gamma': Real(1e-3, 1e+1, prior='log-uniform'),
+            'C': Real(1e-3, 1e3, prior='log-uniform'),
+            'gamma': Real(1e-3, 1e1, prior='log-uniform'),
             'degree': Integer(1, 3),
         },
-        n_jobs=n_jobs, n_iter=11, n_points=n_points, cv=cv,
+        n_jobs=n_jobs,
+        n_iter=11,
+        n_points=n_points,
+        cv=cv,
         random_state=42,
     )
 
@@ -44,11 +48,14 @@ def _fit_svc(n_jobs=1, n_points=1, cv=None):
     opt2 = BayesSearchCV(
         SVC(),
         {
-            'C': Real(1e-3, 1e+3, prior='log-uniform'),
-            'gamma': Real(1e-3, 1e+1, prior='log-uniform'),
+            'C': Real(1e-3, 1e3, prior='log-uniform'),
+            'gamma': Real(1e-3, 1e1, prior='log-uniform'),
             'degree': Integer(1, 3),
         },
-        n_jobs=n_jobs, n_iter=11, n_points=n_points, cv=cv,
+        n_jobs=n_jobs,
+        n_iter=11,
+        n_points=n_points,
+        cv=cv,
         random_state=42,
     )
 
@@ -75,11 +82,9 @@ def test_raise_errors():
 @pytest.mark.parametrize("n_jobs", [1, -1])  # test sequential and parallel
 @pytest.mark.parametrize("n_points", [1, 3])  # test query of multiple points
 def test_searchcv_runs(surrogate, n_jobs, n_points, cv=None):
-    """
-    Test whether the cross validation search wrapper around sklearn
-    models runs properly with available surrogates and with single
-    or multiple workers and different number of parameter settings
-    to ask from the optimizer in parallel.
+    """Test whether the cross validation search wrapper around sklearn models runs
+    properly with available surrogates and with single or multiple workers and different
+    number of parameter settings to ask from the optimizer in parallel.
 
     Parameters
     ----------
@@ -90,7 +95,6 @@ def test_searchcv_runs(surrogate, n_jobs, n_points, cv=None):
 
     * `n_jobs` [int]:
         Number of parallel processes to use for computations.
-
     """
 
     X, y = load_iris(return_X_y=True)
@@ -107,13 +111,16 @@ def test_searchcv_runs(surrogate, n_jobs, n_points, cv=None):
     opt = BayesSearchCV(
         SVC(),
         {
-            'C': Real(1e-6, 1e+6, prior='log-uniform'),
-            'gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
             'degree': Integer(1, 8),
             'kernel': Categorical(['linear', 'poly', 'rbf']),
         },
-        n_jobs=n_jobs, n_iter=11, n_points=n_points, cv=cv,
-        optimizer_kwargs=optimizer_kwargs
+        n_jobs=n_jobs,
+        n_iter=11,
+        n_points=n_points,
+        cv=cv,
+        optimizer_kwargs=optimizer_kwargs,
     )
 
     opt.fit(X_train, y_train)
@@ -125,20 +132,15 @@ def test_searchcv_runs(surrogate, n_jobs, n_points, cv=None):
 
 @pytest.mark.slow_test
 def test_parallel_cv():
-
-    """
-    Test whether parallel jobs work
-    """
+    """Test whether parallel jobs work."""
 
     _fit_svc(n_jobs=1, cv=5)
     _fit_svc(n_jobs=2, cv=5)
 
 
 def test_searchcv_runs_multiple_subspaces():
-    """
-    Test whether the BayesSearchCV runs without exceptions when
-    multiple subspaces are given.
-    """
+    """Test whether the BayesSearchCV runs without exceptions when multiple subspaces
+    are given."""
 
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -146,14 +148,12 @@ def test_searchcv_runs_multiple_subspaces():
     )
 
     # used to try different model classes
-    pipe = Pipeline([
-        ('model', SVC())
-    ])
+    pipe = Pipeline([('model', SVC())])
 
     # single categorical value of 'model' parameter sets the model class
     lin_search = {
         'model': Categorical([LinearSVC()]),
-        'model__C': Real(1e-6, 1e+6, prior='log-uniform'),
+        'model__C': Real(1e-6, 1e6, prior='log-uniform'),
     }
 
     dtc_search = {
@@ -164,23 +164,19 @@ def test_searchcv_runs_multiple_subspaces():
 
     svc_search = {
         'model': Categorical([SVC()]),
-        'model__C': Real(1e-6, 1e+6, prior='log-uniform'),
-        'model__gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+        'model__C': Real(1e-6, 1e6, prior='log-uniform'),
+        'model__gamma': Real(1e-6, 1e1, prior='log-uniform'),
         'model__degree': Integer(1, 8),
         'model__kernel': Categorical(['linear', 'poly', 'rbf']),
     }
 
-    opt = BayesSearchCV(
-        pipe,
-        [(lin_search, 1), (dtc_search, 1), svc_search],
-        n_iter=2
-    )
+    opt = BayesSearchCV(pipe, [(lin_search, 1), (dtc_search, 1), svc_search], n_iter=2)
 
     opt.fit(X_train, y_train)
 
     # test if all subspaces are explored
     total_evaluations = len(opt.cv_results_['mean_test_score'])
-    assert total_evaluations == 1+1+2, "Not all spaces were explored!"
+    assert total_evaluations == 1 + 1 + 2, "Not all spaces were explored!"
     assert len(opt.optimizer_results_) == 3
     assert isinstance(opt.optimizer_results_[0].x[0], LinearSVC)
     assert isinstance(opt.optimizer_results_[1].x[0], DecisionTreeClassifier)
@@ -188,10 +184,8 @@ def test_searchcv_runs_multiple_subspaces():
 
 
 def test_searchcv_sklearn_compatibility():
-    """
-    Test whether the BayesSearchCV is compatible with base sklearn methods
-    such as clone, set_params, get_params.
-    """
+    """Test whether the BayesSearchCV is compatible with base sklearn methods such as
+    clone, set_params, get_params."""
 
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -199,14 +193,12 @@ def test_searchcv_sklearn_compatibility():
     )
 
     # used to try different model classes
-    pipe = Pipeline([
-        ('model', SVC())
-    ])
+    pipe = Pipeline([('model', SVC())])
 
     # single categorical value of 'model' parameter sets the model class
     lin_search = {
         'model': Categorical([LinearSVC()]),
-        'model__C': Real(1e-6, 1e+6, prior='log-uniform'),
+        'model__C': Real(1e-6, 1e6, prior='log-uniform'),
     }
 
     dtc_search = {
@@ -217,17 +209,13 @@ def test_searchcv_sklearn_compatibility():
 
     svc_search = {
         'model': Categorical([SVC()]),
-        'model__C': Real(1e-6, 1e+6, prior='log-uniform'),
-        'model__gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+        'model__C': Real(1e-6, 1e6, prior='log-uniform'),
+        'model__gamma': Real(1e-6, 1e1, prior='log-uniform'),
         'model__degree': Integer(1, 8),
         'model__kernel': Categorical(['linear', 'poly', 'rbf']),
     }
 
-    opt = BayesSearchCV(
-        pipe,
-        [(lin_search, 1), svc_search],
-        n_iter=2
-    )
+    opt = BayesSearchCV(pipe, [(lin_search, 1), svc_search], n_iter=2)
 
     opt_clone = clone(opt)
 
@@ -248,14 +236,12 @@ def test_searchcv_sklearn_compatibility():
 
     # test if expected number of subspaces is explored
     assert total_evaluations == 1
-    assert total_evaluations_clone == 1+2
+    assert total_evaluations_clone == 1 + 2
 
 
 def test_searchcv_reproducibility():
-    """
-    Test whether results of BayesSearchCV can be reproduced with a fixed
-    random state.
-    """
+    """Test whether results of BayesSearchCV can be reproduced with a fixed random
+    state."""
 
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -267,12 +253,13 @@ def test_searchcv_reproducibility():
     opt = BayesSearchCV(
         SVC(random_state=random_state),
         {
-            'C': Real(1e-6, 1e+6, prior='log-uniform'),
-            'gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
             'degree': Integer(1, 8),
             'kernel': Categorical(['linear', 'poly', 'rbf']),
         },
-        n_iter=11, random_state=random_state
+        n_iter=11,
+        random_state=random_state,
     )
 
     opt.fit(X_train, y_train)
@@ -283,27 +270,21 @@ def test_searchcv_reproducibility():
     best_est2 = opt2.best_estimator_
     optim_res2 = opt2.optimizer_results_[0].x
 
-    assert getattr(best_est, 'C') == getattr(best_est2, 'C')
-    assert getattr(best_est, 'gamma') == getattr(best_est2, 'gamma')
-    assert getattr(best_est, 'degree') == getattr(best_est2, 'degree')
-    assert getattr(best_est, 'kernel') == getattr(best_est2, 'kernel')
-    # dict is sorted by alphabet
-    assert optim_res[0] == getattr(best_est, 'C')
-    assert optim_res[2] == getattr(best_est, 'gamma')
-    assert optim_res[1] == getattr(best_est, 'degree')
-    assert optim_res[3] == getattr(best_est, 'kernel')
-    assert optim_res2[0] == getattr(best_est, 'C')
-    assert optim_res2[2] == getattr(best_est, 'gamma')
-    assert optim_res2[1] == getattr(best_est, 'degree')
-    assert optim_res2[3] == getattr(best_est, 'kernel')
+    attributes = ['C', 'gamma', 'degree', 'kernel']
+    for attr, idx in zip(attributes, [0, 2, 1, 3]):
+        assert (
+            hasattr(best_est, attr)
+            and hasattr(best_est2, attr)
+            and getattr(best_est, attr) == getattr(best_est2, attr)
+        )
+        assert optim_res[idx] == getattr(best_est, attr)
+        assert optim_res2[idx] == getattr(best_est, attr)
 
 
 @pytest.mark.fast_test
 def test_searchcv_rank():
-    """
-    Test whether results of BayesSearchCV can be reproduced with a fixed
-    random state.
-    """
+    """Test whether results of BayesSearchCV can be reproduced with a fixed random
+    state."""
 
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -315,31 +296,33 @@ def test_searchcv_rank():
     opt = BayesSearchCV(
         SVC(random_state=random_state),
         {
-            'C': Real(1e-6, 1e+6, prior='log-uniform'),
-            'gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
             'degree': Integer(1, 8),
             'kernel': Categorical(['linear', 'poly', 'rbf']),
         },
-        n_iter=11, random_state=random_state, return_train_score=True
+        n_iter=11,
+        random_state=random_state,
+        return_train_score=True,
     )
 
     opt.fit(X_train, y_train)
     results = opt.cv_results_
 
-    test_rank = np.asarray(rankdata(-np.array(results["mean_test_score"]),
-                                    method='min'), dtype=np.int32)
-    train_rank = np.asarray(rankdata(-np.array(results["mean_train_score"]),
-                                     method='min'), dtype=np.int32)
+    test_rank = np.asarray(
+        rankdata(-np.array(results["mean_test_score"]), method='min'), dtype=np.int32
+    )
+    train_rank = np.asarray(
+        rankdata(-np.array(results["mean_train_score"]), method='min'), dtype=np.int32
+    )
 
     assert_array_equal(np.array(results['rank_test_score']), test_rank)
     assert_array_equal(np.array(results['rank_train_score']), train_rank)
 
 
 def test_searchcv_refit():
-    """
-    Test whether results of BayesSearchCV can be reproduced with a fixed
-    random state.
-    """
+    """Test whether results of BayesSearchCV can be reproduced with a fixed random
+    state."""
 
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -351,23 +334,26 @@ def test_searchcv_refit():
     opt = BayesSearchCV(
         SVC(random_state=random_state),
         {
-            'C': Real(1e-6, 1e+6, prior='log-uniform'),
-            'gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
             'degree': Integer(1, 8),
             'kernel': Categorical(['linear', 'poly', 'rbf']),
         },
-        n_iter=11, random_state=random_state
+        n_iter=11,
+        random_state=random_state,
     )
 
     opt2 = BayesSearchCV(
         SVC(random_state=random_state),
         {
-            'C': Real(1e-6, 1e+6, prior='log-uniform'),
-            'gamma': Real(1e-6, 1e+1, prior='log-uniform'),
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
             'degree': Integer(1, 8),
             'kernel': Categorical(['linear', 'poly', 'rbf']),
         },
-        n_iter=11, random_state=random_state, refit=True
+        n_iter=11,
+        random_state=random_state,
+        refit=True,
     )
 
     opt.fit(X_train, y_train)
@@ -390,7 +376,7 @@ def test_searchcv_callback():
             'max_depth': [3],  # additional test for single dimension
             'min_samples_split': Real(0.1, 0.9),
         },
-        n_iter=5
+        n_iter=5,
     )
     total_iterations = [0]
 
@@ -419,9 +405,9 @@ def test_searchcv_total_iterations():
         DecisionTreeClassifier(),
         [
             ({'max_depth': (1, 32)}, 10),  # 10 iterations here
-            {'min_samples_split': Real(0.1, 0.9)}  # 5 (default) iters here
+            {'min_samples_split': Real(0.1, 0.9)},  # 5 (default) iters here
         ],
-        n_iter=5
+        n_iter=5,
     )
 
     assert opt.total_iterations == 10 + 5
@@ -459,7 +445,7 @@ def test_search_cv_internal_parameter_types():
             'int_param': [0, 10],
             'str_param': ["one", "two", "three"],
         },
-        n_iter=11
+        n_iter=11,
     )
 
     model.fit(X, y)

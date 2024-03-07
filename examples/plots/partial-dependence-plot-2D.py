@@ -10,16 +10,20 @@ Holger Nahrstaedt 2020
 
 Simple example to show the new 2D plots.
 """
+
 print(__doc__)
-import numpy as np
 from math import exp
 
+import numpy as np
+
 from skopt import gp_minimize
-from skopt.space import Real, Categorical, Integer
-from skopt.plots import plot_histogram, plot_objective_2D, plot_objective
+from skopt.plots import plot_histogram, plot_objective, plot_objective_2D
+from skopt.space import Categorical, Integer, Real
 from skopt.utils import point_asdict
+
 np.random.seed(123)
 import matplotlib.pyplot as plt
+
 #############################################################################
 
 dim_learning_rate = Real(name='learning_rate', low=1e-6, high=1e-2, prior='log-uniform')
@@ -27,19 +31,24 @@ dim_num_dense_layers = Integer(name='num_dense_layers', low=1, high=5)
 dim_num_dense_nodes = Integer(name='num_dense_nodes', low=5, high=512)
 dim_activation = Categorical(name='activation', categories=['relu', 'sigmoid'])
 
-dimensions = [dim_learning_rate,
-              dim_num_dense_layers,
-              dim_num_dense_nodes,
-              dim_activation]
+dimensions = [
+    dim_learning_rate,
+    dim_num_dense_layers,
+    dim_num_dense_nodes,
+    dim_activation,
+]
 
 default_parameters = [1e-4, 1, 64, 'relu']
+
 
 def model_fitness(x):
     learning_rate, num_dense_layers, num_dense_nodes, activation = x
 
-    fitness = ((exp(learning_rate) - 1.0) * 1000) ** 2 + \
-               (num_dense_layers) ** 2 + \
-               (num_dense_nodes/100) ** 2
+    fitness = (
+        ((exp(learning_rate) - 1.0) * 1000) ** 2
+        + (num_dense_layers) ** 2
+        + (num_dense_nodes / 100) ** 2
+    )
 
     fitness *= 1.0 + 0.1 * np.random.rand()
 
@@ -48,16 +57,18 @@ def model_fitness(x):
 
     return fitness
 
+
 print(model_fitness(x=default_parameters))
 
 #############################################################################
 
-search_result = gp_minimize(func=model_fitness,
-                            dimensions=dimensions,
-                            n_calls=30,
-                            x0=default_parameters,
-                            random_state=123
-                            )
+search_result = gp_minimize(
+    func=model_fitness,
+    dimensions=dimensions,
+    n_calls=30,
+    x0=default_parameters,
+    random_state=123,
+)
 
 print(search_result.x)
 print(search_result.fun)
@@ -80,26 +91,29 @@ print(point_asdict(search_space, default_parameters))
 #############################################################################
 print("Plotting now ...")
 
-_ = plot_histogram(result=search_result, dimension_identifier='learning_rate',
-                   bins=20)
+_ = plot_histogram(result=search_result, dimension_identifier='learning_rate', bins=20)
 plt.show()
 
 #############################################################################
-_ = plot_objective_2D(result=search_result,
-                      dimension_identifier1='learning_rate',
-                      dimension_identifier2='num_dense_nodes')
-plt.show()
-
-#############################################################################
-
-_ = plot_objective_2D(result=search_result,
-                      dimension_identifier1='num_dense_layers',
-                      dimension_identifier2='num_dense_nodes')
+_ = plot_objective_2D(
+    result=search_result,
+    dimension_identifier1='learning_rate',
+    dimension_identifier2='num_dense_nodes',
+)
 plt.show()
 
 #############################################################################
 
-_ = plot_objective(result=search_result,
-                   plot_dims=['num_dense_layers',
-                              'num_dense_nodes'])
+_ = plot_objective_2D(
+    result=search_result,
+    dimension_identifier1='num_dense_layers',
+    dimension_identifier2='num_dense_nodes',
+)
+plt.show()
+
+#############################################################################
+
+_ = plot_objective(
+    result=search_result, plot_dims=['num_dense_layers', 'num_dense_nodes']
+)
 plt.show()
