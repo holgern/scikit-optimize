@@ -12,6 +12,8 @@ jobs:
         exclude:
           - python-version: "3.8"
             scikit-learn-version: "1.4.1.post1"
+          - python-version: "3.8"
+            numpy-version: "1.26.4"
           - python-version: "3.11"
             scikit-learn-version: "1.0.2"
           - python-version: "3.11"
