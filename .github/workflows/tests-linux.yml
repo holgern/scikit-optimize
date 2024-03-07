@@ -1,4 +1,4 @@
-name: Run fast tests on linux
+name: Run tests on linux
 on: [push]
 jobs:
   run:
@@ -31,3 +31,5 @@ jobs:
         pip install scikit-learn==${{ matrix.scikit-learn-version }}
     - name: Run fast tests
       run: pytest -m 'fast_test'
+    - name: Run slow tests
+      run: pytest -m 'slow_test'
