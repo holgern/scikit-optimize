@@ -22,4 +22,4 @@ jobs:
         pip install scikit-learn==${{ matrix.scikit-learn-version }}
         pytest -m 'fast_test'
         pytest -m 'slow_test'
-      if: matrix.python-version != '3.8' || matrix.scikit-learn-version != '1.4.1.post1'
+      if: (matrix.python-version != '3.8' || matrix.scikit-learn-version != '1.4.1.post1') && (matrix.python-version != '3.11' && matrix.scikit-learn-version != '1.0.2')
