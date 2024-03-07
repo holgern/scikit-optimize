@@ -36,6 +36,7 @@ jobs:
         pip install pytest
         pip install -e .
         pip install -r requirements.txt
+        pip install numpy==${{ matrix.numpy-version }}
         pip install scikit-learn==${{ matrix.scikit-learn-version }}
     - name: Run fast tests
       run: pytest -m 'fast_test'
