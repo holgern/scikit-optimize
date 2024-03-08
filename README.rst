@@ -1,7 +1,7 @@
 
 |Logo|
 
-|pypi| |conda| |binder| |Zenodo DOI|
+|pypi| |conda| |CI Status| |binder| |Zenodo DOI|
 
 Scikit-Optimize
 ===============

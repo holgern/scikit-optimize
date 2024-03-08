@@ -1,7 +1,7 @@
 Contributing
 ============
 
-Scikit-Optimize is an open-source project and contributions of all kinds
+Scikit-Optimize is an open-source project, and contributions of all kinds
 are welcome. We believe in this [code of conduct](CONDUCT.md).
 
 You can contribute with documentation, examples, reviewing pull requests, code,
