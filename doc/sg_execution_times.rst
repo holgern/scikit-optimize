@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:13.468** total execution time for 17 files **from all galleries**:
+**00:38.913** total execution time for 17 files **from all galleries**:
 
 .. container::
 
@@ -32,8 +32,8 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``..\examples\optimizer-with-different-base-estimator.py``)
-     - 00:13.468
+   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot.py` (``..\examples\plots\partial-dependence-plot.py``)
+     - 00:38.913
      - 0.0
    * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``..\examples\ask-and-tell.py``)
      - 00:00.000
@@ -50,6 +50,9 @@ Computation times
    * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``..\examples\interruptible-optimization.py``)
      - 00:00.000
      - 0.0
+   * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``..\examples\optimizer-with-different-base-estimator.py``)
+     - 00:00.000
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_parallel-optimization.py` (``..\examples\parallel-optimization.py``)
      - 00:00.000
      - 0.0
@@ -57,9 +60,6 @@ Computation times
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-with-categorical.py` (``..\examples\plots\partial-dependence-plot-with-categorical.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot.py` (``..\examples\plots\partial-dependence-plot.py``)
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plots_visualizing-results.py` (``..\examples\plots\visualizing-results.py``)

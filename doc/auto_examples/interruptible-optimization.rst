@@ -71,7 +71,7 @@ We will use pretty much the same optimization problem as in the
 notebook. Additionally we will instantiate the :class:`callbacks.CheckpointSaver`
 and pass it to the minimizer:
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-70
+.. GENERATED FROM PYTHON SOURCE LINES 43-68
 
 .. code-block:: Python
 
@@ -86,9 +86,7 @@ and pass it to the minimizer:
         return np.sin(5 * x[0]) * (1 - np.tanh(x[0] ** 2)) + np.random.randn() * noise_level
 
 
-    checkpoint_saver = CheckpointSaver(
-        "./checkpoint.pkl", compress=9
-    )  # keyword arguments will be passed to `skopt.dump`
+    checkpoint_saver = CheckpointSaver("./checkpoint.pkl", compress=9) # kwargs passed to `skopt.dump`
 
     gp_minimize(
         obj_fun,  # the function to minimize
@@ -133,7 +131,7 @@ and pass it to the minimizer:
                                             normalize_y=True, random_state=655685735)]
             space: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function obj_fun at 0x00000273F6DD4E00>
+            specs:     args:                    func: <function obj_fun at 0x000001C7CF21BC40>
                                           dimensions: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise='gaussian',
@@ -148,7 +146,7 @@ and pass it to the minimizer:
                                                   y0: None
                                         random_state: RandomState(MT19937)
                                              verbose: False
-                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x00000273FAF3DF50>]
+                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x000001C7CD730F50>]
                                             n_points: 10000
                                 n_restarts_optimizer: 5
                                                   xi: 0.01
@@ -159,7 +157,7 @@ and pass it to the minimizer:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-88
+.. GENERATED FROM PYTHON SOURCE LINES 69-86
 
 Now let's assume this did not finish at once but took some long time: you
 started this on Friday night, went out for the weekend and now, Monday
@@ -179,7 +177,7 @@ result with :class:`skopt.load`
 (see :ref:`sphx_glr_auto_examples_store-and-load-results.py` for more
 information on that)
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-95
+.. GENERATED FROM PYTHON SOURCE LINES 86-93
 
 .. code-block:: Python
 
@@ -203,14 +201,14 @@ information on that)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-100
+.. GENERATED FROM PYTHON SOURCE LINES 94-98
 
 Continue the search
 ===================
 
 The previous results can then be used to continue the optimization process:
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-116
+.. GENERATED FROM PYTHON SOURCE LINES 98-114
 
 .. code-block:: Python
 
@@ -262,7 +260,7 @@ The previous results can then be used to continue the optimization process:
                                             normalize_y=True, random_state=655685735)]
             space: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function obj_fun at 0x00000273F6DD4E00>
+            specs:     args:                    func: <function obj_fun at 0x000001C7CF21BC40>
                                           dimensions: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise='gaussian',
@@ -281,7 +279,7 @@ The previous results can then be used to continue the optimization process:
                                                        -1.752e-01  1.002e-01]
                                         random_state: RandomState(MT19937)
                                              verbose: False
-                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x00000273FAF3DF50>]
+                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x000001C7CD730F50>]
                                             n_points: 10000
                                 n_restarts_optimizer: 5
                                                   xi: 0.01
@@ -292,7 +290,7 @@ The previous results can then be used to continue the optimization process:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-129
+.. GENERATED FROM PYTHON SOURCE LINES 115-127
 
 Possible problems
 =================
@@ -310,7 +308,7 @@ for more information on how the results get saved and possible caveats
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.748 seconds)
+   **Total running time of the script:** (0 minutes 4.287 seconds)
 
 
 .. _sphx_glr_download_auto_examples_interruptible-optimization.py:

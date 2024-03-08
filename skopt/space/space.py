@@ -609,11 +609,8 @@ class Integer(Dimension):
         inv_transform = np.clip(inv_transform, self.low, self.high)
         if self.dtype == int or self.dtype == 'int':
             # necessary, otherwise the type is converted to a numpy type
-            return getattr(
-                np.round(inv_transform).astype(self.dtype),
-                "tolist",
-                lambda: inv_transform,
-            )()
+            value = np.round(inv_transform).astype(self.dtype)
+            return getattr(value, "tolist", lambda: value)()
         else:
             return np.round(inv_transform).astype(self.dtype)
 

@@ -91,7 +91,7 @@ We run forest_minimize on the function
     bounds = [
         (-1, 1.0),
     ] * 3
-    n_calls = 150
+    n_calls = 50
 
     result = forest_minimize(
         funny_func, bounds, n_calls=n_calls, base_estimator="ET", random_state=4
@@ -331,7 +331,7 @@ as the minimum argument:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 48.038 seconds)
+   **Total running time of the script:** (0 minutes 38.913 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plots_partial-dependence-plot.py:

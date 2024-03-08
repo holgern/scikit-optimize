@@ -33,7 +33,7 @@ Problem statement
 We are interested in solving
 
 .. math::
-    x^* = arg \min_x f(x)
+    x^* = arg \\min_x f(x)
 
 under the constraints that
 
@@ -59,7 +59,7 @@ For :math:`t=1:T`:
 
 2. optimize a cheap acquisition/utility function :math:`u` based on the
    posterior distribution for sampling the next point.
-   :math:`x_{t+1} = arg \min_x u(x)`
+   :math:`x_{t+1} = arg \\min_x u(x)`
    Exploit uncertainty to balance exploration against exploitation.
 
 3. Sample the next observation :math:`y_{t+1}` at :math:`x_{t+1}`.
@@ -72,16 +72,16 @@ Acquisition functions :math:`u(x)` specify which sample :math:`x`: should be
 tried next:
 
 - Expected improvement (default):
-  :math:`-EI(x) = -\mathbb{E} [f(x) - f(x_t^+)]`
-- Lower confidence bound: :math:`LCB(x) = \mu_{GP}(x) + \kappa \sigma_{GP}(x)`
-- Probability of improvement: :math:`-PI(x) = -P(f(x) \geq f(x_t^+) + \kappa)`
+  :math:`-EI(x) = -\\mathbb{E} [f(x) - f(x_t^+)]`
+- Lower confidence bound: :math:`LCB(x) = \\mu_{GP}(x) + \\kappa \\sigma_{GP}(x)`
+- Probability of improvement: :math:`-PI(x) = -P(f(x) \\geq f(x_t^+) + \\kappa)`
 
 where :math:`x_t^+` is the best point observed so far.
 
-In most cases, acquisition functions provide knobs (e.g., :math:`\kappa`) for
+In most cases, acquisition functions provide knobs (e.g., :math:`\\kappa`) for
 controlling the exploration-exploitation trade-off.
-- Search in regions where :math:`\mu_{GP}(x)` is high (exploitation)
-- Probe regions where uncertainty :math:`\sigma_{GP}(x)` is high (exploration)
+- Search in regions where :math:`\\mu_{GP}(x)` is high (exploitation)
+- Probe regions where uncertainty :math:`\\sigma_{GP}(x)` is high (exploration)
 
 .. GENERATED FROM PYTHON SOURCE LINES 67-77
 
@@ -284,7 +284,7 @@ provide the following information:
                                             normalize_y=True, random_state=822569775)]
             space: Space([Real(low=-2.0, high=2.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function f at 0x00000273812A8400>
+            specs:     args:                    func: <function f at 0x000001C7CF21BC40>
                                           dimensions: Space([Real(low=-2.0, high=2.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise=0.010000000000000002,
@@ -475,7 +475,7 @@ because the GP does not gain anything more by further exploration:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.523 seconds)
+   **Total running time of the script:** (0 minutes 3.317 seconds)
 
 
 .. _sphx_glr_download_auto_examples_bayesian-optimization.py:

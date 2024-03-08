@@ -31,15 +31,29 @@ dependencies = [
     "scipy>=1.1.0",
     "scikit-learn>=1.0.0",
 ]
-dynamic = ["version"]
+version = "0.10.0"
 
 [project.urls]
-Homepage = "https://github.com/holgern/scikit-optimize"
+Homepage = "https://scikit-optimize.readthedocs.io/en/latest/contents.html"
 "Source Code" = "https://github.com/holgern/scikit-optimize"
 "Bug Tracker" = "https://github.com/holgern/scikit-optimize/issues"
 
 [project.optional-dependencies]
-plots = ["matplotlib>=2.0.0"]
+plots = [
+    "matplotlib>=2.0.0",
+]
+dev = [
+    "flake8",
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+]
+doc = [
+    "memory_profiler",
+    "numpydoc",
+    "sphinx",
+    "sphinx-gallery>=0.6",
+]
 
 [tool.setuptools]
 packages = [
@@ -51,9 +65,6 @@ packages = [
     "skopt.sampler",
 ]
 include-package-data = false
-
-[tool.setuptools.dynamic]
-version = {attr = "skopt.__version__"}
 
 [tool.distutils.bdist_wheel]
 universal = 1

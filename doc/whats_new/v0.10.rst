@@ -2,9 +2,9 @@
 
 .. currentmodule:: skopt
 
-.. _changes_1_0:
+.. _changes_0_10:
 
-Version 1.0.0
+Version 0.10.0
 =============
 **March 2024**
 

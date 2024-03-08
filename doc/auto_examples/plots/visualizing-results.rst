@@ -171,7 +171,7 @@ Next we use an extra trees based minimizer to find one of the minima of the
 :class:`benchmarks.branin` function. Then we visualize at which points the objective is being
 evaluated using :class:`plots.plot_evaluations`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-124
+.. GENERATED FROM PYTHON SOURCE LINES 111-125
 
 .. code-block:: Python
 
@@ -180,10 +180,11 @@ evaluated using :class:`plots.plot_evaluations`.
     from skopt.plots import plot_evaluations
 
     bounds = [(-5.0, 10.0), (0.0, 15.0)]
-    n_calls = 160
+    n_calls = 20
+    n_jobs = -1
 
     forest_res = forest_minimize(
-        branin, bounds, n_calls=n_calls, base_estimator="ET", random_state=4
+        branin, bounds, n_calls=n_calls, n_jobs=n_jobs, base_estimator="ET", random_state=4
     )
 
     _ = plot_evaluations(forest_res, bins=10)
@@ -200,7 +201,7 @@ evaluated using :class:`plots.plot_evaluations`.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-158
+.. GENERATED FROM PYTHON SOURCE LINES 126-161
 
 :class:`plots.plot_evaluations` creates a grid of size `n_dims` by `n_dims`.
 The diagonal shows histograms for each of the dimensions. In the lower
@@ -224,7 +225,7 @@ Partial dependence plots
 ------------------------
 
 Partial dependence plots were proposed by
-[Friedman (2001)]_
+`Friedman (2001)`_
 as a method for interpreting the importance of input features used in
 gradient boosting machines. Given a function of :math:`k`: variables
 :math:`y=f\left(x_1, x_2, ..., x_k\right)`: the
@@ -236,14 +237,16 @@ search space.
 The idea is to visualize how the value of :math:`x_j`: influences the function
 :math:`f`: after averaging out the influence of all other variables.
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-163
+.. _Friedman (2001): https://dx.doi.org/10.1214/aos/1013203451
+
+.. GENERATED FROM PYTHON SOURCE LINES 161-166
 
 .. code-block:: Python
 
 
     from skopt.plots import plot_objective
 
-    _ = plot_objective(forest_res)
+    _ = plot_objective(forest_res, n_samples=10, n_points=10)
 
 
 
@@ -257,7 +260,7 @@ The idea is to visualize how the value of :math:`x_j`: influences the function
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 164-177
+.. GENERATED FROM PYTHON SOURCE LINES 167-180
 
 The two dimensional partial dependence plot can look like the true
 objective but it does not have to. As points at which the objective function
@@ -273,7 +276,7 @@ structure visible in the order in which it evaluates the objective. Because
 there is no model involved in the process of picking sample points at
 random, we can not plot the partial dependence of the model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 177-182
+.. GENERATED FROM PYTHON SOURCE LINES 180-185
 
 .. code-block:: Python
 
@@ -294,7 +297,7 @@ random, we can not plot the partial dependence of the model.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 183-193
+.. GENERATED FROM PYTHON SOURCE LINES 186-196
 
 Working in six dimensions
 =========================
@@ -307,17 +310,17 @@ things needed to make good plots of all combinations of the dimensions.
 The next example uses class:`benchmarks.hart6` which has six dimensions and shows both
 :class:`plots.plot_evaluations` and :class:`plots.plot_objective`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 193-202
+.. GENERATED FROM PYTHON SOURCE LINES 196-205
 
 .. code-block:: Python
 
 
     bounds = [
-        (0.0, 1.0),
+        (0.0, 1.0)
     ] * 6
 
     forest_res = forest_minimize(
-        hart6, bounds, n_calls=n_calls, base_estimator="ET", random_state=4
+        hart6, bounds, n_calls=n_calls, n_jobs=n_jobs, base_estimator="ET", random_state=4
     )
 
 
@@ -327,13 +330,13 @@ The next example uses class:`benchmarks.hart6` which has six dimensions and show
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 203-207
+.. GENERATED FROM PYTHON SOURCE LINES 206-210
 
 .. code-block:: Python
 
 
     _ = plot_evaluations(forest_res)
-    _ = plot_objective(forest_res, n_samples=40)
+    _ = plot_objective(forest_res, n_samples=10, n_points=10)
 
 
 
@@ -359,7 +362,7 @@ The next example uses class:`benchmarks.hart6` which has six dimensions and show
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 208-215
+.. GENERATED FROM PYTHON SOURCE LINES 211-218
 
 Going from 6 to 6+2 dimensions
 ==============================
@@ -369,25 +372,20 @@ As :class:`benchmarks.hart6` only depends on six dimensions we know that for thi
 the new dimensions will be "flat" or uninformative. This is clearly visible
 in both the placement of samples and the partial dependence plots.
 
-.. GENERATED FROM PYTHON SOURCE LINES 215-230
+.. GENERATED FROM PYTHON SOURCE LINES 218-228
 
 .. code-block:: Python
 
 
 
-    bounds = [
-        (0.0, 1.0),
-    ] * 8
-    n_calls = 200
+    bounds = [(0., 1.)] * 8
 
     forest_res = forest_minimize(
-        hart6, bounds, n_calls=n_calls, base_estimator="ET", random_state=4
+        hart6, bounds, n_calls=n_calls, n_jobs=n_jobs, base_estimator="ET", random_state=4
     )
 
     _ = plot_evaluations(forest_res)
-    _ = plot_objective(forest_res, n_samples=40)
-
-    # .. [Friedman (2001)] `doi:10.1214/aos/1013203451 section 8.2 <http://projecteuclid.org/euclid.aos/1013203451>`
+    _ = plot_objective(forest_res, n_samples=10, n_points=10)
 
 
 
@@ -415,7 +413,7 @@ in both the placement of samples and the partial dependence plots.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (9 minutes 28.904 seconds)
+   **Total running time of the script:** (2 minutes 37.528 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plots_visualizing-results.py:

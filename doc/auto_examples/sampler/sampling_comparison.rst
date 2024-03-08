@@ -93,7 +93,7 @@ to evaluate.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-120
+.. GENERATED FROM PYTHON SOURCE LINES 54-118
 
 .. code-block:: Python
 
@@ -157,9 +157,7 @@ to evaluate.
             n_repeats=n_repeats,
         )
         duration = time.time() - start
-        # print("%s %s: %.2f s" % (initial_point_generator,
-        #                          str(init_point_gen_kwargs),
-        #                          duration))
+        print("%s: %.2f s" % (initial_point_generator, duration))
         return res
 
 
@@ -170,7 +168,7 @@ to evaluate.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-132
+.. GENERATED FROM PYTHON SOURCE LINES 119-130
 
 Objective
 =========
@@ -184,7 +182,7 @@ random number generator. Then compare the average performance of these
 models. This makes the comparison more robust against models that get
 "lucky".
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-156
+.. GENERATED FROM PYTHON SOURCE LINES 130-154
 
 .. code-block:: Python
 
@@ -199,7 +197,7 @@ models. This makes the comparison more robust against models that get
             (0.0, 1.0),
         ] * 6
         true_minimum = -3.32237
-        n_calls = 40
+        n_calls = 30
         n_initial_points = 10
         yscale = None
         title = "Convergence plot - hart6"
@@ -219,7 +217,7 @@ models. This makes the comparison more robust against models that get
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 157-171
+.. GENERATED FROM PYTHON SOURCE LINES 155-169
 
 .. code-block:: Python
 
@@ -245,17 +243,24 @@ models. This makes the comparison more robust against models that get
 
  .. code-block:: none
 
+    random: 13.80 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E1766AE3D0>: 13.63 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E175E94D90>: 14.38 s
     C:\Users\holge\Documents\git\scikit-optimize\skopt\sampler\sobol.py:521: UserWarning: The balance properties of Sobol' points require n to be a power of 2. 0 points have been previously generated, then: n=0+10=10. 
       warnings.warn(
+    <skopt.sampler.sobol.Sobol object at 0x000001E176A075D0>: 19.99 s
+    halton: 12.59 s
+    hammersly: 11.62 s
+    grid: 13.15 s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 172-173
+.. GENERATED FROM PYTHON SOURCE LINES 170-171
 
 Note that this can take a few minutes.
 
-.. GENERATED FROM PYTHON SOURCE LINES 173-191
+.. GENERATED FROM PYTHON SOURCE LINES 171-189
 
 .. code-block:: Python
 
@@ -289,18 +294,18 @@ Note that this can take a few minutes.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-196
+.. GENERATED FROM PYTHON SOURCE LINES 190-194
 
 This plot shows the value of the minimum found (y axis) as a function
 of the number of iterations performed so far (x axis). The dashed red line
 indicates the true value of the minimum of the :class:`benchmarks.hart6`
 function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 198-199
+.. GENERATED FROM PYTHON SOURCE LINES 196-197
 
 Test with different n_random_starts values
 
-.. GENERATED FROM PYTHON SOURCE LINES 199-204
+.. GENERATED FROM PYTHON SOURCE LINES 197-202
 
 .. code-block:: Python
 
@@ -313,14 +318,22 @@ Test with different n_random_starts values
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    <skopt.sampler.lhs.Lhs object at 0x000001E1765C5A90>: 15.08 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E1765C5A90>: 16.89 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E1765C5A90>: 7.99 s
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 205-206
+
+.. GENERATED FROM PYTHON SOURCE LINES 203-204
 
 n_random_starts = 10 produces the best results
 
-.. GENERATED FROM PYTHON SOURCE LINES 206-221
+.. GENERATED FROM PYTHON SOURCE LINES 204-219
 
 .. code-block:: Python
 
@@ -354,7 +367,7 @@ n_random_starts = 10 produces the best results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (3 minutes 28.299 seconds)
+   **Total running time of the script:** (2 minutes 19.449 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sampler_sampling_comparison.py:

@@ -18,7 +18,7 @@ from .learning import (
 )
 from .learning.gaussian_process.kernels import ConstantKernel, HammingKernel, Matern
 from .sampler import Grid, Halton, Hammersly, InitialPointGenerator, Lhs, Sobol
-from .space import Dimension, Space
+from .space import Categorical, Dimension, Space
 
 __all__ = (
     "load",
@@ -590,14 +590,15 @@ def normalize_dimensions(dimensions):
     space = Space(dimensions)
     transformed_dimensions = []
     for dimension in space.dimensions:
-        # check if dimension is of a Dimension instance
-        if isinstance(dimension, Dimension):
+        if isinstance(dimension, Categorical):
+            dimension.set_transformer("onehot")
+        elif isinstance(dimension, Dimension):
             # Change the transformer to normalize
             # and add it to the new transformed dimensions
             dimension.set_transformer("normalize")
-            transformed_dimensions.append(dimension)
         else:
             raise RuntimeError("Unknown dimension type " "(%s)" % type(dimension))
+        transformed_dimensions.append(dimension)
 
     return Space(transformed_dimensions)
 

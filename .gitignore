@@ -15,6 +15,7 @@ doc/modules/generated/
 .vscode/
 *.pkl
 *.gz
+*.log
 # mac OS users
 .DS_Store
 

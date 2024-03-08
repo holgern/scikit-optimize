@@ -51,9 +51,7 @@ def obj_fun(x, noise_level=noise_level):
     return np.sin(5 * x[0]) * (1 - np.tanh(x[0] ** 2)) + np.random.randn() * noise_level
 
 
-checkpoint_saver = CheckpointSaver(
-    "./checkpoint.pkl", compress=9
-)  # keyword arguments will be passed to `skopt.dump`
+checkpoint_saver = CheckpointSaver("./checkpoint.pkl", compress=9) # kwargs passed to `skopt.dump`
 
 gp_minimize(
     obj_fun,  # the function to minimize

@@ -6,19 +6,19 @@
 Scikit-Optimize
 ===============
 
-Scikit-Optimize, or ``skopt``, is a simple and efficient library to
-minimize (very) expensive and noisy black-box functions. It implements
+Scikit-Optimize, or ``skopt``, is a simple and efficient library for
+optimizing (very) expensive and noisy black-box functions. It implements
 several methods for sequential model-based optimization. ``skopt`` aims
 to be accessible and easy to use in many contexts.
 
-The library is built on top of NumPy, SciPy and Scikit-Learn.
+The library is built on top of NumPy, SciPy, and Scikit-Learn.
 
 We do not perform gradient-based optimization. For gradient-based
 optimization algorithms look at
 ``scipy.optimize``
 `here <http://docs.scipy.org/doc/scipy/reference/optimize.html>`_.
 
-.. figure:: https://github.com/holgern/scikit-optimize/blob/master/media/bo-objective.png
+.. figure:: https://raw.githubusercontent.com/holgern/scikit-optimize/main/media/bo-objective.png
    :alt: Approximated objective
 
 Approximated objective function after 50 iterations of ``gp_minimize``.
@@ -33,9 +33,10 @@ i decided to continue on my own. I still have credentials for pypi, so I will pu
 Important links
 ---------------
 
--  Static documentation - `Static
-   documentation <https://scikit-optimize.github.io/>`__
+-  Project website <https://scikit-optimize.readthedocs.io/>`__
 -  Example notebooks - can be found in examples_.
+-  `Discussion forum
+   <https://github.com/scikit-optimize/scikit-optimize/discussions>`__
 -  Issue tracker -
    https://github.com/holgern/scikit-optimize/issues
 -  Releases - https://pypi.python.org/pypi/scikit-optimize
@@ -57,16 +58,16 @@ You can install the latest release with:
 
     pip install scikit-optimize
 
-This installs an essential version of scikit-optimize. To install scikit-optimize
-with plotting functionality, you can instead do:
+This installs the essentials. To install plotting functionality,
+you can instead do:
 ::
 
     pip install 'scikit-optimize[plots]'
 
-This will install matplotlib along with scikit-optimize.
+This will additionally install Matplotlib.
 
-In addition there is a `conda-forge <https://conda-forge.org/>`_ package
-of scikit-optimize:
+If you're using Anaconda platform, there is a `conda-forge <https://conda-forge.org/>`_
+package of scikit-optimize:
 ::
 
     conda install -c conda-forge scikit-optimize
@@ -110,7 +111,7 @@ class:
 
 
 Read our `introduction to bayesian
-optimization <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html>`__
+optimization <https://scikit-optimize.readthedocs.io/en/latest/auto_examples/bayesian-optimization.html>`__
 and the other examples_.
 
 
@@ -149,12 +150,14 @@ Installation
 ~~~~~~~~~~~~
 
 ::
+
     pip install pre-commit
 
 
 Using homebrew
 ~~~~~~~~~~~~~~
 ::
+
     brew install pre-commit
 
     pre-commit --version
@@ -164,12 +167,14 @@ Install the git hook scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
+
     pre-commit install
 
 
 Run against all the files
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ::
+
     pre-commit run --all-files
     pre-commit run --show-diff-on-failure --color=always --all-files
 
@@ -177,6 +182,7 @@ Run against all the files
 Update package rev in pre-commit yaml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ::
+
     pre-commit autoupdate
     pre-commit run --show-diff-on-failure --color=always --all-files
 
@@ -209,7 +215,7 @@ The scikit-optimize project was made possible with the support of
 
 .. image:: https://avatars1.githubusercontent.com/u/18165687?v=4&s=128
    :alt: Wild Tree Tech
-   :target: http://wildtreetech.com
+   :target: https://wildtreetech.com
 
 .. image:: https://i.imgur.com/lgxboT5.jpg
     :alt: NYU Center for Data Science
@@ -221,7 +227,7 @@ The scikit-optimize project was made possible with the support of
 
 .. image:: https://i.imgur.com/3enQ6S8.jpg
     :alt: Northrop Grumman
-    :target: http://www.northropgrumman.com/Pages/default.aspx
+    :target: https://www.northropgrumman.com/Pages/default.aspx
 
 If your employer allows you to work on scikit-optimize during the day and would like
 recognition, feel free to add them to the "Made possible by" list.
@@ -231,9 +237,13 @@ recognition, feel free to add them to the "Made possible by" list.
    :target: https://pypi.python.org/pypi/scikit-optimize
 .. |conda| image:: https://anaconda.org/conda-forge/scikit-optimize/badges/version.svg
    :target: https://anaconda.org/conda-forge/scikit-optimize
+.. |CI Status| image:: https://github.com/holgern/scikit-optimize/actions/workflows/ci.yml/badge.svg?branch=main
+   :target: https://github.com/holgern/scikit-optimize/actions/workflows/ci.yml?query=branch%3Amain
 .. |Logo| image:: https://avatars2.githubusercontent.com/u/18578550?v=4&s=80
 .. |binder| image:: https://mybinder.org/badge.svg
-   :target: https://mybinder.org/v2/gh/holgern/scikit-optimize/master?filepath=examples
+   :target: https://mybinder.org/v2/gh/holgern/scikit-optimize/main?filepath=examples
 .. |Zenodo DOI| image:: https://zenodo.org/badge/54340642.svg
    :target: https://zenodo.org/badge/latestdoi/54340642
-.. _examples: https://scikit-optimize.github.io/stable/auto_examples/index.html
+.. |scipy.optimize| replace:: ``scipy.optimize``
+.. _scipy.optimize: https://docs.scipy.org/doc/scipy/reference/optimize.html
+.. _examples: https://scikit-optimize.readthedocs.io/en/latest/auto_examples/index.html

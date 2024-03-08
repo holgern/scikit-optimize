@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**03:43.062** total execution time for 3 files **from auto_examples\sampler**:
+**02:19.449** total execution time for 3 files **from auto_examples\sampler**:
 
 .. container::
 
@@ -33,11 +33,11 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_sampler_sampling_comparison.py` (``sampling_comparison.py``)
-     - 03:28.299
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method.py` (``initial-sampling-method.py``)
-     - 00:08.052
+     - 02:19.449
      - 0.0
    * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method-integer.py` (``initial-sampling-method-integer.py``)
-     - 00:06.711
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method.py` (``initial-sampling-method.py``)
+     - 00:00.000
      - 0.0

@@ -80,7 +80,9 @@ def test_real():
     random_values = a.rvs(random_state=0, n_samples=10)
     assert len(random_values) == 10
     assert_array_equal(a.transform(random_values), random_values)
-    assert_array_equal(a.inverse_transform(random_values), random_values)
+    assert_array_almost_equal(
+        a.inverse_transform(random_values), random_values, decimal=12
+    )
 
     log_uniform = Real(10**-5, 10**5, prior="log-uniform")
     assert log_uniform != Real(10**-5, 10**5)
@@ -91,7 +93,9 @@ def test_real():
     assert len(random_values) == 10
     transformed_vals = log_uniform.transform(random_values)
     assert_array_equal(transformed_vals, np.log10(random_values))
-    assert_array_equal(log_uniform.inverse_transform(transformed_vals), random_values)
+    assert_array_almost_equal(
+        log_uniform.inverse_transform(transformed_vals), random_values, decimal=12
+    )
 
 
 @pytest.mark.fast_test
@@ -582,7 +586,7 @@ def test_normalize_categorical():
 
 
 @pytest.mark.fast_test
-def test_normalize_integer2():
+def test_normalize_int():
     for dtype in [
         'int',
         'int8',

@@ -15,7 +15,7 @@ The development version can be installed through:
 
     git clone https://github.com/holgern/scikit-optimize.git
     cd scikit-optimize
-    pip install -e.
+    pip install -e .
 
 Run all tests by executing ``pytest`` in the top level directory.
 

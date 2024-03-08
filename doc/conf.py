@@ -27,8 +27,9 @@ from packaging.version import parse
 import skopt
 
 sys.path.insert(0, os.path.abspath('sphinxext'))
-import sphinx_gallery
-from github_link import make_linkcode_resolve
+import sphinx_gallery  # noqa: E402
+from github_link import make_linkcode_resolve  # noqa: E402
+from importlib.metadata import version, PackageNotFoundError  # noqa: E402
 
 #  __version__ = pkg_resources.get_distribution('skopt').version
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -40,10 +41,14 @@ copyright = '2017 - 2024, scikit-optimize contributors (BSD License)'
 author = 'The scikit-optimize contributors'
 
 # The short X.Y version
-version = parse(skopt.__version__).base_version
+try:
+    _version = version("skopt")
+except PackageNotFoundError:
+    _version = version("scikit-optimize")
+version = parse(_version).base_version
 version = ".".join(version.split(".")[:2])
 # The full version, including alpha/beta/rc tags
-release = skopt.__version__
+release = _version
 
 # -- General configuration ---------------------------------------------------
 
@@ -102,7 +107,7 @@ master_doc = 'contents'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -293,7 +298,7 @@ class SubSectionTitleOrder:
 sphinx_gallery_conf = {
     'doc_module': 'skopt',
     'backreferences_dir': os.path.join('modules', 'generated'),
-    'show_memory': True,
+    'show_memory': False,
     'reference_url': {'skopt': None},
     'examples_dirs': ['../examples'],
     'gallery_dirs': ['auto_examples'],

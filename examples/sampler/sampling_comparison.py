@@ -111,9 +111,7 @@ def run_measure(initial_point_generator, n_initial_points=10):
         n_repeats=n_repeats,
     )
     duration = time.time() - start
-    # print("%s %s: %.2f s" % (initial_point_generator,
-    #                          str(init_point_gen_kwargs),
-    #                          duration))
+    print("%s: %.2f s" % (initial_point_generator, duration))
     return res
 
 
@@ -140,7 +138,7 @@ if example == "hart6":
         (0.0, 1.0),
     ] * 6
     true_minimum = -3.32237
-    n_calls = 40
+    n_calls = 30
     n_initial_points = 10
     yscale = None
     title = "Convergence plot - hart6"

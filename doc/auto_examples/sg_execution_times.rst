@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:13.468** total execution time for 10 files **from auto_examples**:
+**00:07.604** total execution time for 10 files **from auto_examples**:
 
 .. container::
 
@@ -32,13 +32,13 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``optimizer-with-different-base-estimator.py``)
-     - 00:13.468
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``ask-and-tell.py``)
-     - 00:00.000
+   * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``interruptible-optimization.py``)
+     - 00:04.287
      - 0.0
    * - :ref:`sphx_glr_auto_examples_bayesian-optimization.py` (``bayesian-optimization.py``)
+     - 00:03.317
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``ask-and-tell.py``)
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py` (``exploration-vs-exploitation.py``)
@@ -47,7 +47,7 @@ Computation times
    * - :ref:`sphx_glr_auto_examples_hyperparameter-optimization.py` (``hyperparameter-optimization.py``)
      - 00:00.000
      - 0.0
-   * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``interruptible-optimization.py``)
+   * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``optimizer-with-different-base-estimator.py``)
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parallel-optimization.py` (``parallel-optimization.py``)

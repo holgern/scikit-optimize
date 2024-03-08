@@ -399,12 +399,12 @@ def test_defaults_are_equivalent():
 
     assert res_min.space == res_opt.space
     # tolerate small differences in the points sampled
-    assert np.allclose(res_min.x_iters, res_opt.x_iters)  # , atol=1e-5)
-    assert np.allclose(res_min.x, res_opt.x)  # , atol=1e-5)
+    assert np.allclose(res_min.x_iters, res_opt.x_iters)
+    assert np.allclose(res_min.x, res_opt.x)
 
     res_opt2 = opt.get_result()
-    assert np.allclose(res_min.x_iters, res_opt2.x_iters)  # , atol=1e-5)
-    assert np.allclose(res_min.x, res_opt2.x)  # , atol=1e-5)
+    assert np.allclose(res_min.x_iters, res_opt2.x_iters)
+    assert np.allclose(res_min.x, res_opt2.x)
 
 
 @pytest.mark.fast_test

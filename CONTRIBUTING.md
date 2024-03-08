@@ -1,4 +1,5 @@
-# Contributing
+Contributing
+============
 
 Scikit-Optimize is an open-source project and contributions of all kinds
 are welcome. We believe in this [code of conduct](CONDUCT.md).

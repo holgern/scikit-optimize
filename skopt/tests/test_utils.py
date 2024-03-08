@@ -196,7 +196,7 @@ def test_categoricals_mixed_types():
     "dimensions, normalizations",
     [
         (((1, 3), (1.0, 3.0)), ('normalize', 'normalize')),
-        # (((1, 3), ('a', 'b', 'c')), ('normalize', 'onehot')),
+        (((1, 3), ('a', 'b', 'c')), ('normalize', 'onehot')),
     ],
 )
 def test_normalize_dimensions(dimensions, normalizations):

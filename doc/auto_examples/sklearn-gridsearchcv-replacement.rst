@@ -118,10 +118,8 @@ A minimal example of optimizing hyperparameters of SVC (Support Vector machine C
 
  .. code-block:: none
 
-    C:\Users\holge\Documents\git\scikit-optimize\skopt\optimizer\optimizer.py:462: UserWarning: The objective has been evaluated at this point before.
-      warnings.warn(
-    val. score: 0.985894580549369
-    test score: 0.9822222222222222
+    val. score: 0.9866369710467705
+    test score: 0.9844444444444445
 
 
 
@@ -222,30 +220,6 @@ decision trees is given below.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
       warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
@@ -300,21 +274,15 @@ decision trees is given below.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
       warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
       warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
       warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
-      warnings.warn(
-    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
       warnings.warn(
@@ -346,9 +314,45 @@ decision trees is given below.
       warnings.warn(
     C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
       warnings.warn(
-    val. score: 0.985894580549369
-    test score: 0.9822222222222222
-    best params: OrderedDict([('model', SVC()), ('model__C', 0.41571471424085416), ('model__degree', 3), ('model__gamma', 1.0560013164213486), ('model__kernel', 'poly')])
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_base.py:1237: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    C:\Users\holge\AppData\Roaming\Python\Python311\site-packages\sklearn\svm\_classes.py:31: FutureWarning: The default value of `dual` will change from `True` to `'auto'` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+      warnings.warn(
+    val. score: 0.9888641425389756
+    test score: 0.9933333333333333
+    best params: OrderedDict([('model', SVC()), ('model__C', 1.0616906520839873), ('model__degree', 2), ('model__gamma', 0.0007283506218454548), ('model__kernel', 'rbf')])
 
 
 
@@ -461,8 +465,16 @@ An example usage is shown below.
 
  .. code-block:: none
 
-    best score: 0.98
-    Interrupting!
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
+    best score: 0.9666666666666667
 
 
 .. raw:: html
@@ -908,7 +920,7 @@ calculated with `total_iterations` property, as in the code below.
             ({'C': (0.1, 1.0)}, 19),  # 19 iterations for this subspace
             {'gamma': (0.1, 1.0)},
         ],
-        n_iter=23,
+        n_iter=10,
     )
 
     print(searchcv.total_iterations)
@@ -920,7 +932,7 @@ calculated with `total_iterations` property, as in the code below.
 
  .. code-block:: none
 
-    42
+    29
 
 
 
@@ -928,7 +940,7 @@ calculated with `total_iterations` property, as in the code below.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (2 minutes 28.289 seconds)
+   **Total running time of the script:** (2 minutes 16.825 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sklearn-gridsearchcv-replacement.py:
