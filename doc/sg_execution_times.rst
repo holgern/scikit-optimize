@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**28:14.726** total execution time for 17 files **from all galleries**:
+**00:13.468** total execution time for 17 files **from all galleries**:
 
 .. container::
 
@@ -32,54 +32,54 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_plots_visualizing-results.py` (``..\examples\plots\visualizing-results.py``)
-     - 09:28.904
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_hyperparameter-optimization.py` (``..\examples\hyperparameter-optimization.py``)
-     - 05:36.252
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_strategy-comparison.py` (``..\examples\strategy-comparison.py``)
-     - 03:59.882
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_sampler_sampling_comparison.py` (``..\examples\sampler\sampling_comparison.py``)
-     - 03:28.299
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_sklearn-gridsearchcv-replacement.py` (``..\examples\sklearn-gridsearchcv-replacement.py``)
-     - 02:28.289
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot.py` (``..\examples\plots\partial-dependence-plot.py``)
-     - 00:48.038
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parallel-optimization.py` (``..\examples\parallel-optimization.py``)
-     - 00:35.607
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py` (``..\examples\exploration-vs-exploitation.py``)
-     - 00:32.609
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-with-categorical.py` (``..\examples\plots\partial-dependence-plot-with-categorical.py``)
-     - 00:21.772
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-2D.py` (``..\examples\plots\partial-dependence-plot-2D.py``)
-     - 00:17.501
-     - 0.0
    * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``..\examples\optimizer-with-different-base-estimator.py``)
-     - 00:12.360
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method.py` (``..\examples\sampler\initial-sampling-method.py``)
-     - 00:08.052
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method-integer.py` (``..\examples\sampler\initial-sampling-method-integer.py``)
-     - 00:06.711
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_bayesian-optimization.py` (``..\examples\bayesian-optimization.py``)
-     - 00:03.523
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``..\examples\interruptible-optimization.py``)
-     - 00:02.748
+     - 00:13.468
      - 0.0
    * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``..\examples\ask-and-tell.py``)
-     - 00:02.246
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_bayesian-optimization.py` (``..\examples\bayesian-optimization.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py` (``..\examples\exploration-vs-exploitation.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_hyperparameter-optimization.py` (``..\examples\hyperparameter-optimization.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``..\examples\interruptible-optimization.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parallel-optimization.py` (``..\examples\parallel-optimization.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-2D.py` (``..\examples\plots\partial-dependence-plot-2D.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-with-categorical.py` (``..\examples\plots\partial-dependence-plot-with-categorical.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot.py` (``..\examples\plots\partial-dependence-plot.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plots_visualizing-results.py` (``..\examples\plots\visualizing-results.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method-integer.py` (``..\examples\sampler\initial-sampling-method-integer.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_sampler_initial-sampling-method.py` (``..\examples\sampler\initial-sampling-method.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_sampler_sampling_comparison.py` (``..\examples\sampler\sampling_comparison.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_sklearn-gridsearchcv-replacement.py` (``..\examples\sklearn-gridsearchcv-replacement.py``)
+     - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_store-and-load-results.py` (``..\examples\store-and-load-results.py``)
-     - 00:01.933
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_strategy-comparison.py` (``..\examples\strategy-comparison.py``)
+     - 00:00.000
      - 0.0

@@ -15,7 +15,6 @@ doc/modules/generated/
 .vscode/
 *.pkl
 *.gz
-doc/auto_examples
 # mac OS users
 .DS_Store
 
