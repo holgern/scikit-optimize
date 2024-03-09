@@ -111,7 +111,7 @@ pipe = Pipeline([('model', SVC())])
 # We will get ConvergenceWarnings because the problem is not well-conditioned.
 # But that's fine, this is just an example.
 linsvc_search = {
-    'model': [LinearSVC(max_iter=1000)],
+    'model': [LinearSVC(max_iter=1000, dual="auto")],
     'model__C': (1e-6, 1e6, 'log-uniform'),
 }
 

@@ -235,6 +235,7 @@ and report the value back to the optimizer:
                                        acq_optimizer: sampling
                                         random_state: None
                                     model_queue_size: None
+                                    space_constraint: None
                                      acq_func_kwargs: None
                                 acq_optimizer_kwargs: None
                                     avoid_duplicates: True
@@ -362,7 +363,7 @@ meantime:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.673 seconds)
+   **Total running time of the script:** (0 minutes 2.127 seconds)
 
 
 .. _sphx_glr_download_auto_examples_ask-and-tell.py:

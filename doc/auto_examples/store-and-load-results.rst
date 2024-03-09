@@ -156,7 +156,7 @@ And load from file using :class:`skopt.load`:
  .. code-block:: none
 
 
-    -1.1112345317634085
+    -0.99848621216526
 
 
 
@@ -191,8 +191,8 @@ level (highest in this case):
 
  .. code-block:: none
 
-    Without compression: 75361 bytes
-    Compressed with gz:  27195 bytes
+    Without compression: 75397 bytes
+    Compressed with gz:  27341 bytes
 
 
 
@@ -246,8 +246,8 @@ present in the local variable:
 
  .. code-block:: none
 
-    Loaded object:  dict_keys(['dimensions', 'base_estimator', 'n_calls', 'n_random_starts', 'n_initial_points', 'initial_point_generator', 'acq_func', 'acq_optimizer', 'x0', 'y0', 'random_state', 'verbose', 'callback', 'n_points', 'n_restarts_optimizer', 'xi', 'kappa', 'n_jobs', 'model_queue_size'])
-    Local variable: dict_keys(['func', 'dimensions', 'base_estimator', 'n_calls', 'n_random_starts', 'n_initial_points', 'initial_point_generator', 'acq_func', 'acq_optimizer', 'x0', 'y0', 'random_state', 'verbose', 'callback', 'n_points', 'n_restarts_optimizer', 'xi', 'kappa', 'n_jobs', 'model_queue_size'])
+    Loaded object:  dict_keys(['dimensions', 'base_estimator', 'n_calls', 'n_random_starts', 'n_initial_points', 'initial_point_generator', 'acq_func', 'acq_optimizer', 'x0', 'y0', 'random_state', 'verbose', 'callback', 'n_points', 'n_restarts_optimizer', 'xi', 'kappa', 'n_jobs', 'model_queue_size', 'space_constraint'])
+    Local variable: dict_keys(['func', 'dimensions', 'base_estimator', 'n_calls', 'n_random_starts', 'n_initial_points', 'initial_point_generator', 'acq_func', 'acq_optimizer', 'x0', 'y0', 'random_state', 'verbose', 'callback', 'n_points', 'n_restarts_optimizer', 'xi', 'kappa', 'n_jobs', 'model_queue_size', 'space_constraint'])
 
 
 
@@ -287,7 +287,7 @@ copy is created:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.297 seconds)
+   **Total running time of the script:** (0 minutes 2.642 seconds)
 
 
 .. _sphx_glr_download_auto_examples_store-and-load-results.py:

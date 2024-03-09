@@ -415,7 +415,7 @@ It can be seen that random has the worst performance
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.643 seconds)
+   **Total running time of the script:** (0 minutes 5.235 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sampler_initial-sampling-method.py:

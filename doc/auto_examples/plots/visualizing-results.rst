@@ -413,7 +413,7 @@ in both the placement of samples and the partial dependence plots.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (3 minutes 17.953 seconds)
+   **Total running time of the script:** (2 minutes 57.697 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plots_visualizing-results.py:
