@@ -29,6 +29,7 @@ def gp_minimize(
     noise="gaussian",
     n_jobs=1,
     model_queue_size=None,
+    space_constraint=None,
 ):
     """Bayesian optimization using Gaussian Processes.
 
@@ -236,6 +237,12 @@ def gp_minimize(
         Keeps list of models only as long as the argument given. In the
         case of None, the list has no capped length.
 
+    space_constraint : callable or None, default: None
+        Constraint function. Should take a single list of parameters
+        (i.e. a point in space) and return True if the point satisfies
+        the constraints.
+        If None, the space is not conditionally constrained.
+
     Returns
     -------
     res : `OptimizeResult`, scipy object
@@ -289,6 +296,7 @@ def gp_minimize(
         y0=y0,
         random_state=rng,
         verbose=verbose,
+        space_constraint=space_constraint,
         callback=callback,
         n_jobs=n_jobs,
         model_queue_size=model_queue_size,

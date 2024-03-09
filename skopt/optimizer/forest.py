@@ -22,6 +22,7 @@ def forest_minimize(
     kappa=1.96,
     n_jobs=1,
     model_queue_size=None,
+    space_constraint=None,
 ):
     """Sequential optimisation using decision trees.
 
@@ -172,6 +173,12 @@ def forest_minimize(
         Keeps list of models only as long as the argument given. In the
         case of None, the list has no capped length.
 
+    space_constraint : callable or None, default: None
+        Constraint function. Should take a single list of parameters
+        (i.e. a point in space) and return True if the point satisfies
+        the constraints.
+        If None, the space is not conditionally constrained.
+
     Returns
     -------
     res : `OptimizeResult`, scipy object
@@ -212,5 +219,6 @@ def forest_minimize(
         verbose=verbose,
         callback=callback,
         acq_optimizer="sampling",
+        space_constraint=space_constraint,
         model_queue_size=model_queue_size,
     )

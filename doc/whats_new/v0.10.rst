@@ -29,6 +29,7 @@ Version 0.10.0
 - |Feature| Test DeltaYStopper with minimize functions fixes
 - |Fix| dimension mismatch with gp_minimize in Matern kernel when nu=0.5
 - |Fix| GPR with noise fix
+- |Feature| Add constrained optimization
 - Minor documentation improvements.
 - Various small bugs and fixes.
 - https://github.com/scikit-optimize/scikit-optimize/pull/1067

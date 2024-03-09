@@ -37,6 +37,7 @@ def base_minimize(
     kappa=1.96,
     n_jobs=1,
     model_queue_size=None,
+    space_constraint=None,
 ):
     """Base optimizer class.
 
@@ -198,6 +199,12 @@ def base_minimize(
         Keeps list of models only as long as the argument given. In the
         case of None, the list has no capped length.
 
+    space_constraint : callable or None, default: None
+        Constraint function. Should take a single list of parameters
+        (i.e. a point in space) and return True if the point satisfies
+        the constraints.
+        If None, the space is not conditionally constrained.
+
     Returns
     -------
     res : `OptimizeResult`, scipy object
@@ -276,6 +283,7 @@ def base_minimize(
         acq_optimizer=acq_optimizer,
         random_state=random_state,
         model_queue_size=model_queue_size,
+        space_constraint=space_constraint,
         acq_optimizer_kwargs=acq_optimizer_kwargs,
         acq_func_kwargs=acq_func_kwargs,
     )

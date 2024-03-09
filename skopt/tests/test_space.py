@@ -952,3 +952,26 @@ def test_dimension_loguniform_prior(dimension, bounds):
         upper,
         prior='log-uniform',
     )
+
+
+@pytest.mark.fast_test
+def test_constraint():
+    def constraint(params):
+        x, y, cond = params
+        return cond == 'ok' and x**2 + y**2 <= 1
+
+    space = Space(
+        [Integer(-1, 3), Real(-1, 3), Categorical(['ok', 'skip'])],
+        constraint=constraint,
+    )
+    for params in space.rvs(1000, random_state=0):
+        assert constraint(params)
+
+    # Constraint inherited from space
+    space = Space(space, constraint=None)
+    for params in space.rvs(1000, random_state=0):
+        assert constraint(params)
+
+    # Terminates on unsatisfiable constraint
+    space = Space([space.dimensions[0]], constraint=lambda _: False)
+    assert_raises_regex(RuntimeError, 'constraint', space.rvs, 1)
