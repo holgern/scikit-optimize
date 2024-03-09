@@ -159,14 +159,14 @@ Miscellaneous and introductory examples for scikit-optimize.
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_exploration-vs-exploitation_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_optimizer-with-different-base-estimator_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py`
+  :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Exploration vs exploitation</div>
+      <div class="sphx-glr-thumbnail-title">Use different base estimators for optimization</div>
     </div>
 
 
@@ -176,14 +176,14 @@ Miscellaneous and introductory examples for scikit-optimize.
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_optimizer-with-different-base-estimator_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_exploration-vs-exploitation_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py`
+  :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Use different base estimators for optimization</div>
+      <div class="sphx-glr-thumbnail-title">Exploration vs exploitation</div>
     </div>
 
 
@@ -203,8 +203,8 @@ Miscellaneous and introductory examples for scikit-optimize.
    /auto_examples/strategy-comparison
    /auto_examples/bayesian-optimization
    /auto_examples/sklearn-gridsearchcv-replacement
-   /auto_examples/exploration-vs-exploitation
    /auto_examples/optimizer-with-different-base-estimator
+   /auto_examples/exploration-vs-exploitation
 
 
 Initial sampling functions

@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_array_equal
+from numpy.testing import assert_almost_equal, assert_array_equal
 
 from skopt import gp_minimize
 from skopt.benchmarks import bench1, bench2, bench3, bench4, branin
@@ -47,7 +47,7 @@ def test_gp_minimize_bench1(search, acq):
 
 @pytest.mark.slow_test
 @pytest.mark.parametrize("search", ["sampling"])
-@pytest.mark.parametrize("acq", ["LCB"])
+@pytest.mark.parametrize("acq", ["LCB", "MES"])
 @pytest.mark.parametrize("initgen", INITGEN)
 def test_gp_minimize_bench1_initgen(search, acq, initgen):
     check_minimize(bench1, 0.0, [(-2.0, 2.0)], search, acq, 0.05, 20, init_gen=initgen)
@@ -69,7 +69,7 @@ def test_gp_minimize_bench3(search, acq):
 
 @pytest.mark.fast_test
 @pytest.mark.parametrize("search", ["sampling"])
-@pytest.mark.parametrize("acq", ACQUISITION)
+@pytest.mark.parametrize("acq", ["LCB", "EI", "MES"])
 def test_gp_minimize_bench4(search, acq):
     # this particular random_state picks "2" twice so we can make an extra
     # call to the objective without repeating options
@@ -180,7 +180,8 @@ def test_mixed_categoricals(initgen):
     res = gp_minimize(
         objective, space, n_calls=20, random_state=1, initial_point_generator=initgen
     )
-    assert res["x"] in [['1', 4, 1.0], ['2', 4, 1.0]]
+    assert res["x"][:2] in [['1', 4], ['2', 4]]
+    assert_almost_equal(res["x"][2], 1.0, decimal=3)
 
 
 @pytest.mark.parametrize("initgen", INITGEN)

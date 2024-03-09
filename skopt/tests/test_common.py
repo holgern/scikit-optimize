@@ -15,7 +15,7 @@ from scipy.optimize import OptimizeResult
 
 from skopt import dummy_minimize, forest_minimize, gbrt_minimize, gp_minimize
 from skopt.benchmarks import bench1, bench4, bench5, branin
-from skopt.callbacks import DeltaXStopper
+from skopt.callbacks import DeltaXStopper, DeltaYStopper
 from skopt.space import Space
 
 # dummy_minimize does not support same parameters so
@@ -468,6 +468,37 @@ def test_early_stopping_delta_x_empty_result_object(minimizer):
         random_state=1,
     )
     assert len(res.x_iters) < n_calls
+
+
+@pytest.mark.fast_test
+@pytest.mark.parametrize("minimizer", [gp_minimize, forest_minimize, gbrt_minimize])
+def test_early_stopping_delta_y(minimizer):
+    n_calls = 5
+    res = minimizer(
+        lambda x: x[0] / 4,
+        callback=DeltaYStopper(0.6, 2),
+        dimensions=[(-1.0, 1.0)],
+        n_calls=n_calls,
+        n_initial_points=1,
+        random_state=1,
+    )
+    assert len(res.x_iters) == 2
+
+
+@pytest.mark.fast_test
+@pytest.mark.parametrize("minimizer", [gp_minimize, forest_minimize, gbrt_minimize])
+def test_early_stopping_delta_y_with_x0(minimizer):
+    n_calls = 5
+    res = minimizer(
+        lambda x: x[0] / 4,
+        callback=DeltaYStopper(0.6, 2),
+        dimensions=[(-1.0, 1.0)],
+        x0=[[-0.5], [0.5]],
+        n_calls=n_calls,
+        n_initial_points=0,
+        random_state=1,
+    )
+    assert len(res.x_iters) == 2
 
 
 @pytest.mark.parametrize("acq_func", ACQ_FUNCS_PS)

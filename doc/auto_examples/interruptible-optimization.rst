@@ -131,7 +131,7 @@ and pass it to the minimizer:
                                             normalize_y=True, random_state=655685735)]
             space: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function obj_fun at 0x000001C7CF21BC40>
+            specs:     args:                    func: <function obj_fun at 0x00000209FF3AA480>
                                           dimensions: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise='gaussian',
@@ -146,7 +146,7 @@ and pass it to the minimizer:
                                                   y0: None
                                         random_state: RandomState(MT19937)
                                              verbose: False
-                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x000001C7CD730F50>]
+                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x0000020980068C90>]
                                             n_points: 10000
                                 n_restarts_optimizer: 5
                                                   xi: 0.01
@@ -208,7 +208,7 @@ Continue the search
 
 The previous results can then be used to continue the optimization process:
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-114
+.. GENERATED FROM PYTHON SOURCE LINES 98-120
 
 .. code-block:: Python
 
@@ -216,16 +216,22 @@ The previous results can then be used to continue the optimization process:
     x0 = res.x_iters
     y0 = res.func_vals
 
+    # To ensure that the base estimator is loaded properly and that the next 
+    # parameters are new ones:
+    base_estimator = res.specs['args']['base_estimator']
+    random_state = res.random_state
+
     gp_minimize(
         obj_fun,  # the function to minimize
         [(-20.0, 20.0)],  # the bounds on each dimension of x
+        base_estimator=base_estimator, # warm-started base-estimator from checkpoint
         x0=x0,  # already examined values for x
         y0=y0,  # observed values for x0
         acq_func="LCB",  # the acquisition function (optional)
         n_calls=10,  # number of evaluations of f including at x0
         n_random_starts=3,  # the number of random initialization points
         callback=[checkpoint_saver],
-        random_state=777,
+        random_state=random_state,
     )
 
 
@@ -240,7 +246,7 @@ The previous results can then be used to continue the optimization process:
               fun: -0.17524445239614728
                 x: [-18.66071160823085]
         func_vals: [-4.682e-02 -8.228e-02 ...  9.148e-02  2.650e-02]
-          x_iters: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484750012], [-17.111120867646413], [7.2513014572576076], [-19.167098803897638], [-18.66071160823085], [-18.284297234995396], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [-19.095152555747323], [-18.994312771395265], [-19.303491079245532], [-18.902401736419474], [-18.828069903080316], [-19.391720113475884], [-18.85194842847624]]
+          x_iters: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484750012], [-17.111120867646413], [7.2513014572576076], [-19.167098803897638], [-18.66071160823085], [-18.284297234995396], [-4.89536560655587], [-13.817289687225252], [6.9752035588202865], [-19.13712142711022], [-18.89398161213583], [-19.36136150317394], [-18.951713832432308], [6.383980577774469], [-18.82159785338048], [-19.373206973808692]]
            models: [GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5) + WhiteKernel(noise_level=1),
                                             n_restarts_optimizer=2, noise='gaussian',
                                             normalize_y=True, random_state=655685735), GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5) + WhiteKernel(noise_level=1),
@@ -260,7 +266,7 @@ The previous results can then be used to continue the optimization process:
                                             normalize_y=True, random_state=655685735)]
             space: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function obj_fun at 0x000001C7CF21BC40>
+            specs:     args:                    func: <function obj_fun at 0x00000209FF3AA480>
                                           dimensions: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise='gaussian',
@@ -279,7 +285,7 @@ The previous results can then be used to continue the optimization process:
                                                        -1.752e-01  1.002e-01]
                                         random_state: RandomState(MT19937)
                                              verbose: False
-                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x000001C7CD730F50>]
+                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x0000020980068C90>]
                                             n_points: 10000
                                 n_restarts_optimizer: 5
                                                   xi: 0.01
@@ -290,7 +296,7 @@ The previous results can then be used to continue the optimization process:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-127
+.. GENERATED FROM PYTHON SOURCE LINES 121-133
 
 Possible problems
 =================
@@ -308,7 +314,7 @@ for more information on how the results get saved and possible caveats
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.287 seconds)
+   **Total running time of the script:** (0 minutes 3.953 seconds)
 
 
 .. _sphx_glr_download_auto_examples_interruptible-optimization.py:

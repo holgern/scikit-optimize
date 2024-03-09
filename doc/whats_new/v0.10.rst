@@ -7,7 +7,30 @@
 Version 0.10.0
 =============
 **March 2024**
-
-- Fix numpy.int issue
+- |Feature| Add support for multimetric scoring to :obj:`skopt.searchcv.BayesSearchCV`.
+- |Feature| Evaluate random point instead of using point twice in :obj:`skopt.optimizer.Optimizer`.
+- |Feature| :obj:`skopt.callback.CheckpointSaver` can now recycle previous function evaluations
+- |Fix| Keep order of variables in LabelEncoder
+- |Feature| add from_df method to Space class 
+- |Fix| Fix :obj:`skopt.plots.plot_evaluations` incorrectly handling dimensions
+  as categorical dimensions when constant dimension are ignored due to wrong
+  indexing.
+- |Fix| Improved Bayesian Optimization documentation
+- |Fix| Replace occurrences of mse with squared_error
+- |Fix| numpy.int issue
+- |Feature| add standard deviation Stopper for Gaussian process
+- |Feature| Implement MES and PVRS acquisition functions.
+- |Fix| Fix tuple index out of range on plot 
+- |Fix| Fixes Grid sampling with border="only"
+- |Fix| Update plot_evaluations param 
+- |Fix| Fix plot_gaussian_process not working with ps-acquisition
+- |Feature| Make Real and Integer raise error when prior is log-uniform and bounds contain zero 
+- |Fix| Better use proper parsing of the scikit-learn version numbers.
+- |Feature| Test DeltaYStopper with minimize functions fixes
+- |Fix| dimension mismatch with gp_minimize in Matern kernel when nu=0.5
+- |Fix| GPR with noise fix
 - Minor documentation improvements.
 - Various small bugs and fixes.
+- https://github.com/scikit-optimize/scikit-optimize/pull/1067
+- https://github.com/scikit-optimize/scikit-optimize/pull/1081
+

@@ -400,3 +400,36 @@ def test_grid():
     )
     assert len(samples) == 200
     assert len(samples[0]) == 2
+
+    grid = Grid(border="include", append_border="exclude")
+    samples = grid.generate(
+        [
+            (0.0, 0.5, 1.0),
+        ]
+        * 2,
+        4,
+        random_state=123,
+    )
+    assert_array_equal(samples, [[1.0, 1.0], [0.0, 0.0], [0.0, 1.0], [1.0, 0.0]])
+
+    grid = Grid(border="only", append_border="exclude")
+    samples = grid.generate(
+        [
+            (0.0, 0.5, 1.0),
+        ]
+        * 2,
+        4,
+        random_state=123,
+    )
+    assert_array_equal(samples, [[1.0, 1.0], [0.0, 0.0], [0.0, 1.0], [1.0, 0.0]])
+
+    grid = Grid(border="exclude", append_border="exclude")
+    samples = grid.generate(
+        [
+            (0.0, 0.5, 1.0),
+        ]
+        * 2,
+        4,
+        random_state=123,
+    )
+    assert_array_equal(samples, [[0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5]])

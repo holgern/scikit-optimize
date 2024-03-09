@@ -96,13 +96,6 @@ We will use the same optimization problem as in the
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    C:\Users\holge\Documents\git\scikit-optimize\skopt\optimizer\optimizer.py:462: UserWarning: The objective has been evaluated at this point before.
-      warnings.warn(
-
 
 
 
@@ -163,7 +156,7 @@ And load from file using :class:`skopt.load`:
  .. code-block:: none
 
 
-    -0.1139808692237884
+    -1.1112345317634085
 
 
 
@@ -199,7 +192,7 @@ level (highest in this case):
  .. code-block:: none
 
     Without compression: 75361 bytes
-    Compressed with gz:  26181 bytes
+    Compressed with gz:  27195 bytes
 
 
 
@@ -294,7 +287,7 @@ copy is created:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.933 seconds)
+   **Total running time of the script:** (0 minutes 3.297 seconds)
 
 
 .. _sphx_glr_download_auto_examples_store-and-load-results.py:

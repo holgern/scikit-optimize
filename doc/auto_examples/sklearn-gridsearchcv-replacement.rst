@@ -33,25 +33,31 @@ Introduction
 This example assumes basic familiarity with
 `scikit-learn <http://scikit-learn.org/stable/index.html>`_.
 
-Search for parameters of machine learning models that result in best
+Search for parameters of machine learning models that results in best
 cross-validation performance is necessary in almost all practical
-cases to get a model with best generalization estimate. A standard
-approach in scikit-learn is using :obj:`sklearn.model_selection.GridSearchCV` class, which takes
-a set of values for every parameter to try, and simply enumerates all
-combinations of parameter values. The complexity of such search grows
-exponentially with the addition of new parameters. A more scalable
-approach is using :obj:`sklearn.model_selection.RandomizedSearchCV`, which however does not take
-advantage of the structure of a search space.
-
-Scikit-optimize provides a drop-in replacement for :obj:`sklearn.model_selection.GridSearchCV`,
-which utilizes Bayesian Optimization where a predictive model referred
-to as "surrogate" is used to model the search space and utilized to
-arrive at good parameter values combination as soon as possible.
+cases to get a model with best generalization estimate.
+A standard approach in scikit-learn is to use
+:obj:`sklearn.model_selection.GridSearchCV` class, which enumerates
+all combinations of hyperparameters values given as input.
+This search complexity grows exponentially with the number of parameters.
+A more scalable approach is to use
+:obj:`sklearn.model_selection.RandomizedSearchCV`, which however does not
+take advantage of the structure of a search space.
+Scikit-optimize provides a drop-in replacement for these two scikit-learn
+methods. The hyperparameter search is achieved by Bayesian Optimization
+At each step of the optimization, a surrogate model infers the objective
+function using observed evluation results as priors. An acquisition function
+utilizes these predictions to navigate between exploration (sampling
+unexplored areas) and exploitation (focusing on regions likely containing
+the global optimum). By balancing these two strategies, Bayesian Optimization
+identifies probable optimal areas while ensuring comprehensive search
+coverage.
+In practice, this method often leads to quicker and better results.
 
 Note: for a manual hyperparameter optimization example, see
 "Hyperparameter Optimization" notebook.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-48
+.. GENERATED FROM PYTHON SOURCE LINES 42-54
 
 .. code-block:: Python
 
@@ -74,14 +80,14 @@ Note: for a manual hyperparameter optimization example, see
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-53
+.. GENERATED FROM PYTHON SOURCE LINES 55-59
 
 Minimal example
 ===============
 
 A minimal example of optimizing hyperparameters of SVC (Support Vector machine Classifier) is given below.
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-78
+.. GENERATED FROM PYTHON SOURCE LINES 59-84
 
 .. code-block:: Python
 
@@ -124,7 +130,7 @@ A minimal example of optimizing hyperparameters of SVC (Support Vector machine C
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-86
+.. GENERATED FROM PYTHON SOURCE LINES 85-92
 
 Advanced example
 ================
@@ -134,7 +140,7 @@ with different search spaces and number of evaluations per class. An
 example of such search over parameters of Linear SVM, Kernel SVM, and
 decision trees is given below.
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-134
+.. GENERATED FROM PYTHON SOURCE LINES 92-140
 
 .. code-block:: Python
 
@@ -357,12 +363,12 @@ decision trees is given below.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-137
+.. GENERATED FROM PYTHON SOURCE LINES 141-143
 
 Partial Dependence plot of the objective function for SVC
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-144
+.. GENERATED FROM PYTHON SOURCE LINES 143-150
 
 .. code-block:: Python
 
@@ -385,12 +391,12 @@ Partial Dependence plot of the objective function for SVC
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 145-147
+.. GENERATED FROM PYTHON SOURCE LINES 151-153
 
 Plot of the histogram for LinearSVC
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-150
+.. GENERATED FROM PYTHON SOURCE LINES 153-156
 
 .. code-block:: Python
 
@@ -409,7 +415,7 @@ Plot of the histogram for LinearSVC
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-165
+.. GENERATED FROM PYTHON SOURCE LINES 157-171
 
 Progress monitoring and control using `callback` argument of `fit` method
 =========================================================================
@@ -426,7 +432,7 @@ accuracy that you get is sufficiently high.
 
 An example usage is shown below.
 
-.. GENERATED FROM PYTHON SOURCE LINES 165-192
+.. GENERATED FROM PYTHON SOURCE LINES 171-198
 
 .. code-block:: Python
 
@@ -891,7 +897,7 @@ An example usage is shown below.
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 193-201
+.. GENERATED FROM PYTHON SOURCE LINES 199-207
 
 Counting total iterations that will be used to explore all subspaces
 ====================================================================
@@ -902,7 +908,7 @@ monitoring of progress, you would like to know the total number of
 iterations it will take to explore all subspaces. This can be
 calculated with `total_iterations` property, as in the code below.
 
-.. GENERATED FROM PYTHON SOURCE LINES 201-219
+.. GENERATED FROM PYTHON SOURCE LINES 207-225
 
 .. code-block:: Python
 
@@ -940,7 +946,7 @@ calculated with `total_iterations` property, as in the code below.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (2 minutes 16.825 seconds)
+   **Total running time of the script:** (1 minutes 49.956 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sklearn-gridsearchcv-replacement.py:

@@ -284,7 +284,7 @@ provide the following information:
                                             normalize_y=True, random_state=822569775)]
             space: Space([Real(low=-2.0, high=2.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function f at 0x000001C7CF21BC40>
+            specs:     args:                    func: <function f at 0x0000020981DDCCC0>
                                           dimensions: Space([Real(low=-2.0, high=2.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise=0.010000000000000002,
@@ -475,7 +475,7 @@ because the GP does not gain anything more by further exploration:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.317 seconds)
+   **Total running time of the script:** (0 minutes 4.166 seconds)
 
 
 .. _sphx_glr_download_auto_examples_bayesian-optimization.py:

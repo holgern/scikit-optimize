@@ -435,7 +435,7 @@ def test_normalize_types():
     # can you pass a Space instance to the Space constructor?
     space = Space([(0.0, 1.0), Integer(-5, 5, dtype=int), (True, False)])
     space.set_transformer("normalize")
-    X = [[0.0, -5, False]]
+    X = [[0.0, -5, True]]
     Xt = np.zeros((1, 3))
     assert_array_equal(space.transform(X), Xt)
     assert_array_equal(space.inverse_transform(Xt), X)
@@ -760,6 +760,25 @@ def test_dimension_name2():
     assert s[0, 2] == [(0, s.dimensions[0]), (2, s.dimensions[2])]
 
 
+@pytest.mark.fast_test
+def test_dimension_names_setter():
+    s = Space(
+        [
+            Real(1, 2, name="a"),
+            Integer(1, 100, name="b"),
+            Categorical(["red, blue"], name="c"),
+        ]
+    )
+    with pytest.raises(ValueError) as exc:
+        s.dimension_names = ["d", "e"]
+        assert (
+            "`names` must be the same length as "
+            "`self.dimensions`." == exc.value.args[0]
+        )
+    s.dimension_names = ["d", "e", "f"]
+    assert s.dimension_names == ["d", "e", "f"]
+
+
 @pytest.mark.parametrize(
     "dimension", [Real(1, 2), Integer(1, 100), Categorical(["red, blue"])]
 )
@@ -856,3 +875,80 @@ def test_normalize_bounds():
         check_limits(x[0][0], -999, 189000)
         y = space.transform(x)
         check_limits(y, 0.0, 1.0)
+
+
+@pytest.mark.fast_test
+def test_order_categorical_space():
+    c = Categorical(("c", "b", "a"), transform="label")
+    assert_array_equal(c.transform(["a", "b", "c"]), [2, 1, 0])
+    c = Categorical((10, 30, 20), transform="label")
+    assert_array_equal(c.transform([10, 20, 30]), [0, 2, 1])
+
+
+@pytest.mark.fast_test
+def test_space_from_df():
+    pd = pytest.importorskip("pandas")
+    df = pd.DataFrame(
+        {
+            "a": [1.5, 1.0, 2.0],
+            "b": [50, 1, 100],
+            "c": ["red", "blue", "blue"],
+            4: [True, False, True],
+        }
+    )
+
+    result = Space.from_df(
+        df,
+        priors={"a": "log-uniform"},
+        bases={"b": 2},
+        transforms={"b": "normalize", "c": "label"},
+    )
+    expected = Space(
+        [
+            Real(1.0, 2.0, prior="log-uniform", name="a"),
+            Integer(1, 100, base=2, name="b", transform="normalize"),
+            Categorical(["red", "blue"], transform="label", name="c"),
+            Categorical([True, False], name="4"),
+        ]
+    )
+
+    assert_equal(result, expected)
+
+
+@pytest.mark.fast_test
+def test_pandas_dependency_message():
+    try:
+        import pandas  # noqa
+
+        pytest.skip("This test requires pandas to not be installed")
+    except ImportError:
+        # Check that pandas is imported lazily and that an informative error
+        # message is raised when pandas is missing:
+        expected_msg = "from_df requires pandas"
+        with pytest.raises(ImportError, match=expected_msg):
+            _ = Space.from_df(None)
+
+
+@pytest.mark.parametrize(
+    "dimension, bounds",
+    [
+        (Real, (-1, 1)),
+        (Integer, (-1, 1)),
+        (Real, (0, 1)),
+        (Integer, (0, 1)),
+        (Real, (-1, 0)),
+        (Integer, (-1, 0)),
+    ],
+)
+def test_dimension_loguniform_prior(dimension, bounds):
+    # Raise error when Integer and Real dimensions
+    # contain 0 but are instantiated with log-uniform prior
+    lower, upper = bounds
+    assert_raises_regex(
+        ValueError,
+        "search space should not contain 0 when using log-uniform prior",
+        dimension,
+        lower,
+        upper,
+        prior='log-uniform',
+    )

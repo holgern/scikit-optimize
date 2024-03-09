@@ -84,8 +84,9 @@ class Optimizer:
         - `"LCB"` for lower confidence bound.
         - `"EI"` for negative expected improvement.
         - `"PI"` for negative probability of improvement.
+        - `"MES"` for Max-value Entropy Search.
+        - `"PVRS"` for Predictive Variance Reduction Search.
         - `"gp_hedge"` Probabilistically choose one of the above three
-          acquisition functions at every iteration.
 
           - The gains `g_i` are initialized to zero.
           - At every iteration,
@@ -143,6 +144,10 @@ class Optimizer:
         Keeps list of models only as long as the argument given. In the
         case of None, the list has no capped length.
 
+    avoid_duplicates : bool, default True
+        When set to True, a random point is evaluated instead of the same
+        point twice.
+
     Attributes
     ----------
     Xi : list
@@ -171,6 +176,7 @@ class Optimizer:
         model_queue_size=None,
         acq_func_kwargs=None,
         acq_optimizer_kwargs=None,
+        avoid_duplicates=True,
     ):
         args = locals().copy()
         del args['self']
@@ -182,8 +188,18 @@ class Optimizer:
         # Store and creat acquisition function set
         self.acq_func = acq_func
         self.acq_func_kwargs = acq_func_kwargs
+        self.avoid_duplicates = avoid_duplicates
 
-        allowed_acq_funcs = ["gp_hedge", "EI", "LCB", "PI", "EIps", "PIps"]
+        allowed_acq_funcs = [
+            "gp_hedge",
+            "EI",
+            "LCB",
+            "MES",
+            "PVRS",
+            "PI",
+            "EIps",
+            "PIps",
+        ]
         if self.acq_func not in allowed_acq_funcs:
             raise ValueError(
                 "expected acq_func to be in %s, got %s"
@@ -244,7 +260,10 @@ class Optimizer:
 
         # decide optimizer based on gradient information
         if acq_optimizer == "auto":
-            if has_gradients(self.base_estimator_):
+            if has_gradients(self.base_estimator_) and acq_func not in [
+                "MES",
+                "PVRS",
+            ]:
                 acq_optimizer = "lbfgs"
             else:
                 acq_optimizer = "sampling"
@@ -459,10 +478,38 @@ class Optimizer:
             next_x = self._next_x
             min_delta_x = min([self.space.distance(next_x, xi) for xi in self.Xi])
             if abs(min_delta_x) <= 1e-8:
-                warnings.warn(
-                    "The objective has been evaluated " "at this point before."
-                )
+                if self.avoid_duplicates:
+                    next_x_new = next_x
+                    if hasattr(self, "next_xs_"):
+                        # Test if one of the acquisition functions proposed a
+                        # candidate that has not been used yet
+                        for x in self.next_xs_:
+                            next_x_new_ = self.space.inverse_transform(
+                                x.reshape((1, -1))
+                            )[0]
+                            if next_x_new_ != next_x:
+                                # Also compare for all previous points
+                                if next_x_new_ in self.Xi:
+                                    continue  # Do not use this candidate
+                                else:
+                                    next_x_new = next_x_new_
+                                    break  # Found an actually new candidate
 
+                    if next_x_new == next_x:
+                        # No new candidate could be found. Use a random one
+                        next_x_new = self.space.rvs(random_state=self.rng)[0]
+                        warnings.warn(
+                            "The objective has been evaluated at "
+                            "point {} before, using random point {}".format(
+                                next_x, next_x_new
+                            )
+                        )
+                    next_x = next_x_new
+                else:
+                    warnings.warn(
+                        "The objective has been evaluated at point "
+                        "{} before".format(next_x)
+                    )
             # return point computed from last call to tell()
             return next_x
 

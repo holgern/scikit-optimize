@@ -3,7 +3,7 @@ import numbers
 import numpy as np
 import yaml
 from scipy.stats.distributions import randint, rv_discrete, uniform
-from sklearn.utils import check_random_state
+from sklearn.utils import check_pandas_support, check_random_state
 
 from .transformers import (
     CategoricalEncoder,
@@ -277,6 +277,10 @@ class Real(Dimension):
             raise ValueError(
                 "prior should be 'uniform' or 'log-uniform'" " got {}".format(prior)
             )
+        if prior == 'log-uniform' and low * high <= 0:
+            raise ValueError(
+                "search space should not contain 0 when" " using log-uniform prior"
+            )
         self.low = low
         self.high = high
         self.prior = prior
@@ -490,6 +494,10 @@ class Integer(Dimension):
         if prior not in ["uniform", "log-uniform"]:
             raise ValueError(
                 "prior should be 'uniform' or 'log-uniform'" " got {}".format(prior)
+            )
+        if prior == 'log-uniform' and low * high <= 0:
+            raise ValueError(
+                "search space should not contain 0" " when using log-uniform prior"
             )
         self.low = low
         self.high = high
@@ -879,6 +887,20 @@ class Space:
             index += 1
         return names
 
+    @dimension_names.setter
+    def dimension_names(self, names):
+        """Sets the names of all dimension objects via list of names.
+
+        Parameters
+        ----------
+        names : list of str
+            List of names. Must be the same length as self.dimensions.
+        """
+        if len(names) != len(self.dimensions):
+            raise ValueError("`names` must be the same length as " "`self.dimensions`.")
+        for dim, name in zip(self.dimensions, names):
+            dim.name = name
+
     @property
     def is_real(self):
         """Returns true if all dimensions are Real."""
@@ -950,6 +972,64 @@ class Space:
         space = cls(dimensions=dimensions)
 
         return space
+
+    @classmethod
+    def from_df(cls, df, priors=None, bases=None, transforms=None):
+        """Create Space from Pandas DataFrame object.
+        Dimensions will be inferred from the column type in the Pandas
+        DataFrame. Real and Integer dimensions will be set from the minimum and
+        maximum of their corresponding columns. Category dimensions will be
+        constructed from the unique values present in the column.
+        Note: requires `pandas` installation.
+        Parameters
+        ----------
+        df : `pandas.DataFrame`
+            A Pandas `DataFrame` object
+        priors : dict, default=None
+            A mapping of `DataFrame` column names to corresponding priors
+        bases : dict, default=None
+            A mapping of `DataFrame` column names to corresponding bases
+        transforms : dict, default=None
+            A mapping of `DataFrame` column names to corresponding transforms
+        Returns
+        -------
+        space : Space
+           Instantiated Space object
+        """
+        pd = check_pandas_support("from_df")
+
+        if priors is None:
+            priors = {}
+        if bases is None:
+            bases = {}
+        if transforms is None:
+            transforms = {}
+
+        # Helper method to infer Dimension from the dtype of a Pandas Series.
+        def _check_series_dimension(series, priors, bases, transforms):
+            kwargs = {}
+            name = series.name
+            if name in priors:
+                kwargs['prior'] = priors[name]
+            if name in bases:
+                kwargs['base'] = bases[name]
+            if name in transforms:
+                kwargs['transform'] = transforms[name]
+            kwargs['name'] = str(name) if name is not None else None
+
+            if pd.api.types.is_float_dtype(series.dtype):
+                return Real(series.min(), series.max(), **kwargs)
+            elif pd.api.types.is_integer_dtype(series.dtype):
+                return Integer(series.min(), series.max(), **kwargs)
+            else:
+                return Categorical(series.unique(), **kwargs)
+
+        dimensions = [
+            _check_series_dimension(df[col_name], priors, bases, transforms)
+            for col_name in df.columns
+        ]
+
+        return cls(dimensions)
 
     def rvs(self, n_samples=1, random_state=None):
         """Draw random samples.

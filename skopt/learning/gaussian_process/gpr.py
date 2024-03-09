@@ -1,6 +1,7 @@
 import warnings
 
 import numpy as np
+import packaging.version
 import sklearn
 from scipy.linalg import cho_solve, solve_triangular
 from sklearn.gaussian_process import (
@@ -192,12 +193,13 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
             self.kernel = ConstantKernel(1.0, constant_value_bounds="fixed") * RBF(
                 1.0, length_scale_bounds="fixed"
             )
-        if self.noise == "gaussian":
-            self.kernel = self.kernel + WhiteKernel()
-        elif self.noise:
-            self.kernel = self.kernel + WhiteKernel(
-                noise_level=self.noise, noise_level_bounds="fixed"
-            )
+        if self.noise and not _param_for_white_kernel_in_Sum(self.kernel)[0]:
+            if self.noise == "gaussian":
+                self.kernel = self.kernel + WhiteKernel()
+            elif self.noise:
+                self.kernel = self.kernel + WhiteKernel(
+                    noise_level=self.noise, noise_level_bounds="fixed"
+                )
         super().fit(X, y)
 
         self.noise_ = None
@@ -232,10 +234,13 @@ class GaussianProcessRegressor(sk_GaussianProcessRegressor):
         self.K_inv_ = L_inv.dot(L_inv.T)
 
         # Fix deprecation warning #462
-        if sklearn.__version__ >= "0.23":
+        sklearn_version = packaging.version.Version(sklearn.__version__)
+        if sklearn_version.major == 1 or (
+            sklearn_version.major == 0 and sklearn_version.minor >= 23
+        ):
             self.y_train_std_ = self._y_train_std
             self.y_train_mean_ = self._y_train_mean
-        elif sklearn.__version__ >= "0.19":
+        elif sklearn_version.major == 0 and sklearn_version.minor >= 19:
             self.y_train_mean_ = self._y_train_mean
             self.y_train_std_ = 1
         else:

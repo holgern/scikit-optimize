@@ -7,6 +7,7 @@ from numpy.testing import assert_array_equal
 from scipy.stats import rankdata
 from sklearn.base import BaseEstimator, clone
 from sklearn.datasets import load_iris, make_classification
+from sklearn.metrics import confusion_matrix, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC, LinearSVC
@@ -449,3 +450,90 @@ def test_search_cv_internal_parameter_types():
     )
 
     model.fit(X, y)
+
+
+def test_searchcv_multimetric_scoring():
+    # test that multi-metric scoring works as intened
+    # for BayesSearchCV
+    random_state = 42
+
+    X, y = make_classification(n_classes=2, random_state=random_state)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=0.75, random_state=0
+    )
+    # test iterable scoring
+    opt = BayesSearchCV(
+        SVC(random_state=random_state),
+        {
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
+            'degree': Integer(1, 8),
+            'kernel': Categorical(['linear', 'poly', 'rbf']),
+        },
+        scoring=["accuracy", "f1"],
+        refit="f1",
+        n_iter=11,
+        random_state=random_state,
+    )
+    opt.fit(X_train, y_train)
+    y_pred = opt.predict(X_test)
+    assert f1_score(y_test, y_pred) > 0.9
+    assert len(opt.cv_results_["mean_test_accuracy"]) == len(
+        opt.cv_results_["mean_test_f1"]
+    )
+
+    # test dict scoring
+    opt = BayesSearchCV(
+        SVC(random_state=random_state),
+        {
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
+            'degree': Integer(1, 8),
+            'kernel': Categorical(['linear', 'poly', 'rbf']),
+        },
+        scoring={
+            "f1": "f1",
+            "accuracy": "accuracy",
+        },
+        refit="f1",
+        n_iter=11,
+        random_state=random_state,
+    )
+    opt.fit(X_train, y_train)
+    y_pred = opt.predict(X_test)
+    assert f1_score(y_test, y_pred) > 0.9
+    assert len(opt.cv_results_["mean_test_accuracy"]) == len(
+        opt.cv_results_["mean_test_f1"]
+    )
+
+
+def test_searchcv_multimetric_callable_scoring():
+    random_state = 42
+
+    X, y = make_classification(n_classes=2, random_state=random_state)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=0.75, random_state=0
+    )
+
+    # sample code taken from scikit-learn
+    def confusion_matrix_score(clf, X, y):
+        y_pred = clf.predict(X)
+        cm = confusion_matrix(y, y_pred)
+        return {'tn': cm[0, 0], 'fp': cm[0, 1], 'fn': cm[1, 0], 'tp': cm[1, 1]}
+
+    opt = BayesSearchCV(
+        SVC(random_state=random_state),
+        {
+            'C': Real(1e-6, 1e6, prior='log-uniform'),
+            'gamma': Real(1e-6, 1e1, prior='log-uniform'),
+            'degree': Integer(1, 8),
+            'kernel': Categorical(['linear', 'poly', 'rbf']),
+        },
+        scoring=confusion_matrix_score,
+        refit="tp",
+        n_iter=11,
+        random_state=random_state,
+    )
+    opt.fit(X_train, y_train)
+    assert confusion_matrix_score(opt, X_test, y_test)["tp"] > 0.9
+    assert len(opt.cv_results_["mean_test_tp"]) == len(opt.cv_results_["mean_test_fp"])

@@ -12,7 +12,7 @@ def gbrt_minimize(
     n_random_starts=None,
     n_initial_points=10,
     initial_point_generator="random",
-    acq_func="EI",
+    acq_func="LCB",
     acq_optimizer="auto",
     x0=None,
     y0=None,
@@ -206,4 +206,5 @@ def gbrt_minimize(
         callback=callback,
         acq_optimizer="sampling",
         model_queue_size=model_queue_size,
+        n_jobs=n_jobs,
     )

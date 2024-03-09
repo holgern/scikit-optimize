@@ -3,6 +3,7 @@ from collections import namedtuple
 
 import numpy as np
 import pytest
+from numpy.testing import assert_almost_equal
 
 from skopt import dummy_minimize, gp_minimize
 from skopt.benchmarks import bench1, bench3
@@ -11,6 +12,7 @@ from skopt.callbacks import (
     DeadlineStopper,
     DeltaYStopper,
     HollowIterationsStopper,
+    StdStopper,
     ThresholdStopper,
     TimerCallback,
 )
@@ -44,6 +46,15 @@ def test_threshold_stopper():
 
     assert not threshold(Result([3.1, 4, 4.6, 100]))
     assert threshold(Result([3.0, 3, 2.9, 0, 0.0]))
+
+
+@pytest.mark.fast_test
+def test_std_stopper():
+    std = StdStopper(0.35)
+    result = gp_minimize(
+        bench1, [(-1.0, 1.0)], callback=std, n_calls=50, random_state=1
+    )
+    assert_almost_equal(result.models[0].y_train_std_, std.threshold, decimal=1)
 
 
 @pytest.mark.fast_test

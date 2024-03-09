@@ -10,11 +10,12 @@ try:
 except ImportError:
     from collections.abc import Callable
 
+import os
 from time import time
 
 import numpy as np
 
-from skopt.utils import dump
+from skopt.utils import dump, load
 
 
 def check_callback(callback):
@@ -323,7 +324,8 @@ class ThresholdStopper(EarlyStopper):
 
 
 class CheckpointSaver:
-    """Save current state after each iteration with :class:`skopt.dump`.
+    """Save current state after each iteration with :class:`skopt.dump`. Allows to re-
+    use previously computed function evaluations.
 
     Examples
     --------
@@ -333,6 +335,11 @@ class CheckpointSaver:
     >>> checkpoint_callback = skopt.callbacks.CheckpointSaver("./result.pkl")
     >>> skopt.gp_minimize(obj_fun, [(-2, 2)], n_calls=10,
     ...                   callback=[checkpoint_callback]) # doctest: +SKIP
+    >>> # when re-using stored results.
+    >>> checkpoint_callback = skopt.callbacks.CheckpointSaver("./result.pkl")
+    >>> skopt.gp_minimize(obj_fun, [(-2, 2)], n_calls=10,
+    ...                   callback=[checkpoint_callback]
+    ...                   **checkpoint_callback.load()) # doctest: +SKIP
 
     Parameters
     ----------
@@ -354,3 +361,19 @@ class CheckpointSaver:
             The optimization as a OptimizeResult object.
         """
         dump(res, self.checkpoint_path, **self.dump_options)
+
+    def load(self):
+        """Loads from disk previously evaluated points.
+
+        Returns
+        -------
+        Dict with previous evaluations and their latest surrogate state.
+        """
+        if os.path.exists(self.checkpoint_path):
+            result = load(self.checkpoint_path)
+            return {
+                'x0': result.x_iters,
+                'y0': result.func_vals,
+                'base_estimator': result.models[-1] if result.models else None,
+            }
+        return {}

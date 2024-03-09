@@ -228,7 +228,11 @@ def plot_gaussian_process(res, **kwargs):
 
     # Plot GP(x) + contours
     if show_mu:
-        y_pred, sigma = model.predict(x_model, return_std=True)
+        per_second = acq_func.endswith("ps")
+        if per_second:
+            y_pred, sigma = model.estimators_[0].predict(x_model, return_std=True)
+        else:
+            y_pred, sigma = model.predict(x_model, return_std=True)
         ax.plot(x, y_pred, "g--", label=r"$\mu_{GP}(x)$")
         ax.fill(
             np.concatenate([x, x[::-1]]),
@@ -811,7 +815,7 @@ def plot_objective(
     )
 
 
-def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None):
+def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None, size=2):
     """Visualize the order in which points were sampled during optimization.
 
     This creates a 2-d matrix plot where the diagonal plots are histograms
@@ -844,6 +848,9 @@ def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None):
         If `None` then use all dimensions except constant ones
         from the search-space.
 
+    size : float, default=2
+        Height (in inches) of each facet.
+
     Returns
     -------
     ax : `Matplotlib.Axes`
@@ -871,7 +878,7 @@ def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None):
     if dimensions is not None:
         assert len(dimensions) == n_dims
 
-    fig, ax = plt.subplots(n_dims, n_dims, figsize=(2 * n_dims, 2 * n_dims))
+    fig, ax = plt.subplots(n_dims, n_dims, figsize=(size * n_dims, size * n_dims))
 
     fig.subplots_adjust(
         left=0.05, right=0.95, bottom=0.05, top=0.95, hspace=0.1, wspace=0.1
@@ -881,7 +888,7 @@ def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None):
         for j in range(n_dims):
             if i == j:
                 index, dim = plot_dims[i]
-                if iscat[j]:
+                if iscat[index]:
                     bins_ = len(dim.categories)
                 elif dim.prior == 'log-uniform':
                     low, high = space.bounds[index]
@@ -895,7 +902,7 @@ def plot_evaluations(result, bins=20, dimensions=None, plot_dims=None):
                 ax_.hist(
                     samples[:, index],
                     bins=bins_,
-                    range=None if iscat[j] else dim.bounds,
+                    range=None if iscat[index] else dim.bounds,
                 )
 
             # lower triangle
@@ -1398,7 +1405,10 @@ def _cat_format(dimension, x, _):
     Returns the name of category
     `x` in `dimension`.  Used with `matplotlib.ticker.FuncFormatter`.
     """
-    return str(dimension.categories[int(x)])
+    if len(dimension.categories) > x:
+        return str(dimension.categories[int(x)])
+    else:
+        return ''
 
 
 def _evaluate_min_params(
