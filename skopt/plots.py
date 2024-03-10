@@ -637,6 +637,8 @@ def plot_objective(
     n_points=40,
     n_samples=250,
     size=2,
+    wspace=0.35,
+    hspace=0.35,
     zscale='linear',
     dimensions=None,
     sample_source='random',
@@ -707,6 +709,14 @@ def plot_objective(
 
     size : float, default=2
         Height (in inches) of each facet. Ignored if ``ax`` is provided.
+
+    wspace : float, default=0.35
+        The width of the padding between subplots, as a fraction of the
+        average Axes width. Ignored if ``ax`` is provided.
+
+    hspace : float, default=0.35
+       The height of the padding between subplots, as a fraction of the
+       average Axes height. Ignored if ``ax`` is provided.
 
     zscale : str, default='linear'
         Scale to use for the z axis of the contour plots. Either 'linear'
@@ -820,7 +830,9 @@ def plot_objective(
         )
 
     fig_kwargs = dict(figsize=(size * n_dims, size * n_dims))
-    ax, axes = _make_subgrid(ax, n_dims, fig_kwargs_=fig_kwargs, wspace=0.1, hspace=0.1)
+    ax, axes = _make_subgrid(
+        ax, n_dims, fig_kwargs_=fig_kwargs, wspace=wspace, hspace=hspace
+    )
 
     for i in range(n_dims):
         for j in range(n_dims):
@@ -859,7 +871,15 @@ def plot_objective(
 
 
 def plot_evaluations(
-    result, bins=20, dimensions=None, plot_dims=None, size=2, cmap="viridis", ax=None
+    result,
+    bins=20,
+    dimensions=None,
+    plot_dims=None,
+    size=2,
+    wspace=0.35,
+    hspace=0.35,
+    cmap="viridis",
+    ax=None,
 ):
     """Visualize the order in which points were sampled during optimization.
 
@@ -896,11 +916,21 @@ def plot_evaluations(
     size : float, default=2
         Height (in inches) of each facet.
 
+    wspace : float, default=0.35
+        The width of the padding between subplots, as a fraction of the
+        average Axes width. Ignored if ``ax`` is provided.
+
+    hspace : float, default=0.35
+       The height of the padding between subplots, as a fraction of the
+       average Axes height. Ignored if ``ax`` is provided.
+
     size : float, default=2
         Height (in inches) of each facet.
+
     cmap: str or Colormap, default = 'viridis'
         Color map for scatter plots. Passed directly to
         `plt.scatter()`
+
     ax: `Matplotlib.Axes`, default= None
         An axis object in which to plot the dependence plot.
 
@@ -932,7 +962,9 @@ def plot_evaluations(
         assert len(dimensions) == n_dims
 
     fig_kwargs = dict(figsize=(size * n_dims, size * n_dims))
-    ax, axes = _make_subgrid(ax, n_dims, fig_kwargs_=fig_kwargs, wspace=0.1, hspace=0.1)
+    ax, axes = _make_subgrid(
+        ax, n_dims, fig_kwargs_=fig_kwargs, wspace=wspace, hspace=hspace
+    )
 
     for i in range(n_dims):
         for j in range(n_dims):

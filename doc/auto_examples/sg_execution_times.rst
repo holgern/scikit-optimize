@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:41.877** total execution time for 10 files **from auto_examples**:
+**14:06.515** total execution time for 10 files **from auto_examples**:
 
 .. container::
 
@@ -32,33 +32,33 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_sklearn-gridsearchcv-replacement.py` (``sklearn-gridsearchcv-replacement.py``)
-     - 01:41.877
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``ask-and-tell.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_bayesian-optimization.py` (``bayesian-optimization.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py` (``exploration-vs-exploitation.py``)
-     - 00:00.000
-     - 0.0
    * - :ref:`sphx_glr_auto_examples_hyperparameter-optimization.py` (``hyperparameter-optimization.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``interruptible-optimization.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``optimizer-with-different-base-estimator.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parallel-optimization.py` (``parallel-optimization.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_store-and-load-results.py` (``store-and-load-results.py``)
-     - 00:00.000
+     - 05:18.687
      - 0.0
    * - :ref:`sphx_glr_auto_examples_strategy-comparison.py` (``strategy-comparison.py``)
-     - 00:00.000
+     - 04:29.364
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_sklearn-gridsearchcv-replacement.py` (``sklearn-gridsearchcv-replacement.py``)
+     - 01:54.847
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_exploration-vs-exploitation.py` (``exploration-vs-exploitation.py``)
+     - 00:57.065
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parallel-optimization.py` (``parallel-optimization.py``)
+     - 00:56.253
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py` (``optimizer-with-different-base-estimator.py``)
+     - 00:14.320
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_store-and-load-results.py` (``store-and-load-results.py``)
+     - 00:04.690
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_ask-and-tell.py` (``ask-and-tell.py``)
+     - 00:04.508
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_bayesian-optimization.py` (``bayesian-optimization.py``)
+     - 00:03.898
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_interruptible-optimization.py` (``interruptible-optimization.py``)
+     - 00:02.883
      - 0.0

@@ -156,7 +156,7 @@ And load from file using :class:`skopt.load`:
  .. code-block:: none
 
 
-    -0.99848621216526
+    -1.0815488148542256
 
 
 
@@ -192,7 +192,7 @@ level (highest in this case):
  .. code-block:: none
 
     Without compression: 75397 bytes
-    Compressed with gz:  27341 bytes
+    Compressed with gz:  27321 bytes
 
 
 
@@ -287,7 +287,7 @@ copy is created:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.642 seconds)
+   **Total running time of the script:** (0 minutes 4.690 seconds)
 
 
 .. _sphx_glr_download_auto_examples_store-and-load-results.py:

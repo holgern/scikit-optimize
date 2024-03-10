@@ -239,7 +239,7 @@ Note that this can take a few minutes.
  .. code-block:: none
 
 
-    <matplotlib.legend.Legend object at 0x0000011DDFF98710>
+    <matplotlib.legend.Legend object at 0x000001E3DF07E910>
 
 
 
@@ -262,7 +262,7 @@ values that are below the true value simply because they are fluctuations.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (3 minutes 28.308 seconds)
+   **Total running time of the script:** (4 minutes 29.364 seconds)
 
 
 .. _sphx_glr_download_auto_examples_strategy-comparison.py:

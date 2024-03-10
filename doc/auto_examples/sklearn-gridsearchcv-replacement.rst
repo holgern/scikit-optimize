@@ -790,7 +790,7 @@ calculated with `total_iterations` property, as in the code below.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 41.877 seconds)
+   **Total running time of the script:** (1 minutes 54.847 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sklearn-gridsearchcv-replacement.py:

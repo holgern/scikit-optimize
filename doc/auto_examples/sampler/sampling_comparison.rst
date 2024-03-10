@@ -243,15 +243,15 @@ models. This makes the comparison more robust against models that get
 
  .. code-block:: none
 
-    random: 11.54 s
-    <skopt.sampler.lhs.Lhs object at 0x0000011DD32796D0>: 11.70 s
-    <skopt.sampler.lhs.Lhs object at 0x0000011DD106E050>: 11.25 s
+    random: 12.24 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E3D2BD28D0>: 11.38 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E3D0960F50>: 17.20 s
     C:\Users\holge\Documents\git\scikit-optimize\skopt\sampler\sobol.py:521: UserWarning: The balance properties of Sobol' points require n to be a power of 2. 0 points have been previously generated, then: n=0+10=10. 
       warnings.warn(
-    <skopt.sampler.sobol.Sobol object at 0x0000011DD2FBA950>: 9.98 s
-    halton: 8.79 s
-    hammersly: 7.91 s
-    grid: 9.98 s
+    <skopt.sampler.sobol.Sobol object at 0x000001E3D0E6DC50>: 12.01 s
+    halton: 10.98 s
+    hammersly: 10.67 s
+    grid: 16.04 s
 
 
 
@@ -322,9 +322,9 @@ Test with different n_random_starts values
 
  .. code-block:: none
 
-    <skopt.sampler.lhs.Lhs object at 0x0000011DDC7D8890>: 12.93 s
-    <skopt.sampler.lhs.Lhs object at 0x0000011DDC7D8890>: 8.91 s
-    <skopt.sampler.lhs.Lhs object at 0x0000011DDC7D8890>: 6.83 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E3D1A027D0>: 16.77 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E3D1A027D0>: 14.60 s
+    <skopt.sampler.lhs.Lhs object at 0x000001E3D1A027D0>: 8.65 s
 
 
 
@@ -367,7 +367,7 @@ n_random_starts = 10 produces the best results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 40.081 seconds)
+   **Total running time of the script:** (2 minutes 10.937 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sampler_sampling_comparison.py:
