@@ -1,33 +1,63 @@
+
 Contributing
 ============
-
 Scikit-Optimize is an open-source project, and contributions of all kinds
 are welcome. We believe in this [code of conduct](CONDUCT.md).
 
-You can contribute with documentation, examples, reviewing pull requests, code,
-helping answer questions in issues, creating visualizations, maintaining project
-infrastructure, and writing user stories. All of these are equally important
-and the current contributors don't (yet) cover all of these topics. Code
-contributions are our strong point, so help us help you to make other types of
-contributions.
+You can contribute documentation, examples or code, review open pull requests,
+help answer questions in the forum, create visualizations, maintain project
+infrastructure, write new user stories ... All efforts are equally important.
 
-Contributions should follow these guidelines:
+
+Issues
+------
+When opening a new issue, please follow the chosen issue template.
+See [How to Report Bugs Effectively][bugs].
+
+When describing a **bug**, please provide a [**minimal working example**][mwe],
+and _full_ [traceback], if applicable, sufficient to understand
+and reproduce the issue on our end.
+
+Wrap code/verbatim/output text in [fenced code blocks][code].
+
+[bugs]: https://www.chiark.greenend.org.uk/~sgtatham/bugs.html
+[mwe]: https://en.wikipedia.org/wiki/Minimal_working_example
+[traceback]: https://en.wikipedia.org/wiki/Stack_trace
+[code]: https://docs.github.com/en/github/writing-on-github/creating-and-highlighting-code-blocks
+
+
+Pull requests
+-------------
+Contributions should roughly follow the [GitHub flow] and these guidelines:
 
 * all changes by pull request (PR);
-* please prefix the title of your pull request with `[MRG]` if the contribution
-  is complete and should be subjected to a detailed review;
-* create a PR as early as possible, marking it with `[WIP]` while you work on
+* create a PR early while you work on
   it (good to avoid duplicated work, get broad review of functionality or API,
   or seek collaborators);
-* a PR solves one problem (do not mix problems together in one PR) with the
-  minimal set of changes;
-* describe why you are proposing the changes you are proposing;
+* mark your pull request as draft until it's ready for review;
+* a PR should solve one problem with a minimal set of changes
+  (don't mix problems together in one issue/PR);
+* describe _why_ you are proposing the changes you are proposing;
 * try to not rush changes (the definition of rush depends on how big your
   changes are);
 * someone else has to merge your PR;
-* new code needs to come with a test;
+* new code needs to come with tests that cover it;
 * apply [PEP8](https://www.python.org/dev/peps/pep-0008/) as much
-  as possible, but not too much;
-* no merging if travis is red.
+  as possible, but not too much (`flake8` should pass);
+* no merging if CI checks are red.
 
-These are not hard rules to be enforced by :police_car: but instead guidelines.
+These are guidelines rather than hard rules to be enforced by :police_car:
+
+All contributors are welcome, but
+note that scikit-optimize is a _mature_ project, with thousands of users,
+and thus a responsibility to move slow, particularly when it comes to
+backwards-incompatible changes or vastly expanded functionality/scope.
+
+**Before making a PR for a new feature, do weigh the cost-benefit
+assumptions. Make sure your proposal is discussed and that it received
+community support. Avoid expending effort that would go unmerged.
+The [inclusion criteria for new functionality][criteria] is as strict
+as that of scikit-learn.**
+
+[GitHub flow]: https://guides.github.com/introduction/flow/
+[criteria]: https://scikit-learn.org/stable/faq.html#what-are-the-inclusion-criteria-for-new-algorithms

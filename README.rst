@@ -27,19 +27,23 @@ Plot made using ``skopt.plots.plot_objective``.
 Maintaining the codebase
 ------------------------
 This repo is a copy of the original repositoy at https://github.com/scikit-optimize/scikit-optimize/.
-As I was removed as maintainter, i do not have access to the github itself. As the original repo is now in read-only mode,
-i decided to continue on my own. I still have credentials for pypi, so I will publish new releases at https://pypi.org/project/scikit-optimize/.
+As the original repo is now in read-only mode, i decided to continue the development on it on my own.
+I still have credentials for pypi, so I will publish new releases at https://pypi.org/project/scikit-optimize/.
+I did my best to include all open PR since 2021 in the new release of scikit-optimize 0.10.
+
+https://scikit-optimize.github.io/ has been moved to http://scikit-optimize.readthedocs.io/.
 
 Important links
 ---------------
 
--  Project website <https://scikit-optimize.readthedocs.io/>`__
+-  Project website https://scikit-optimize.readthedocs.io/
 -  Example notebooks - can be found in examples_.
 -  `Discussion forum
    <https://github.com/scikit-optimize/scikit-optimize/discussions>`__
 -  Issue tracker -
    https://github.com/holgern/scikit-optimize/issues
 -  Releases - https://pypi.python.org/pypi/scikit-optimize
+-  Conda feedstock - https://github.com/conda-forge/scikit-optimize-feedstock
 
 Install
 -------
@@ -190,23 +194,19 @@ Update package rev in pre-commit yaml
 Making a Release
 ~~~~~~~~~~~~~~~~
 
-The release procedure is almost completely automated. By tagging a new release
-travis will build all required packages and push them to PyPI. To make a release
+The release procedure is almost completely automated. By tagging a new release,
+CI will build all required packages and push them to PyPI. To make a release,
 create a new issue and work through the following checklist:
 
-* update the version tag in ``__init__.py``
-* update the version tag mentioned in the README
-* check if the dependencies in ``setup.py`` are valid or need unpinning
-* check that the ``doc/whats_new/v0.X.rst`` is up to date
-* did the last build of master succeed?
-* create a `new release <https://github.com/holgern/scikit-optimize/releases>`__
-* ping `conda-forge <https://github.com/conda-forge/scikit-optimize-feedstock>`__
+* [ ] check if the dependencies in `setup.py` are valid or need unpinning,
+* [ ] check that the `doc/whats_new/v0.X.rst` is up-to-date,
+* [ ] did the last build of master succeed?
+* [ ] create a [new release](https://github.com/holgern/scikit-optimize/releases),
+* [ ] ping [conda-forge](https://github.com/conda-forge/scikit-optimize-feedstock).
 
-Before making a release we usually create a release candidate. If the next
-release is v0.X then the release candidate should be tagged v0.Xrc1 in
-``__init__.py``. Mark a release candidate as a "pre-release"
-on GitHub when you tag it.
-
+Before making a release, we usually create a release candidate. If the next
+release is v0.X, then the release candidate should be tagged v0.Xrc1.
+Mark the release candidate as a "pre-release" on GitHub when you tag it.
 
 Made possible by
 ----------------

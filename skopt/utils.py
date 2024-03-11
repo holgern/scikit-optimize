@@ -517,8 +517,9 @@ def point_asdict(search_space, point_as_list):
     >>> search_space = {'name1': Real(0,1),
     ...                 'name2': Integer(2,4), 'name3': Real(-1,1)}
     >>> point_as_list = [0.66, 3, -0.15]
-    >>> point_asdict(search_space, point_as_list)
-    OrderedDict([('name1', 0.66), ('name2', 3), ('name3', -0.15)])
+    >>> d = point_asdict(search_space, point_as_list)
+    >>> d.keys(), d.values()
+    (odict_keys(['name1', 'name2', 'name3']), odict_values([0.66, 3, -0.15]))
     """
     params_dict = OrderedDict()
     for k, v in zip(sorted(search_space.keys()), point_as_list):
