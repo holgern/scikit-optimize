@@ -1,7 +1,7 @@
 
 |Logo|
 
-|pypi| |conda| |CI Status| |binder| |codecov|
+|pypi| |conda| |CI Status| |binder| |codecov| |Zenodo DOI|
 
 Scikit-Optimize
 ===============
@@ -247,5 +247,5 @@ recognition, feel free to add them to the "Made possible by" list.
 .. |scipy.optimize| replace:: ``scipy.optimize``
 .. _scipy.optimize: https://docs.scipy.org/doc/scipy/reference/optimize.html
 .. _examples: https://scikit-optimize.readthedocs.io/en/latest/auto_examples/index.html
-.. |codecov| image:: https://codecov.io/gh/holgern/scikit-optimize/graph/badge.svg?token=9Mp32drAPj 
+.. |codecov| image:: https://codecov.io/gh/holgern/scikit-optimize/graph/badge.svg?token=9Mp32drAPj
    :target: https://codecov.io/gh/holgern/scikit-optimize
