@@ -7,16 +7,16 @@
 
 import platform
 import sys
-from distutils.version import LooseVersion
+from packaging.version import Version, parse
 
 import pytest
 from _pytest.doctest import DoctestItem
 
 from skopt import _IS_32BIT
 
-PYTEST_MIN_VERSION = '3.3.0'
+PYTEST_MIN_VERSION = '3.6.0'
 
-if LooseVersion(pytest.__version__) < PYTEST_MIN_VERSION:
+if parse(pytest.__version__) < Version(PYTEST_MIN_VERSION):
     raise ImportError(
         'Your version of pytest is too old, you should have '
         'at least pytest >= {} installed.'.format(PYTEST_MIN_VERSION)
@@ -52,7 +52,7 @@ def pytest_collection_modifyitems(config, items):
     try:
         import numpy as np
 
-        if LooseVersion(np.__version__) < LooseVersion('1.14'):
+        if parse(np.__version__) < Version('1.14'):
             reason = 'doctests are only run for numpy >= 1.14'
             skip_doctests = True
         elif _IS_32BIT:
