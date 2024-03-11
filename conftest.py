@@ -7,10 +7,10 @@
 
 import platform
 import sys
-from packaging.version import Version, parse
 
 import pytest
 from _pytest.doctest import DoctestItem
+from packaging.version import Version, parse
 
 from skopt import _IS_32BIT
 
