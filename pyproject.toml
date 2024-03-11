@@ -33,7 +33,7 @@ dependencies = [
     "scikit-learn>=1.0.0",
     "packaging>=21.3",
 ]
-version = "0.10rc1"
+version = "0.10rc2"
 
 [project.urls]
 Homepage = "https://scikit-optimize.readthedocs.io/en/latest/contents.html"
