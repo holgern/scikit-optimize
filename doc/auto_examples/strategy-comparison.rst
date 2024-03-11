@@ -200,6 +200,91 @@ models. This makes the comparison more robust against models that get
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+
 
 
 
@@ -239,7 +324,7 @@ Note that this can take a few minutes.
  .. code-block:: none
 
 
-    <matplotlib.legend.Legend object at 0x000001E3DF07E910>
+    <matplotlib.legend.Legend object at 0x0000017028378DD0>
 
 
 
@@ -262,7 +347,7 @@ values that are below the true value simply because they are fluctuations.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (4 minutes 29.364 seconds)
+   **Total running time of the script:** (2 minutes 29.532 seconds)
 
 
 .. _sphx_glr_download_auto_examples_strategy-comparison.py:

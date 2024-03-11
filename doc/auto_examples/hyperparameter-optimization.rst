@@ -170,7 +170,7 @@ optimisation. Here we use gaussian process-based optimisation.
  .. code-block:: none
 
 
-    'Best score=0.4446'
+    'Best score=0.4477'
 
 
 
@@ -199,10 +199,10 @@ optimisation. Here we use gaussian process-based optimisation.
 
     Best parameters:
     - max_depth=5
-    - learning_rate=0.126966
+    - learning_rate=0.147511
     - max_features=8
     - min_samples_split=100
-    - min_samples_leaf=44
+    - min_samples_leaf=46
 
 
 
@@ -241,7 +241,7 @@ Convergence plot
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (5 minutes 18.687 seconds)
+   **Total running time of the script:** (2 minutes 37.324 seconds)
 
 
 .. _sphx_glr_download_auto_examples_hyperparameter-optimization.py:

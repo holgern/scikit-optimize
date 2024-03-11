@@ -10,6 +10,7 @@ Version 0.10.0
 - |Feature| Add support for multimetric scoring to :obj:`skopt.searchcv.BayesSearchCV`.
 - |Feature| Evaluate random point instead of using point twice in :obj:`skopt.optimizer.Optimizer`.
 - |Feature| :obj:`skopt.callback.CheckpointSaver` can now recycle previous function evaluations
+- |Feature| finish CI move to GHA
 - |Fix| Keep order of variables in LabelEncoder
 - |Feature| add from_df method to Space class 
 - |Fix| Fix :obj:`skopt.plots.plot_evaluations` incorrectly handling dimensions

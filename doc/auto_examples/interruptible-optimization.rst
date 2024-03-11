@@ -108,12 +108,14 @@ and pass it to the minimizer:
 
  .. code-block:: none
 
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-20.0, 20.0) was inferred to Real(low=-20.0, high=20.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
 
               fun: -0.17524445239614728
-                x: [-18.66071160823085]
+                x: [-18.660711608230713]
         func_vals: [-4.682e-02 -8.228e-02 -6.538e-03 -7.134e-02  9.064e-02
                      7.662e-02  8.261e-02 -1.324e-01 -1.752e-01  1.002e-01]
-          x_iters: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484750012], [-17.111120867646413], [7.2513014572576076], [-19.167098803897638], [-18.66071160823085], [-18.284297234995396]]
+          x_iters: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484747195], [-17.111120867646253], [7.251301457256783], [-19.16709880389749], [-18.660711608230713], [-18.28429723556215]]
            models: [GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5) + WhiteKernel(noise_level=1),
                                             n_restarts_optimizer=2, noise='gaussian',
                                             normalize_y=True, random_state=655685735), GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5) + WhiteKernel(noise_level=1),
@@ -131,7 +133,7 @@ and pass it to the minimizer:
                                             normalize_y=True, random_state=655685735)]
             space: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function obj_fun at 0x000001E3D13AB2E0>
+            specs:     args:                    func: <function obj_fun at 0x000001702056EC00>
                                           dimensions: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise='gaussian',
@@ -146,7 +148,7 @@ and pass it to the minimizer:
                                                   y0: None
                                         random_state: RandomState(MT19937)
                                              verbose: False
-                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x000001E3D064B950>]
+                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x0000017027127690>]
                                             n_points: 10000
                                 n_restarts_optimizer: 5
                                                   xi: 0.01
@@ -243,11 +245,13 @@ The previous results can then be used to continue the optimization process:
 
  .. code-block:: none
 
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-20.0, 20.0) was inferred to Real(low=-20.0, high=20.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
 
               fun: -0.17524445239614728
-                x: [-18.66071160823085]
+                x: [-18.660711608230713]
         func_vals: [-4.682e-02 -8.228e-02 ...  9.148e-02  2.650e-02]
-          x_iters: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484750012], [-17.111120867646413], [7.2513014572576076], [-19.167098803897638], [-18.66071160823085], [-18.284297234995396], [-4.89536560655587], [-13.817289687225252], [6.9752035588202865], [-19.13712142711022], [-18.89398161213583], [-19.36136150317394], [-18.951713832432308], [6.383980577774469], [-18.82159785338048], [-19.373206973808692]]
+          x_iters: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484747195], [-17.111120867646253], [7.251301457256783], [-19.16709880389749], [-18.660711608230713], [-18.28429723556215], [-4.89536560655587], [-13.817289687225252], [6.9752035588202865], [-19.137121427347815], [-18.893981612139648], [-19.36136150292367], [-18.95171384338072], [6.383980575487712], [-18.82159785473173], [-19.373206975288387]]
            models: [GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5) + WhiteKernel(noise_level=1),
                                             n_restarts_optimizer=2, noise='gaussian',
                                             normalize_y=True, random_state=655685735), GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5) + WhiteKernel(noise_level=1),
@@ -267,7 +271,7 @@ The previous results can then be used to continue the optimization process:
                                             normalize_y=True, random_state=655685735)]
             space: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
      random_state: RandomState(MT19937)
-            specs:     args:                    func: <function obj_fun at 0x000001E3D13AB2E0>
+            specs:     args:                    func: <function obj_fun at 0x000001702056EC00>
                                           dimensions: Space([Real(low=-20.0, high=20.0, prior='uniform', transform='normalize')])
                                       base_estimator: GaussianProcessRegressor(kernel=1**2 * Matern(length_scale=1, nu=2.5),
                                                                                n_restarts_optimizer=2, noise='gaussian',
@@ -278,7 +282,7 @@ The previous results can then be used to continue the optimization process:
                              initial_point_generator: random
                                             acq_func: LCB
                                        acq_optimizer: auto
-                                                  x0: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484750012], [-17.111120867646413], [7.2513014572576076], [-19.167098803897638], [-18.66071160823085], [-18.284297234995396]]
+                                                  x0: [[-20.0], [5.857990176187936], [-11.97095004855501], [5.450171667295798], [10.524218484747195], [-17.111120867646253], [7.251301457256783], [-19.16709880389749], [-18.660711608230713], [-18.28429723556215]]
                                                   y0: [-4.682e-02 -8.228e-02
                                                        -6.538e-03 -7.134e-02
                                                         9.064e-02  7.662e-02
@@ -286,7 +290,7 @@ The previous results can then be used to continue the optimization process:
                                                        -1.752e-01  1.002e-01]
                                         random_state: RandomState(MT19937)
                                              verbose: False
-                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x000001E3D064B950>]
+                                            callback: [<skopt.callbacks.CheckpointSaver object at 0x0000017027127690>]
                                             n_points: 10000
                                 n_restarts_optimizer: 5
                                                   xi: 0.01
@@ -316,7 +320,7 @@ for more information on how the results get saved and possible caveats
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.883 seconds)
+   **Total running time of the script:** (0 minutes 3.088 seconds)
 
 
 .. _sphx_glr_download_auto_examples_interruptible-optimization.py:

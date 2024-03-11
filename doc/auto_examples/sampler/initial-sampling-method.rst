@@ -90,6 +90,15 @@ See also the example on an integer space
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-5.0, 10.0) was inferred to Real(low=-5.0, high=10.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 15.0) was inferred to Real(low=0.0, high=15.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+
 
 
 
@@ -150,7 +159,7 @@ Sobol'
 
  .. code-block:: none
 
-    C:\Users\holge\Documents\git\scikit-optimize\skopt\sampler\sobol.py:521: UserWarning: The balance properties of Sobol' points require n to be a power of 2. 0 points have been previously generated, then: n=0+10=10. 
+    D:\git\scikit-optimize\skopt\sampler\sobol.py:521: UserWarning: The balance properties of Sobol' points require n to be a power of 2. 0 points have been previously generated, then: n=0+10=10. 
       warnings.warn(
 
 
@@ -349,6 +358,13 @@ Hammersly sampling
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 1.0) was inferred to Real(low=0.0, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+
 
 
 
@@ -415,7 +431,7 @@ It can be seen that random has the worst performance
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.159 seconds)
+   **Total running time of the script:** (0 minutes 3.949 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sampler_initial-sampling-method.py:

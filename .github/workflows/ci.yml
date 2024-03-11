@@ -22,6 +22,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11"]
+    env:
+      TEST_WITH_COVERAGE: ${{ matrix.python-version == '3.11' }}
     steps:
     - uses: actions/checkout@master
     - name: Setup Python
@@ -35,7 +37,33 @@ jobs:
         pip install .[dev,plots]
         python -c 'import skopt; print(skopt.__version__)'
     - name: Run tests
+      if: env.TEST_WITH_COVERAGE != 'true'
       run: pytest
+
+    - name: Test with Coverage
+      if: env.TEST_WITH_COVERAGE == 'true'
+      run: |
+        make test-coverage
+
+    - name: Upload coverage reports to Codecov
+      if: env.TEST_WITH_COVERAGE == 'true'
+      uses: codecov/codecov-action@v4.0.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: holgern/scikit-optimize
+
+    - name: Build package
+      if: env.TEST_WITH_COVERAGE == 'true'
+      run: |
+        pip install --upgrade build
+        python -m build --sdist --wheel --outdir dist/
+
+    - name: Upload artifact
+      if: env.TEST_WITH_COVERAGE == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: dist
 
   test2:
     runs-on: ${{ matrix.os }}
@@ -90,5 +118,29 @@ jobs:
             pip install .
             pip install .[dev,plots,doc]
             python -c 'import skopt; print(skopt.__version__)'
-      - name: Run doc test
-        run: cd doc; make doctest
+
+      - name: Install latex dependencies
+        run: |
+          sudo apt-get -yq update
+          sudo apt-get -yq --no-install-recommends install \
+              dvipng texlive-latex-base texlive-latex-extra \
+              texlive-latex-recommended texlive-fonts-recommended \
+              latexmk tex-gyre gsfonts ccache
+
+      - name: Test docs
+        run: |
+          python -c 'import skopt; skopt.show_versions()'
+          make test-doc
+          make test-sphinxext
+          make -C doc doctest
+          make -C doc linkcheck
+
+      - name: Build docs
+        run: |
+          .github/scripts/build_docs.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docs
+          path: doc/_build/html/stable

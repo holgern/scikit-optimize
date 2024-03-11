@@ -124,6 +124,18 @@ A minimal example of optimizing hyperparameters of SVC (Support Vector machine C
 
  .. code-block:: none
 
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 1000000.0, 'log-uniform') was inferred to Real(low=1e-06, high=1000000.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 10.0, 'log-uniform') was inferred to Real(low=1e-06, high=10.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 1000000.0, 'log-uniform') was inferred to Real(low=1e-06, high=1000000.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 10.0, 'log-uniform') was inferred to Real(low=1e-06, high=10.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 1000000.0, 'log-uniform') was inferred to Real(low=1e-06, high=1000000.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 10.0, 'log-uniform') was inferred to Real(low=1e-06, high=10.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
     val. score: 0.9866369710467705
     test score: 0.9844444444444445
 
@@ -200,9 +212,15 @@ decision trees is given below.
 
  .. code-block:: none
 
-    val. score: 0.9888641425389756
-    test score: 0.9933333333333333
-    best params: OrderedDict([('model', SVC()), ('model__C', 1.0616906520839873), ('model__degree', 2), ('model__gamma', 0.0007283506218454548), ('model__kernel', 'rbf')])
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 1000000.0, 'log-uniform') was inferred to Real(low=1e-06, high=1000000.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 1000000.0, 'log-uniform') was inferred to Real(low=1e-06, high=1000000.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (1e-06, 1000000.0, 'log-uniform') was inferred to Real(low=1e-06, high=1000000.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    val. score: 0.9881217520415739
+    test score: 0.9888888888888889
+    best params: OrderedDict([('model', SVC()), ('model__C', 4.580543393203649), ('model__degree', 3), ('model__gamma', 0.0002585937465230229), ('model__kernel', 'poly')])
 
 
 
@@ -315,16 +333,14 @@ An example usage is shown below.
 
  .. code-block:: none
 
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
-    best score: 0.9666666666666667
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.01, 100.0, 'log-uniform') was inferred to Real(low=0.01, high=100.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.01, 100.0, 'log-uniform') was inferred to Real(low=0.01, high=100.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.01, 100.0, 'log-uniform') was inferred to Real(low=0.01, high=100.0, prior='log-uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    best score: 0.98
+    Interrupting!
 
 
 .. raw:: html
@@ -782,6 +798,10 @@ calculated with `total_iterations` property, as in the code below.
 
  .. code-block:: none
 
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.1, 1.0) was inferred to Real(low=0.1, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
+    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.1, 1.0) was inferred to Real(low=0.1, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+      warnings.warn(
     29
 
 
@@ -790,7 +810,7 @@ calculated with `total_iterations` property, as in the code below.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 54.847 seconds)
+   **Total running time of the script:** (0 minutes 59.368 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sklearn-gridsearchcv-replacement.py:
