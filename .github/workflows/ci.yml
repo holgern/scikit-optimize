@@ -23,7 +23,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     env:
-      TEST_WITH_COVERAGE: ${{ matrix.python-version == '3.11' }}
+      TEST_WITH_COVERAGE: ${{ matrix.python-version == '3.11' && matrix.os == 'ubuntu-latest' }}
     steps:
     - uses: actions/checkout@master
     - name: Setup Python
