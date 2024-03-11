@@ -1,8 +1,10 @@
 [run]
+branch = True
+source = skopt
+parallel = True
 omit =
-    skopt/__init__.py
-    # these are our tests, don't count them towards coverage
-    skopt/tests/*
+    */benchmarks/*
+    **/setup.py
 
 [report]
 exclude_lines =

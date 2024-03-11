@@ -18,8 +18,6 @@ clean-ctags:
 clean: clean-ctags
 	$(PYTHON) setup.py clean
 	rm -rf dist
-	# TODO: Remove in when all modules are removed.
-	$(PYTHON) sklearn/_build_utils/deprecated_modules.py
 
 in: inplace # just a shortcut
 inplace:
@@ -38,10 +36,10 @@ test-code-parallel: in
 
 test-coverage:
 	rm -rf coverage .coverage
-	$(PYTEST) skopt --showlocals -v --cov=sklearn --cov-report=html:coverage
+	$(PYTEST) skopt --showlocals -v --cov=skopt --cov-report=html:coverage
 test-coverage-parallel:
 	rm -rf coverage .coverage .coverage.*
-	$(PYTEST) skopt -n auto --showlocals -v --cov=sklearn --cov-report=html:coverage
+	$(PYTEST) skopt -n auto --showlocals -v --cov=skopt --cov-report=html:coverage
 
 test: test-code test-sphinxext test-doc
 

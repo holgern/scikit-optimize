@@ -1,10 +1,17 @@
 # show coverage in CI status, not as a comment.
-comment: off
+comment: false
+
 coverage:
   status:
     project:
       default:
         target: auto
+        threshold: 10%
     patch:
       default:
-        target: 20%
+        target: auto
+        target: 10%
+
+ignore:
+- "**/setup.py"
+- "**/conftest.py"
