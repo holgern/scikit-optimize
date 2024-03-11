@@ -242,8 +242,8 @@ recognition, feel free to add them to the "Made possible by" list.
 .. |Logo| image:: https://avatars2.githubusercontent.com/u/18578550?v=4&s=80
 .. |binder| image:: https://mybinder.org/badge.svg
    :target: https://mybinder.org/v2/gh/holgern/scikit-optimize/main?filepath=examples
-.. |Zenodo DOI| image:: https://zenodo.org/badge/54340642.svg
-   :target: https://zenodo.org/badge/latestdoi/54340642
+.. |Zenodo DOI| image:: https://zenodo.org/badge/768077165.svg
+   :target: https://zenodo.org/doi/10.5281/zenodo.10804382
 .. |scipy.optimize| replace:: ``scipy.optimize``
 .. _scipy.optimize: https://docs.scipy.org/doc/scipy/reference/optimize.html
 .. _examples: https://scikit-optimize.readthedocs.io/en/latest/auto_examples/index.html
