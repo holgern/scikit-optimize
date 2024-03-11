@@ -404,3 +404,7 @@ warnings.filterwarnings(
 
 # -- Extension configuration -------------------------------------------------
 link_github = True
+
+linkcheck_ignore = [
+    r'(../)?auto_examples/',
+]
