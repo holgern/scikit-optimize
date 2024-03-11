@@ -51,14 +51,14 @@ def test_sampler(samlper):
     assert len(samples[0]) == 2
     assert isinstance(s, InitialPointGenerator)
 
-    samples = s.generate([("a", "b", "c")], 3)
+    samples = s.generate([["a", "b", "c"]], 3)
     assert samples[0][0] in ["a", "b", "c"]
 
-    samples = s.generate([("a", "b", "c"), (0, 1)], 1)
+    samples = s.generate([["a", "b", "c"], (0, 1)], 1)
     assert samples[0][0] in ["a", "b", "c"]
     assert samples[0][1] in [0, 1]
 
-    samples = s.generate([("a", "b", "c"), (0, 1)], 3)
+    samples = s.generate([["a", "b", "c"], (0, 1)], 3)
     assert samples[0][0] in ["a", "b", "c"]
     assert samples[0][1] in [0, 1]
 
@@ -76,14 +76,14 @@ def test_lhs_criterion(lhs_type, criterion):
     )
     assert len(samples) == 200
     assert len(samples[0]) == 2
-    samples = lhs.generate([("a", "b", "c")], 3)
+    samples = lhs.generate([["a", "b", "c"]], 3)
     assert samples[0][0] in ["a", "b", "c"]
 
-    samples = lhs.generate([("a", "b", "c"), (0, 1)], 1)
+    samples = lhs.generate([["a", "b", "c"], (0, 1)], 1)
     assert samples[0][0] in ["a", "b", "c"]
     assert samples[0][1] in [0, 1]
 
-    samples = lhs.generate([("a", "b", "c"), (0, 1)], 3)
+    samples = lhs.generate([["a", "b", "c"], (0, 1)], 3)
     assert samples[0][0] in ["a", "b", "c"]
     assert samples[0][1] in [0, 1]
 

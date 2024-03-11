@@ -1,5 +1,6 @@
 import numbers
 import os
+import re
 from tempfile import NamedTemporaryFile
 
 import numpy as np
@@ -14,6 +15,7 @@ from numpy.testing import (
 from skopt import Optimizer
 from skopt.space import Categorical, Integer, Real, Space
 from skopt.space import check_dimension as space_check_dimension
+from skopt.space.space import _check_dimension as new_check_dimension
 from skopt.utils import normalize_dimensions
 
 
@@ -273,7 +275,7 @@ def test_space_consistency():
     assert_equal(s1, s3)
     assert_array_equal(a1, a3)
 
-    s1 = Space([(True, False)])
+    s1 = Space([[True, False]])
     s2 = Space([Categorical([True, False])])
     s3 = Space([np.array([True, False])])
     assert s1 == s2 == s3
@@ -299,10 +301,10 @@ def test_space_consistency():
 @pytest.mark.fast_test
 def test_space_api():
     space = Space(
-        [(0.0, 1.0), (-5, 5), ("a", "b", "c"), (1.0, 5.0, "log-uniform"), ("e", "f")]
+        [(0.0, 1.0), (-5, 5), ["a", "b", "c"], (1.0, 5.0, "log-uniform"), ["e", "f"]]
     )
 
-    cat_space = Space([(1, "r"), (1.0, "r")])
+    cat_space = Space([[1, "r"], [1.0, "r"]])
     assert isinstance(cat_space.dimensions[0], Categorical)
     assert isinstance(cat_space.dimensions[1], Categorical)
 
@@ -375,7 +377,7 @@ def test_space_api():
 def test_space_from_space():
     # can you pass a Space instance to the Space constructor?
     space = Space(
-        [(0.0, 1.0), (-5, 5), ("a", "b", "c"), (1.0, 5.0, "log-uniform"), ("e", "f")]
+        [(0.0, 1.0), (-5, 5), ["a", "b", "c"], (1.0, 5.0, "log-uniform"), ["e", "f"]]
     )
 
     space2 = Space(space)
@@ -385,9 +387,7 @@ def test_space_from_space():
 
 @pytest.mark.fast_test
 def test_constant_property():
-    space = Space(
-        [(0.0, 1.0), (1,), ("a", "b", "c"), (1.0, 5.0, "log-uniform"), ("e",)]
-    )
+    space = Space([(0.0, 1.0), [1], ["a", "b", "c"], (1.0, 5.0, "log-uniform"), ["e"]])
     assert space.n_constant_dimensions == 2
     for i in [1, 4]:
         assert space.dimensions[i].is_constant
@@ -399,7 +399,7 @@ def test_constant_property():
 def test_set_get_transformer():
     # can you pass a Space instance to the Space constructor?
     space = Space(
-        [(0.0, 1.0), (-5, 5), ("a", "b", "c"), (1.0, 5.0, "log-uniform"), ("e", "f")]
+        [(0.0, 1.0), (-5, 5), ["a", "b", "c"], (1.0, 5.0, "log-uniform"), ["e", "f"]]
     )
 
     transformer = space.get_transformer()
@@ -420,7 +420,7 @@ def test_set_get_transformer():
 def test_normalize():
     # can you pass a Space instance to the Space constructor?
     space = Space(
-        [(0.0, 1.0), (-5, 5), ("a", "b", "c"), (1.0, 5.0, "log-uniform"), ("e", "f")]
+        [(0.0, 1.0), (-5, 5), ["a", "b", "c"], (1.0, 5.0, "log-uniform"), ["e", "f"]]
     )
     space.set_transformer("normalize")
     X = [[0.0, -5, 'a', 1.0, 'e']]
@@ -433,7 +433,7 @@ def test_normalize():
 @pytest.mark.fast_test
 def test_normalize_types():
     # can you pass a Space instance to the Space constructor?
-    space = Space([(0.0, 1.0), Integer(-5, 5, dtype=int), (True, False)])
+    space = Space([(0.0, 1.0), Integer(-5, 5, dtype=int), [True, False]])
     space.set_transformer("normalize")
     X = [[0.0, -5, True]]
     Xt = np.zeros((1, 3))
@@ -642,10 +642,90 @@ def test_valid_transformation():
 @pytest.mark.fast_test
 def test_invalid_dimension():
     assert_raises_regex(
-        ValueError, "has to be a list or tuple", space_check_dimension, "23"
+        ValueError, "Invalid dimension '23'", space_check_dimension, "23"
     )
     # single value fixes dimension of space
-    space_check_dimension((23,))
+    space_check_dimension([23])
+
+
+DIMENSION_TESTS = [
+    ((0, 1), Integer(0, 1)),
+    ((0, 1, "uniform"), Integer(0, 1, "uniform")),
+    ((1, 2, "log-uniform"), Integer(1, 2, "log-uniform")),
+    ((0.0, 1), Real(0, 1)),
+    ((0, 1.0), Real(0, 1)),
+    ((0.0, 1.0), Real(0, 1)),
+    ((0.0, 1.0, "uniform"), Real(0, 1, "uniform")),
+    ((1.0, 2.0, "log-uniform"), Real(1, 2, "log-uniform")),
+    ((1j, 2), ValueError("Invalid dimension")),
+]
+
+NEW_DIMENSION_TEST = [
+    ({"key": "value"}, ValueError("Invalid dimension"), Categorical(["key"]), None),
+    ([0, 1], Integer(0, 1), Categorical([0, 1]), None),
+    (
+        [1.0, 2.0, "log-uniform"],
+        Real(1.0, 2.0, "log-uniform"),
+        Categorical([1.0, 2.0, "log-uniform"]),
+        None,
+    ),
+    (
+        ("0", 1),
+        Categorical(["0", 1]),
+        Categorical(["0", 1]),
+        UserWarning("miss-spelled"),
+    ),
+]
+
+
+@pytest.mark.fast_test
+@pytest.mark.parametrize("arg,result_or_error", DIMENSION_TESTS)
+def test_check_dimension_inference(arg, result_or_error):
+    if isinstance(result_or_error, Exception):
+        error = result_or_error
+        with pytest.raises(type(error), match=re.escape(str(error))):
+            space_check_dimension(arg)
+    else:
+        result = result_or_error
+        assert space_check_dimension(arg) == result
+
+
+@pytest.mark.fast_test
+@pytest.mark.parametrize(
+    "arg,old_result_or_error,new_result_or_error,warning", NEW_DIMENSION_TEST
+)
+def test_new_check_dimension_inference(
+    arg, old_result_or_error, new_result_or_error, warning
+):
+    # test new function interface
+    if isinstance(new_result_or_error, Exception):
+        error = new_result_or_error
+        with pytest.raises(type(error), match=re.escape(str(error))):
+            new_check_dimension(arg)
+    else:
+        new_result = new_result_or_error
+        if warning is not None:
+            with pytest.warns(type(warning), match=re.escape(warning.args[0])):
+                assert new_check_dimension(arg) == new_result
+        else:
+            assert new_check_dimension(arg) == new_result
+
+    # test that the wrapper warns of the difference
+    # and still returns the old value or error
+    if isinstance(old_result_or_error, Exception):
+        error = old_result_or_error
+        with pytest.raises(type(error), match=str(error)):
+            space_check_dimension(arg)
+    else:
+        old_result = old_result_or_error
+        if old_result != new_result:
+            with pytest.warns(
+                UserWarning,
+                match=re.escape(f"Dimension {arg!r} was " f"inferred to {old_result}."),
+            ):
+                assert space_check_dimension(arg) == old_result
+        else:
+            assert space_check_dimension(arg) == old_result
 
 
 @pytest.mark.fast_test
@@ -819,9 +899,9 @@ def test_space_from_yaml():
             [
                 (0.0, 1.0),
                 (-5, 5),
-                ("a", "b", "c"),
+                ["a", "b", "c"],
                 (1.0, 5.0, "log-uniform"),
-                ("e", "f"),
+                ["e", "f"],
             ]
         )
 
