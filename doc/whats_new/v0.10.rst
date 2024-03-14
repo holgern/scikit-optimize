@@ -2,6 +2,14 @@
 
 .. currentmodule:: skopt
 
+.. _changes_0_10_1:
+
+Version 0.10.1
+=============
+**March 2024**
+
+- |Fix| Typo in skopt/space/space.py
+
 .. _changes_0_10:
 
 Version 0.10.0

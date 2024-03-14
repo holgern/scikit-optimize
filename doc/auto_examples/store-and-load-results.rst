@@ -100,7 +100,7 @@ We will use the same optimization problem as in the
 
  .. code-block:: none
 
-    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-2.0, 2.0) was inferred to Real(low=-2.0, high=2.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
+    D:\git\scikit-optimize\skopt\optimizer\optimizer.py:517: UserWarning: The objective has been evaluated at point [5.2414561579894325e-09] before, using random point [-1.1498279780295497]
       warnings.warn(
 
 
@@ -163,7 +163,7 @@ And load from file using :class:`skopt.load`:
  .. code-block:: none
 
 
-    -0.901416194028726
+    -0.33287005499757594
 
 
 
@@ -199,7 +199,7 @@ level (highest in this case):
  .. code-block:: none
 
     Without compression: 75397 bytes
-    Compressed with gz:  27360 bytes
+    Compressed with gz:  27335 bytes
 
 
 
@@ -294,7 +294,7 @@ copy is created:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.557 seconds)
+   **Total running time of the script:** (0 minutes 1.543 seconds)
 
 
 .. _sphx_glr_download_auto_examples_store-and-load-results.py:

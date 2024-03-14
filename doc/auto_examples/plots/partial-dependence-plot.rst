@@ -101,17 +101,6 @@ We run forest_minimize on the function
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-1, 1.0) was inferred to Real(low=-1.0, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
-      warnings.warn(
-    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-1, 1.0) was inferred to Real(low=-1.0, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
-      warnings.warn(
-    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (-1, 1.0) was inferred to Real(low=-1.0, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
-      warnings.warn(
-
 
 
 
@@ -342,7 +331,7 @@ as the minimum argument:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 26.103 seconds)
+   **Total running time of the script:** (0 minutes 14.903 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plots_partial-dependence-plot.py:

@@ -238,7 +238,7 @@ parsing a list as the pars argument:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 12.079 seconds)
+   **Total running time of the script:** (0 minutes 8.190 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plots_partial-dependence-plot-with-categorical.py:

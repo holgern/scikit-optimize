@@ -9,7 +9,7 @@ for the plans for the next release or look at some `easy
 issues <https://github.com/holgern/scikit-optimize/issues?q=is%3Aissue+is%3Aopen+label%3AEasy>`__
 to get started contributing.
 
-The development version can be installed through:
+The development version from `github <https://github.com/holgern/scikit-optimize>`__ can be installed through:
 
 .. code-block:: bash
 

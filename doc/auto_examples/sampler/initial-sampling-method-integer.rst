@@ -403,8 +403,6 @@ Hammersly sampling
 
  .. code-block:: none
 
-    D:\git\scikit-optimize\skopt\space\space.py:111: UserWarning: Dimension (0.0, 1.0) was inferred to Real(low=0.0, high=1.0, prior='uniform', transform='identity'). In upcoming versions of scikit-optimize, it will be inferred to <TypeError: Real.__init__() got an unexpected keyword argument 'tranform'>. See the documentation of the check_dimension function for the upcoming API.
-      warnings.warn(
     empty fields: 26
 
 
@@ -480,7 +478,7 @@ It can be seen that random has the worst performance
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.529 seconds)
+   **Total running time of the script:** (0 minutes 5.355 seconds)
 
 
 .. _sphx_glr_download_auto_examples_sampler_initial-sampling-method-integer.py:

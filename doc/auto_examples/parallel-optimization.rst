@@ -133,7 +133,7 @@ scikit-optimize.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 20.721 seconds)
+   **Total running time of the script:** (0 minutes 17.513 seconds)
 
 
 .. _sphx_glr_download_auto_examples_parallel-optimization.py:

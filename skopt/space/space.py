@@ -56,15 +56,14 @@ def check_dimension(dimension, transform=None):
 
         - an instance of a `Dimension` object (`Real`, `Integer` or
           `Categorical`).
-        - an instance of a `Dimension` object (`Real`, `Integer` or
-          `Categorical`).
         - a 2-, 3- or 4-tuple, for `Real` and `Integer` dimensions, of
           the form ``(low, high [, prior [, base]])`` (values in square
           brackets are optional). If both ``low`` and ``high`` are integral
           numbers (as per the `number.Integral`), a `Integer` dimension is
           returned, else a `Real` dimension is returned.
         - any iterable for `Categorical` dimension
-          ..note::
+
+          .. note::
             For a transitionary period, the old behavior is retained. This
             means tuple, list and array currently all undergo dimension
             inference as describe in the tuple entry above. If no `Integer`

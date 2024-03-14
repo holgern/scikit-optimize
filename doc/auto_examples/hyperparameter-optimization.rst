@@ -241,7 +241,7 @@ Convergence plot
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (2 minutes 37.324 seconds)
+   **Total running time of the script:** (2 minutes 21.302 seconds)
 
 
 .. _sphx_glr_download_auto_examples_hyperparameter-optimization.py:

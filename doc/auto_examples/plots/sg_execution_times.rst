@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**02:33.707** total execution time for 4 files **from auto_examples\plots**:
+**01:48.871** total execution time for 4 files **from auto_examples\plots**:
 
 .. container::
 
@@ -33,14 +33,14 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_plots_visualizing-results.py` (``visualizing-results.py``)
-     - 01:45.236
+     - 01:18.777
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot.py` (``partial-dependence-plot.py``)
-     - 00:26.103
+     - 00:14.903
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-with-categorical.py` (``partial-dependence-plot-with-categorical.py``)
-     - 00:12.079
+     - 00:08.190
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plots_partial-dependence-plot-2D.py` (``partial-dependence-plot-2D.py``)
-     - 00:10.289
+     - 00:07.000
      - 0.0
