@@ -132,7 +132,7 @@ def _check_dimension(dimension, transform=None):
                 return Integer(int(low), int(high), *args, transform=transform)
             # Infer a Real if both bounds are Real numbers
             elif isinstance(low, numbers.Real) and isinstance(high, numbers.Real):
-                return Real(float(low), float(high), *args, tranform=transform)
+                return Real(float(low), float(high), *args, transform=transform)
         # warn if falling back on Categorical for tuples that look like they
         # might be an error, because there is more than one type in them
         if len(set(map(type, dimension))) > 1:
