@@ -9,7 +9,7 @@
 
 import os
 import re
-
+import datetime
 # import pkg_resources
 import sys
 
@@ -37,7 +37,7 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 # -- Project information -----------------------------------------------------
 
 project = 'scikit-optimize'
-copyright = '2017 - 2024, scikit-optimize contributors (BSD License)'
+copyright = f'2017 - {datetime.date.today().year}, scikit-optimize contributors (BSD License)'
 author = 'The scikit-optimize contributors'
 
 # The short X.Y version
@@ -125,20 +125,30 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 
-html_theme = 'sphinx_book_theme'
+html_theme = 'pydata_sphinx_theme'
 
 
-# html_theme_options = {'google_analytics': False,
-#                      'mathjax_path': mathjax_path}
+html_theme_options = {
+    "github_url": "https://github.com/holgern/scikit-optimize",
+    "footer_start": ["copyright", "sphinx-version"],
+    "footer_end": ["theme-version"],
+    "pygment_light_style": "a11y-high-contrast-light",
+    "pygment_dark_style": "a11y-high-contrast-dark",
+                        #'google_analytics': False,
+                        #'mathjax_path': mathjax_path
+}
 
-# Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ['themes']
 
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# html_theme_options = {}
+# Contexts to extract GitHub links for edit buttons and theme switcher
+html_context = {
+    "github_url": "https://github.com", # or your GitHub Enterprise site
+    "github_user": "holgern",
+    "github_repo": "scikit-optimize",
+    "github_version": "main",
+    "doc_path": "doc",
+    "default_mode": "light",
+}
+
 html_short_title = 'scikit-optimize'
 
 # The name of an image file (relative to this directory) to place at the top
@@ -159,6 +169,8 @@ html_domain_indices = False
 
 # If false, no index is generated.
 html_use_index = False
+
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

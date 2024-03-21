@@ -55,7 +55,7 @@ doc = [
     "memory_profiler",
     "numpydoc",
     "sphinx",
-    "sphinx-book-theme",
+    "pydata-sphinx-theme",
     "sphinx-gallery>=0.6",
 ]
 
