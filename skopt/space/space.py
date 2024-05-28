@@ -5,7 +5,12 @@ from collections.abc import Iterable
 import numpy as np
 import yaml
 from scipy.stats.distributions import randint, rv_discrete, uniform
-from sklearn.utils import check_pandas_support, check_random_state
+from sklearn.utils import check_random_state
+try:
+    # Syntax from sklearn 1.5.0 onwards
+    from sklearn.utils._optional_dependencies import check_pandas_support
+except ImportError:
+    from sklearn.utils import check_pandas_support
 
 from .transformers import (
     CategoricalEncoder,
