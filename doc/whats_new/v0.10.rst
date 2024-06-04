@@ -2,6 +2,14 @@
 
 .. currentmodule:: skopt
 
+.. _changes_0_10_2:
+
+Version 0.10.2
+==============
+**June 2024**
+
+- |Fix| Update Pandas import to new format by :user:`awennersteen <awennersteen>`
+
 .. _changes_0_10_1:
 
 Version 0.10.1
