@@ -35,6 +35,7 @@ def plot_convergence(*args, true_minimum=None, yscale=None, ax=None):
     results: `OptimizeResult`, iterable of `OptimizeResult`, or a 2-tuple
         of a label and a `OptimizeResult` or an iterable of `OptimizeResult`.
         The result(s) for which to plot the convergence trace.
+
         - if an `OptimizeResult`, draw the corresponding single trace
         - if an iterable of `OptimizeResult`, draw all traces in the same
           plot as well as the average convergence trace

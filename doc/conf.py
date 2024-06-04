@@ -28,6 +28,7 @@ import skopt
 
 sys.path.insert(0, os.path.abspath('sphinxext'))
 import sphinx_gallery  # noqa: E402
+from sphinx_gallery.sorting import ExampleTitleSortKey  # noqa: E402
 from github_link import make_linkcode_resolve  # noqa: E402
 from importlib.metadata import version, PackageNotFoundError  # noqa: E402
 
@@ -280,8 +281,8 @@ binder_branch = 'master'
 class SubSectionTitleOrder:
     """Sort example gallery by title of subsection.
 
-    Assumes README.txt exists for all subsections and uses the
-    subsection with dashes, '---', as the adornment.
+    Assumes README.txt exists for all subsections and uses the subsection with
+    dashes, '---', as the adornment.
     """
 
     def __init__(self, src_dir):
@@ -289,14 +290,19 @@ class SubSectionTitleOrder:
         self.regex = re.compile(r"^([\w ]+)\n-", re.MULTILINE)
 
     def __repr__(self):
-        return '<%s: %s>' % (self.__class__.__name__, self.src_dir)
+        return "<%s>" % (self.__class__.__name__,)
 
     def __call__(self, directory):
         src_path = os.path.normpath(os.path.join(self.src_dir, directory))
+
+        # Forces Release Highlights to the top
+        if os.path.basename(src_path) == "release_highlights":
+            return "0"
+
         readme = os.path.join(src_path, "README.txt")
 
         try:
-            with open(readme) as f:
+            with open(readme, "r") as f:
                 content = f.read()
         except FileNotFoundError:
             return directory
@@ -305,6 +311,24 @@ class SubSectionTitleOrder:
         if title_match is not None:
             return title_match.group(1)
         return directory
+
+
+class SKExampleTitleSortKey(ExampleTitleSortKey):
+    """Sorts release highlights based on version number."""
+
+    def __call__(self, filename):
+        title = super().__call__(filename)
+        prefix = "plot_release_highlights_"
+
+        # Use title to sort if not a release highlight
+        if not str(filename).startswith(prefix):
+            return title
+
+        major_minor = filename[len(prefix) :].split("_")[:2]
+        version_float = float(".".join(major_minor))
+
+        # negate to place the newest version highlights first
+        return -version_float
 
 
 sphinx_gallery_conf = {
@@ -316,6 +340,7 @@ sphinx_gallery_conf = {
     'gallery_dirs': ['auto_examples'],
     'default_thumb_file': 'image/logo.png',
     'subsection_order': SubSectionTitleOrder('../examples'),
+    "within_subsection_order": SKExampleTitleSortKey,
     'filename_pattern': '',
     'ignore_pattern': 'utils.py',
     'binder': {

@@ -19,74 +19,6 @@ Miscellaneous and introductory examples for scikit-optimize.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Iaroslav Shcherbatyi, May 2017. Reviewed by Manoj Kumar and Tim Head. Reformatted by Holger Nah...">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_parallel-optimization_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_parallel-optimization.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Parallel optimization</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Mikhail Pak, October 2016. Reformatted by Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_store-and-load-results_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_store-and-load-results.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Store and load skopt optimization results</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Christian Schell, Mai 2018 Reformatted by Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_interruptible-optimization_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_interruptible-optimization.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Interruptible optimization runs with checkpoints</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Gilles Louppe, July 2016 Katie Malone, August 2016 Reformatted by Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_hyperparameter-optimization_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_hyperparameter-optimization.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Tuning a scikit-learn estimator with skopt</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Tim Head, February 2017. Reformatted by Holger Nahrstaedt 2020">
 
 .. only:: html
@@ -99,23 +31,6 @@ Miscellaneous and introductory examples for scikit-optimize.
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Async optimization Loop</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Tim Head, July 2016. Reformatted by Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_strategy-comparison_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_strategy-comparison.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Comparing surrogate models</div>
     </div>
 
 
@@ -138,35 +53,18 @@ Miscellaneous and introductory examples for scikit-optimize.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Iaroslav Shcherbatyi, Tim Head and Gilles Louppe. June 2017. Reformatted by Holger Nahrstaedt 2...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Tim Head, July 2016. Reformatted by Holger Nahrstaedt 2020">
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_sklearn-gridsearchcv-replacement_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_strategy-comparison_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_sklearn-gridsearchcv-replacement.py`
+  :ref:`sphx_glr_auto_examples_strategy-comparison.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Scikit-learn hyperparameter search wrapper</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Sigurd Carlen, September 2019. Reformatted by Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_optimizer-with-different-base-estimator_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Use different base estimators for optimization</div>
+      <div class="sphx-glr-thumbnail-title">Comparing surrogate models</div>
     </div>
 
 
@@ -189,22 +87,124 @@ Miscellaneous and introductory examples for scikit-optimize.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Christian Schell, Mai 2018 Reformatted by Holger Nahrstaedt 2020">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_interruptible-optimization_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_interruptible-optimization.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Interruptible optimization runs with checkpoints</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Iaroslav Shcherbatyi, May 2017. Reviewed by Manoj Kumar and Tim Head. Reformatted by Holger Nah...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_parallel-optimization_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_parallel-optimization.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Parallel optimization</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Iaroslav Shcherbatyi, Tim Head and Gilles Louppe. June 2017. Reformatted by Holger Nahrstaedt 2...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_sklearn-gridsearchcv-replacement_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sklearn-gridsearchcv-replacement.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Scikit-learn hyperparameter search wrapper</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Mikhail Pak, October 2016. Reformatted by Holger Nahrstaedt 2020">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_store-and-load-results_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_store-and-load-results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Store and load skopt optimization results</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Gilles Louppe, July 2016 Katie Malone, August 2016 Reformatted by Holger Nahrstaedt 2020">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_hyperparameter-optimization_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_hyperparameter-optimization.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Tuning a scikit-learn estimator with skopt</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Sigurd Carlen, September 2019. Reformatted by Holger Nahrstaedt 2020">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_optimizer-with-different-base-estimator_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_optimizer-with-different-base-estimator.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use different base estimators for optimization</div>
+    </div>
+
+
+.. raw:: html
+
     </div>
 
 
 .. toctree::
    :hidden:
 
-   /auto_examples/parallel-optimization
-   /auto_examples/store-and-load-results
-   /auto_examples/interruptible-optimization
-   /auto_examples/hyperparameter-optimization
    /auto_examples/ask-and-tell
-   /auto_examples/strategy-comparison
    /auto_examples/bayesian-optimization
-   /auto_examples/sklearn-gridsearchcv-replacement
-   /auto_examples/optimizer-with-different-base-estimator
+   /auto_examples/strategy-comparison
    /auto_examples/exploration-vs-exploitation
+   /auto_examples/interruptible-optimization
+   /auto_examples/parallel-optimization
+   /auto_examples/sklearn-gridsearchcv-replacement
+   /auto_examples/store-and-load-results
+   /auto_examples/hyperparameter-optimization
+   /auto_examples/optimizer-with-different-base-estimator
 
 
 Initial sampling functions
@@ -217,6 +217,23 @@ Examples concerning the :mod:`skopt.sampler` module.
 .. raw:: html
 
     <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Holger Nahrstaedt 2020">
+
+.. only:: html
+
+  .. image:: /auto_examples/sampler/images/thumb/sphx_glr_sampling_comparison_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_sampler_sampling_comparison.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Comparing initial point generation methods</div>
+    </div>
 
 
 .. raw:: html
@@ -250,23 +267,6 @@ Examples concerning the :mod:`skopt.sampler` module.
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Comparing initial sampling methods on integer space</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/sampler/images/thumb/sphx_glr_sampling_comparison_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_sampler_sampling_comparison.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Comparing initial point generation methods</div>
     </div>
 
 
@@ -323,23 +323,6 @@ Examples concerning the :mod:`skopt.plots` module.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Tim Head, August 2016. Reformatted by Holger Nahrstaedt 2020">
-
-.. only:: html
-
-  .. image:: /auto_examples/plots/images/thumb/sphx_glr_visualizing-results_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_plots_visualizing-results.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Visualizing optimization results</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Hvass-Labs Dec 2017 Holger Nahrstaedt 2020">
 
 .. only:: html
@@ -352,6 +335,23 @@ Examples concerning the :mod:`skopt.plots` module.
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Partial Dependence Plots 2D</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Tim Head, August 2016. Reformatted by Holger Nahrstaedt 2020">
+
+.. only:: html
+
+  .. image:: /auto_examples/plots/images/thumb/sphx_glr_visualizing-results_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plots_visualizing-results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualizing optimization results</div>
     </div>
 
 

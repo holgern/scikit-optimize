@@ -132,7 +132,15 @@ jobs:
           python -c 'import skopt; skopt.show_versions()'
           make test-doc
           make test-sphinxext
+
+      - name: doctest
+        run: |
+          python -c 'import skopt; skopt.show_versions()'
           make -C doc doctest
+
+      - name: linkcheck
+        run: |
+          python -c 'import skopt; skopt.show_versions()'
           make -C doc linkcheck
 
       - name: Build docs
