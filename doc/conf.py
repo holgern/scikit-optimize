@@ -289,7 +289,7 @@ class SubSectionTitleOrder:
         self.regex = re.compile(r"^([\w ]+)\n-", re.MULTILINE)
 
     def __repr__(self):
-        return f'<{self.__class__.__name__}>'
+        return '<%s: %s>' % (self.__class__.__name__, self.src_dir)
 
     def __call__(self, directory):
         src_path = os.path.normpath(os.path.join(self.src_dir, directory))

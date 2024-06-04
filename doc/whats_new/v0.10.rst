@@ -5,7 +5,7 @@
 .. _changes_0_10_1:
 
 Version 0.10.1
-=============
+==============
 **March 2024**
 
 - |Fix| Typo in skopt/space/space.py
@@ -13,8 +13,9 @@ Version 0.10.1
 .. _changes_0_10:
 
 Version 0.10.0
-=============
+==============
 **March 2024**
+
 - |Feature| Add support for multimetric scoring to :obj:`skopt.searchcv.BayesSearchCV`.
 - |Feature| Evaluate random point instead of using point twice in :obj:`skopt.optimizer.Optimizer`.
 - |Feature| :obj:`skopt.callback.CheckpointSaver` can now recycle previous function evaluations
@@ -47,4 +48,3 @@ Version 0.10.0
   would change under the new scheme.
 - Minor documentation improvements.
 - Various small bugs and fixes.
-

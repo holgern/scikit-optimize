@@ -87,13 +87,17 @@ class BayesSearchCV(BaseSearchCV):
         the test set. If ``None``, the ``score`` method of the estimator is
         used.
         If `scoring` represents a single score, one can use:
+
         - a single string (see :ref:`scoring_parameter`);
         - a callable (see :ref:`scoring`) that returns a single value.
+
         If `scoring` represents multiple scores, one can use:
+
         - a list or tuple of unique strings;
         - a callable returning a dictionary where the keys are the metric
           names and the values are the metric scores;
         - a dictionary with metric names as keys and callables a values.
+
         Callables must have the signature ``scorer(estimator, X, y=None)``
 
     fit_params : dict, optional
