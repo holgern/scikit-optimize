@@ -2,6 +2,14 @@
 
 .. currentmodule:: skopt
 
+.. _changes_0_10_3:
+
+Version 0.10.3
+==============
+**Unreleased**
+
+- |Fix| Fix incompatibility with scikit-learn >= 1.6
+
 .. _changes_0_10_2:
 
 Version 0.10.2
