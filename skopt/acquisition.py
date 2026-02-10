@@ -225,18 +225,19 @@ def gaussian_pi(X, model, y_opt=0.0, xi=0.01, return_grad=False):
         )
 
     values = np.zeros_like(mu)
-    # NOTE: We avoid extreme tails of the Gaussian where the analytic gradient
-    # can become numerically unstable (inf * 0 -> NaN) for very small std.
-    # See Connecteam fork fix (ct-0.9.1).
-    # mask = std > 0
-    with np.errstate(divide="ignore", invalid="ignore"):
-        mask = np.abs((y_opt - xi - mu) / std) < 35.0
+    mask = std > 0
     improve = y_opt - xi - mu[mask]
     scaled = improve / std[mask]
     values[mask] = norm.cdf(scaled)
 
     if return_grad:
         if not np.all(mask):
+            return values, np.zeros_like(std_grad)
+
+        # In extreme tails, norm.pdf(scaled) underflows to 0 while improve_grad
+        # can overflow, leading to NaNs via inf * 0. In this regime, the true
+        # gradient tends to 0, so we return a zero gradient.
+        if np.any(np.abs(scaled) > 35.0):
             return values, np.zeros_like(std_grad)
 
         # Substitute (y_opt - xi - mu) / sigma = t and apply chain rule.
@@ -313,12 +314,7 @@ def gaussian_ei(X, model, y_opt=0.0, xi=0.01, return_grad=False):
         )
 
     values = np.zeros_like(mu)
-    # NOTE: We avoid extreme tails of the Gaussian where the analytic gradient
-    # can become numerically unstable (inf * 0 -> NaN) for very small std.
-    # See Connecteam fork fix (ct-0.9.1).
-    # mask = std > 0
-    with np.errstate(divide="ignore", invalid="ignore"):
-        mask = np.abs((y_opt - xi - mu) / std) < 35.0
+    mask = std > 0
     improve = y_opt - xi - mu[mask]
     scaled = improve / std[mask]
     cdf = norm.cdf(scaled)
@@ -329,6 +325,12 @@ def gaussian_ei(X, model, y_opt=0.0, xi=0.01, return_grad=False):
 
     if return_grad:
         if not np.all(mask):
+            return values, np.zeros_like(std_grad)
+
+        # In extreme tails, norm.pdf(scaled) underflows to 0 while improve_grad
+        # can overflow, leading to NaNs via inf * 0. In this regime, the true
+        # gradient tends to 0, so we return a zero gradient.
+        if np.any(np.abs(scaled) > 35.0):
             return values, np.zeros_like(std_grad)
 
         # Substitute (y_opt - xi - mu) / sigma = t and apply chain rule.
