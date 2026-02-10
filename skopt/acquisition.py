@@ -234,6 +234,12 @@ def gaussian_pi(X, model, y_opt=0.0, xi=0.01, return_grad=False):
         if not np.all(mask):
             return values, np.zeros_like(std_grad)
 
+        # In extreme tails, norm.pdf(scaled) underflows to 0 while improve_grad
+        # can overflow, leading to NaNs via inf * 0. In this regime, the true
+        # gradient tends to 0, so we return a zero gradient.
+        if np.any(np.abs(scaled) > 35.0):
+            return values, np.zeros_like(std_grad)
+
         # Substitute (y_opt - xi - mu) / sigma = t and apply chain rule.
         # improve_grad is the gradient of t wrt x.
         improve_grad = -mu_grad * std - std_grad * improve
@@ -319,6 +325,12 @@ def gaussian_ei(X, model, y_opt=0.0, xi=0.01, return_grad=False):
 
     if return_grad:
         if not np.all(mask):
+            return values, np.zeros_like(std_grad)
+
+        # In extreme tails, norm.pdf(scaled) underflows to 0 while improve_grad
+        # can overflow, leading to NaNs via inf * 0. In this regime, the true
+        # gradient tends to 0, so we return a zero gradient.
+        if np.any(np.abs(scaled) > 35.0):
             return values, np.zeros_like(std_grad)
 
         # Substitute (y_opt - xi - mu) / sigma = t and apply chain rule.
