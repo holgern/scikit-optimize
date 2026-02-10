@@ -23,6 +23,27 @@ class ConstSurrogate:
         return np.zeros(X.shape[0]), np.ones(X.shape[0])
 
 
+class TinyStdSurrogateWithGrad:
+    """Minimal surrogate to exercise EI/PI numerical stability.
+
+    For extremely small but positive std, the EI/PI gradient expressions can
+    overflow/underflow and produce NaNs (inf * 0). We assert gradients remain
+    finite.
+    """
+
+    def predict(self, X, return_std=True, return_mean_grad=False, return_std_grad=False):
+        X = np.asarray(X)
+        mu = np.zeros(X.shape[0])
+        std = np.full(X.shape[0], 1e-160)
+
+        if return_mean_grad and return_std_grad:
+            mu_grad = np.zeros((X.shape[0], X.shape[1]))
+            std_grad = np.ones((X.shape[0], X.shape[1]))
+            return mu, std, mu_grad, std_grad
+
+        return mu, std
+
+
 # This is used to test that given constant acquisition values at
 # different points, acquisition functions "EIps" and "PIps"
 # prefer candidate points that take lesser time.
@@ -92,6 +113,18 @@ def test_acquisition_api():
     for method in [gaussian_ei, gaussian_lcb, gaussian_pi]:
         assert_array_equal(method(X, gpr).shape, 10)
         assert_raises(ValueError, method, rng.rand(10), gpr)
+
+
+@pytest.mark.fast_test
+@pytest.mark.parametrize("acq", [gaussian_pi, gaussian_ei])
+def test_ei_pi_gradients_are_finite_for_tiny_positive_std(acq):
+    X = np.zeros((1, 1))
+    model = TinyStdSurrogateWithGrad()
+
+    values, grad = acq(X, model, y_opt=1.0, xi=0.0, return_grad=True)
+
+    assert np.isfinite(values).all()
+    assert np.isfinite(grad).all()
 
 
 def check_gradient_correctness(X_new, model, acq_func, y_opt):
