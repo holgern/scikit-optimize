@@ -12,6 +12,7 @@ from skopt.learning import (
     RandomForestRegressor,
 )
 from skopt.optimizer import Optimizer
+from skopt.space import Integer
 
 TREE_REGRESSORS = (
     ExtraTreesRegressor(random_state=2),
@@ -231,6 +232,31 @@ def test_returns_result_object():
     assert isinstance(result, OptimizeResult)
     assert_equal(len(result.x_iters), len(result.func_vals))
     assert_equal(np.min(result.func_vals), result.fun)
+
+
+@pytest.mark.fast_test
+@pytest.mark.parametrize("random_state", range(5))
+def test_log_uniform_integer_tree_optimizer_suggestions(random_state):
+    # The acquisition candidates of a log-uniform dimension are clipped to the
+    # transformed bounds. They must be in log space, otherwise every model-based
+    # suggestion is pushed to the upper bound regardless of the objective.
+    dim = Integer(100, 10000, prior="log-uniform")
+    opt = Optimizer(
+        [dim],
+        ExtraTreesRegressor(random_state=2),
+        n_initial_points=5,
+        acq_optimizer="sampling",
+        random_state=random_state,
+    )
+    for _ in range(5):
+        x = opt.ask()
+        opt.tell(x, float(np.log10(x[0])))
+
+    # the objective increases with x, so the first model-based suggestion
+    # should not be the upper bound
+    x = opt.ask()
+    assert x[0] in dim
+    assert x[0] < dim.high
 
 
 @pytest.mark.fast_test
