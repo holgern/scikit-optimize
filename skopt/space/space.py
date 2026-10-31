@@ -500,7 +500,10 @@ class Real(Dimension):
             if self.prior == "uniform":
                 return self.low, self.high
             else:
-                return np.log10(self.low), np.log10(self.high)
+                return (
+                    np.log10(self.low) / self.log_base,
+                    np.log10(self.high) / self.log_base,
+                )
 
     def distance(self, a, b):
         """Compute distance between point `a` and `b`.
@@ -728,8 +731,13 @@ class Integer(Dimension):
     def transformed_bounds(self):
         if self.transform_ == "normalize":
             return 0.0, 1.0
-        else:
+        elif self.prior == "uniform":
             return (self.low, self.high)
+        else:
+            return (
+                np.log10(self.low) / self.log_base,
+                np.log10(self.high) / self.log_base,
+            )
 
     def distance(self, a, b):
         """Compute distance between point `a` and `b`.

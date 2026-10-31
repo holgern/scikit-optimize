@@ -2,6 +2,18 @@
 
 .. currentmodule:: skopt
 
+.. _changes_0_10_3:
+
+Version 0.10.3
+==============
+**Unreleased**
+
+- |Fix| `transformed_bounds` of log-uniform :class:`skopt.space.space.Real` and
+  :class:`skopt.space.space.Integer` dimensions now use the same logarithm base
+  as their transform. Previously, model-based suggestions from
+  :class:`skopt.Optimizer` with tree-based estimators were clipped to the
+  wrong range.
+
 .. _changes_0_10_2:
 
 Version 0.10.2

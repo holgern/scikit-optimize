@@ -558,6 +558,24 @@ def test_normalize_integer():
 
 
 @pytest.mark.fast_test
+@pytest.mark.parametrize(
+    "dimension",
+    [
+        Real(1, 1024, prior="log-uniform", base=2),
+        Real(1e-3, 1e3, prior="log-uniform", base=10),
+        Integer(100, 10000, prior="log-uniform"),
+        Integer(16, 512, prior="log-uniform", base=2),
+    ],
+)
+def test_log_uniform_transformed_bounds_match_transform(dimension):
+    # The transformed bounds of a log-uniform dimension must be the images of
+    # its bounds under the same log transform that is applied to its points.
+    assert_array_almost_equal(
+        dimension.transformed_bounds, dimension.transform(list(dimension.bounds))
+    )
+
+
+@pytest.mark.fast_test
 def test_normalize_categorical():
     categories = ["cat", "dog", "rat"]
     a = Categorical(categories, transform="normalize")
